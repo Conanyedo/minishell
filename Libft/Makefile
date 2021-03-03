@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ybouddou <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2019/12/30 23:28:44 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/03/03 17:14:04 by ybouddou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRC = ft_memset.c\
 	  ft_putstr_fd.c\
 	  ft_putendl_fd.c\
 	  ft_putnbr_fd.c\
+	  get_next_line.c\
 
 SRCb = ft_lstnew_bonus.c\
 	   ft_lstadd_front_bonus.c\
@@ -65,18 +66,18 @@ OBJb = $(SRCb:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar rcs $(NAME) $(OBJ)
+	@ar rcs $(NAME) $(OBJ)
 
 bonus: all $(OBJb)
 	ar rcs $(NAME) $(OBJb)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $^ -o $@
+	@$(CC) $(CFLAGS) -c $^ -o $@
 
 clean:
-	rm -rf $(OBJ) $(OBJb)
+	@rm -rf $(OBJ) $(OBJb)
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 
 re: fclean all

@@ -6,32 +6,38 @@
 #    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/02 17:46:06 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/03/03 17:14:18 by ybouddou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell.a
+LIB_PATH = Libft
+LIB = libft.a
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 SRC = main.c\
-	  gnl/get_next_line.c\
 	  tools.c\
 
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) $(LIB)
 	@ar rcs $(NAME) $(OBJ)
-	@gcc $(NAME) Libft/libft.a -o minishell
+	@gcc $(NAME) $(LIB_PATH)/$(LIB) -o minishell
+
+$(LIB):
+	@make -C $(LIB_PATH)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $^ -o $@
 
 clean:
+	@make clean -C $(LIB_PATH)/
 	@rm -rf $(OBJ)
 
 fclean: clean
-	rm -rf $(NAME)
+	@make fclean -C $(LIB_PATH)/
+	@rm -rf $(NAME)
 
 re: fclean all
