@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/08 10:03:17 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/08 11:15:59 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int		main(int ac, char **av, char **env)
 	
 	(void)ac;
 	(void)av;
+	mini.myenv = (t_env *){0};
 	init_env(env, &mini.myenv);
 	while(1)
 	{
@@ -29,7 +30,7 @@ int		main(int ac, char **av, char **env)
 			wait(NULL);
 		else
 		{
-			if (builtins(&mini) == 1)
+			if (is_builtins(&mini) == 1)
 				do_builtins(&mini);
 			else
 			{

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
+#    By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/08 09:44:07 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/03/08 11:25:15 by cabouelw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,17 +19,18 @@ SRC = main.c\
 	tools.c\
 	builtins/ft_env.c\
 	builtins.c\
+	pars_src/check_point.c\
 
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIB)
+$(NAME): $(OBJ)
 	@ar rcs $(NAME) $(OBJ)
 	@gcc $(NAME) $(LIB_PATH)/$(LIB) -o minishell
 
-$(LIB):
-	@make -C $(LIB_PATH)
+# $(LIB):
+# 	@make -C $(LIB_PATH)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $^ -o $@
@@ -39,7 +40,7 @@ clean:
 	@rm -rf $(OBJ)
 
 fclean: clean
-	@make fclean -C $(LIB_PATH)/
+	@make fclean -C
 	@rm -rf $(NAME)
 
 re: fclean all

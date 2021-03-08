@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/08 09:53:12 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/08 11:39:22 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,24 @@ typedef struct		s_env
 	struct s_env	*next;
 }					t_env;
 
+typedef struct	s_checkers
+{
+	int			point;
+	int			pipe;
+	int			and;
+	int			end;
+	char		error;
+}				t_checkers;
+
 typedef struct		s_mini
 {
-	t_env	*myenv;
-	char	*input;
-	char	**paths;
-	char	*path_value;
-	int		pid;
-	char	*argv[];
-	
+	t_checkers		check;
+	t_env			*myenv;
+	char			*input;
+	char			**paths;
+	char			*path_value;
+	int				pid;
+	char			*argv[];
 }					t_mini;
 
 void				init_env(char **env, t_env **myenv);
@@ -38,6 +47,10 @@ void				prompt(t_env *env, int status);
 void				parse(t_mini *mini);
 int					is_builtins(t_mini *mini);
 void				do_builtins(t_mini *mini);
+void				check_point(t_mini *mini);
+void				ft_error_end(char *s, char c);
+void				ft_check_err(t_mini	*mini);
+void				ft_check_point(t_mini *mini);
 
 // Builtins
 void				ft_env(t_env *env);

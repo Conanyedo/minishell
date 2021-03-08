@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/08 09:52:13 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/08 10:51:48 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,4 @@ void	init_env(char **env, t_env **myenv)
 		i++;
 	}
 	fresh->next = NULL;
-}
-
-void	parse(t_mini *mini)
-{
-	mini->path_value = ft_lstsearch(mini->myenv, "PATH");
-	mini->paths = ft_split(mini->path_value, ':');
 }
