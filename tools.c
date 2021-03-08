@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/08 10:51:48 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/08 11:56:08 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,17 @@ void	init_env(char **env, t_env **myenv)
 		i++;
 	}
 	fresh->next = NULL;
+}
+
+void    exec_cmd(t_mini *mini, char **env)
+{
+	mini->pid = fork();
+	if (mini->pid > 0)
+		wait(NULL);
+	else
+	{
+		*mini->argv = mini->input;
+		mini->argv[1] = NULL;
+		execve(mini->input, mini->argv, env);
+	}
 }
