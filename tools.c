@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/08 11:56:08 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/08 15:17:42 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*ft_lstsearch(t_env	*env, char *to_search)
 	return (NULL);
 }
 
-void	prompt(t_env *env, int status)
+void	prompt(t_mini *mini)
 {
 	char	buff[1028];
 	char	*ptr;
@@ -49,12 +49,12 @@ void	prompt(t_env *env, int status)
 
 	ptr = getcwd(buff, 1028);
 	tmp = NULL;
-	if (status == 0)
+	if (mini->status == 0)
 		ft_putstr_fd("\033[1;31m", 1);
 	else
 		ft_putstr_fd("\033[1;32m", 1);
 	if (ptr == NULL)
-		tmp = ft_strdup(ft_strrchr(ft_lstsearch(env, "PWD"), '/') + 1);
+		tmp = ft_strdup(ft_strrchr(ft_lstsearch(mini->myenv, "PWD"), '/') + 1);
 	else
 	{
 		if (!ft_strncmp(ptr, "/", ft_strlen(ptr)))
@@ -64,7 +64,7 @@ void	prompt(t_env *env, int status)
 	}
 	ft_putstr_fd("➜  \033[1;34m", 1);//6
 	ft_putstr_fd(tmp, 1);
-	if (status == 0)
+	if (mini->status == 0)
 		ft_putstr_fd("\033[1;31m $>", 1);
 	else
 		ft_putstr_fd("\033[1;32m $>", 1);
