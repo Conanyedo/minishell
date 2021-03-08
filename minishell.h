@@ -6,13 +6,11 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/08 12:00:08 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/08 14:48:22 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Libft/libft.h"
-#include <stdio.h>
-#include <unistd.h>
 
 typedef struct		s_env
 {
@@ -53,6 +51,7 @@ void				check_point(t_mini *mini);
 void				ft_error_end(char *s, char c);
 void				ft_check_err(t_mini	*mini);
 void				ft_check_point(t_mini *mini);
+void				exec_cmd(t_mini *mini, char **env);
 
 // Builtins
 void				ft_env(t_env *env);
