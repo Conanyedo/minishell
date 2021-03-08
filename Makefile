@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
+#    By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/08 15:07:42 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/03/08 17:05:02 by cabouelw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,9 @@ SRC = main.c\
 	builtins/ft_env.c\
 	builtins.c\
 	pars_src/check_point.c\
+	pars_src/check_quotation.c\
+	pars_src/parsing.c\
+	errors/errors_parsing.c\
 
 OBJ = $(SRC:.c=.o)
 
