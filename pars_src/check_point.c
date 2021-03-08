@@ -6,11 +6,27 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:46:50 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/08 11:38:38 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/08 12:12:59 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+
+int		get_value(t_mini *mini, int i)
+{
+	int pos;
+
+	pos = i;
+	while (mini->input[pos] != '"' && mini->input[pos])
+		pos++;
+	if (mini->input[pos] != '"')
+		mini->check.value = ft_substr(mini->input, pos, pos - i);
+	printf("|%s|\n",mini->check.value);
+	pos++;
+	return (pos);
+}
+
 
 void ft_error_end(char *s, char c)
 {
@@ -18,6 +34,26 @@ void ft_error_end(char *s, char c)
 	// printf("\n||%c||", c);
 	printf("miniupdate: syntax error near unexpected token `%s'\n",s);
 	exit(1) ;
+}
+void	end_cmd_check(t_mini *mini, int  i)
+{
+	while (mini->input[i])
+	{
+		while (mini->input[i] == ' ')
+			i++;
+		if (mini->input[i] == ';')
+		{
+			(mini->input[i + 1] == ';') ? ft_error_end(";;", '\0') : (mini->check.end = 1);
+			(mini->input[i + 1] != ';' && mini->input[i + 1] && mini->input[i + 1] != ' ') ? (mini->check.end = 0) : (void)0;
+			i++;
+		}
+		while (mini->input[i] == ' ')
+			i++;
+		if (mini->input[i] == '"')
+			i = get_value(mini,i);
+		(mini->input[i] == ';' && mini->check.end == 1) ? ft_error_end(";", mini->input[i]) : (mini->check.end = 0);
+		i++;
+	}
 }
 
 void	ft_check_err(t_mini	*mini)
@@ -37,22 +73,7 @@ void	ft_check_err(t_mini	*mini)
 		}
 		break ;
 	}
-	while (mini->input[i])
-	{
-		while (mini->input[i] == ' ')
-			i++;
-		if (mini->input[i] == ';')
-		{
-			(mini->input[i + 1] == ';') ? ft_error_end(";;", '\0') : (mini->check.end = 1);
-			(mini->input[i + 1] != ';' && mini->input[i + 1] && mini->input[i + 1] != ' ') ? (mini->check.end = 0) : (void)0;
-			i++;
-		}
-		while (mini->input[i] == ' ')
-			i++;
-		(mini->input[i] == ';' && mini->check.end == 1) ? ft_error_end(";", mini->input[i]) : (mini->check.end = 0);
-		i++;
-	}
-	return ;
+	end_cmd_check(mini, i);
 }
 
 
