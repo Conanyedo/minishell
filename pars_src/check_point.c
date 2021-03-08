@@ -6,12 +6,11 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:46:50 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/08 14:41:03 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/08 15:34:19 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 int		get_value(t_mini *mini, int i)//get value exmpl (echo "test;;;")
 {
@@ -23,6 +22,9 @@ int		get_value(t_mini *mini, int i)//get value exmpl (echo "test;;;")
 		pos++;
 	if (mini->input[pos] == '"')
 		mini->check.value = ft_substr(mini->input, i + 1, pos - i - 1);
+	else
+	printf("{%s}",mini->check.err);
+		// mini->check.err = "error!";
 	return (pos + 1);
 }
 
@@ -39,13 +41,15 @@ void	end_cmd_check(t_mini *mini, int  i) // check if ';;' double in the same lin
 
 	while (mini->input[i])
 	{
+		if (mini->check.err)
+			break;
 		// printf("{%s}{%d}\n",mini->input + i,i);
 		// printf("{%d}{%zu}\n",i,ft_strlen(mini->input));
 		while (mini->input[i] == ' ')
 			i++;
 		if (mini->input[i] == ';')
 		{
-			//(mini->input[i + 1] == ';') ? ft_error_end(";;", '\0') : (mini->check.end = 1);
+			(mini->input[i + 1] == ';') ? ft_error_end(";;", '\0') : (mini->check.end = 1);
 			(mini->input[i + 1] != ';' && mini->input[i + 1] && mini->input[i + 1] != ' ') ? (mini->check.end = 0) : (void)0;
 			i++;
 		}
@@ -99,8 +103,8 @@ void	ft_check_point(t_mini *mini)
 void	parse(t_mini *mini)
 {
 	ft_check_point(mini);
-	// if (mini->check.value)
-	// 	printf("%s\n",mini->check.value);
+	// if (mini->check.value != '\0')
+		// printf("{%s}\n",mini->check.err);
 	// mini->path_value = ft_lstsearch(mini->myenv, "PATH");
 	// mini->paths = ft_split(mini->path_value, ':');
 }
