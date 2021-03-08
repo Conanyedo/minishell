@@ -12,9 +12,6 @@
 
 #include "minishell.h"
 
-
-//hello
-
 int		is_builtins(t_mini *mini)
 {
 	if (!(ft_strncmp(mini->input, "env", ft_strlen(mini->input))))
