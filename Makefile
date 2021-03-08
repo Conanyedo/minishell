@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+         #
+#    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/08 11:25:15 by cabouelw         ###   ########.fr        #
+#    Updated: 2021/03/08 15:07:42 by ybouddou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,11 +36,11 @@ $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -c $^ -o $@
 
 clean:
-	@make clean -C $(LIB_PATH)/
+#	@make clean -C $(LIB_PATH)/
 	@rm -rf $(OBJ)
 
 fclean: clean
-	@make fclean -C
+#	@make fclean -C
 	@rm -rf $(NAME)
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/08 14:58:52 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/08 15:17:53 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct		s_mini
 {
 	t_checkers		check;
 	t_env			*myenv;
+	int				status;
 	char			*input;
 	char			**paths;
 	char			*path_value;
@@ -43,7 +44,7 @@ typedef struct		s_mini
 
 void				init_env(char **env, t_env **myenv);
 char				*ft_lstsearch(t_env	*env, char *to_search);
-void				prompt(t_env *env, int status);
+void				prompt(t_mini *mini);
 void				parse(t_mini *mini);
 int					is_builtins(t_mini *mini);
 void				do_builtins(t_mini *mini);
