@@ -6,13 +6,15 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 09:36:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/08 09:52:43 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/08 12:07:39 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
+
+// hello 
 int		is_builtins(t_mini *mini)
 {
 	if (!(ft_strncmp(mini->input, "env", ft_strlen(mini->input))))
