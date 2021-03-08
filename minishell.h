@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
 /*   Updated: 2021/03/08 15:17:53 by ybouddou         ###   ########.fr       */
@@ -26,6 +26,8 @@ typedef struct	s_checkers
 	int			and;
 	int			end;
 	char		error;
+	char		*err;
+	char		*value;
 }				t_checkers;
 
 typedef struct		s_mini
