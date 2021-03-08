@@ -6,13 +6,14 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 22:28:11 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/02 17:08:27 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/03 17:25:44 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include "get_next_line.h"
 # include <stdlib.h>
 # include <unistd.h>
 

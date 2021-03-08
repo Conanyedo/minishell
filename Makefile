@@ -6,7 +6,7 @@
 #    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/03 17:14:18 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/03/08 09:44:07 by ybouddou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ LIB = libft.a
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 SRC = main.c\
-	  tools.c\
+	tools.c\
+	builtins/ft_env.c\
+	builtins.c\
 
 OBJ = $(SRC:.c=.o)
 
