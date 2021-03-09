@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   check_quotation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/08 16:07:45 by cabouelw         ###   ########.fr       */
+/*   Created: 2021/03/08 16:59:58 by cabouelw          #+#    #+#             */
+/*   Updated: 2021/03/08 17:00:42 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int		main(int ac, char **av, char **env)
+int		check_bdl_quot(t_mini *mini, int i)//get value exmpl (echo "test;;;")
 {
-	t_mini	mini;
-	
-	(void)ac;
-	(void)av;
-	mini.myenv = (t_env *){0};
-	mini.check = (t_checkers){0};
-	mini = (t_mini){0};
-	init_env(env, &mini.myenv);
-	while(1)
-	{
-		prompt(&mini);
-		get_next_line(0, &mini.input);
-		parse(&mini);
-		if (is_builtins(&mini) == 1)
-			do_builtins(&mini);
-		else
-			exec_cmd(&mini, env);
-		free(mini.input);
-	}
+	int pos;
+
+	pos = i + 1;
+	while (mini->input[pos] != '"' && mini->input[pos])
+		pos++;
+	if (mini->input[pos] == '"')
+		mini->check.value = ft_substr(mini->input, i + 1, pos - i - 1);
+	else
+		mini->status = 1;
+	return (pos + 1);
 }
+
