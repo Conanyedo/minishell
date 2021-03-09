@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/08 17:01:58 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/09 12:52:21 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct		s_mini
 {
 	t_checkers		check;
 	t_env			*myenv;
+	t_list			*pip_list;
+	char			**cmd;
 	int				status;
 	char			*input;
 	char			**paths;
@@ -60,3 +62,8 @@ int					check_bdl_quot(t_mini *mini, int i);
 // Builtins
 void				ft_env(t_env *env);
 void				ft_echo(char **str);
+void				ft_exit(t_mini *mini);
+void				ft_cd(t_mini *mini);
+void				ft_export(t_mini *mini);
+void				ft_pwd(t_mini *mini);
+void				ft_unset(t_mini *mini);

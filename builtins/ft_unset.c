@@ -6,8 +6,13 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:03:21 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/07 15:03:22 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/09 10:51:42 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_unset(t_mini *mini)
+{
+	(void)mini;
+}
