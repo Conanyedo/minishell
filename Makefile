@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+         #
+#    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/08 17:45:13 by cabouelw         ###   ########.fr        #
+#    Updated: 2021/03/09 14:40:51 by ybouddou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,12 @@ CFLAGS = -Wall -Wextra -Werror
 SRC = main.c\
 	tools.c\
 	builtins/ft_env.c\
+	builtins/ft_echo.c\
+	builtins/ft_exit.c\
+	builtins/ft_cd.c\
+	builtins/ft_unset.c\
+	builtins/ft_pwd.c\
+	builtins/ft_export.c\
 	builtins.c\
 	pars_src/check_point.c\
 	pars_src/check_quotation.c\

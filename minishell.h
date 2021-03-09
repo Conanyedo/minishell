@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/08 17:47:27 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/09 14:43:21 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct		s_mini
 {
 	t_checkers		check;
 	t_env			*myenv;
+	t_list			*pip_list;
+	char			**cmd;
 	int				status;
 	char			*input;
 	char			**paths;
@@ -63,3 +65,8 @@ void				error_newline(t_mini *mini);
 // Builtins
 void				ft_env(t_env *env);
 void				ft_echo(char **str);
+void				ft_exit(t_mini *mini);
+void				ft_cd(t_mini *mini);
+void				ft_export(t_mini *mini);
+void				ft_pwd(t_mini *mini);
+void				ft_unset(t_mini *mini);
