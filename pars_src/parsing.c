@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/09 14:16:31 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/09 14:41:19 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void	parse(t_mini *mini)
 {
+    int i;
+
+    i = 0;
 	int		i;
 	int		j;
 	char	**tmp;
@@ -23,6 +26,12 @@ void	parse(t_mini *mini)
 	tmp = NULL;
 	mini->input = ft_strtrim(mini->input, " \t");
 	ft_separate(mini);
+    if (ft_strchr(mini->input,'<') || ft_strchr(mini->input,'>'))
+        check_symbols(mini);
+    while (mini->input[i])
+    {
+        i++;
+    }
 	// if (mini->check.value != '\0')
 		// printf("{%s}\n",mini->check.err);
 	mini->cmd = ft_split(mini->input, ';');
