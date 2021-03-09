@@ -6,7 +6,7 @@
 #    By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/08 17:05:02 by cabouelw         ###   ########.fr        #
+#    Updated: 2021/03/08 17:45:13 by cabouelw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC = main.c\
 	pars_src/check_quotation.c\
 	pars_src/parsing.c\
 	errors/errors_parsing.c\
+	pars_src/check_symbols.c\
 
 OBJ = $(SRC:.c=.o)
 

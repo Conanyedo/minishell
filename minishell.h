@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/08 17:01:58 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/08 17:47:27 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ void				ft_check_err(t_mini	*mini);
 void				ft_separate(t_mini *mini);
 void				exec_cmd(t_mini *mini, char **env);
 int					check_bdl_quot(t_mini *mini, int i);
+int					check_one_quot(t_mini *mini, int i);
+void				check_symbols(t_mini *mini);
+void				error_newline(t_mini *mini);
 
 // Builtins
 void				ft_env(t_env *env);
