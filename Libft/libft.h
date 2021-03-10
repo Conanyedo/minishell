@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 22:28:11 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/03 17:25:44 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/10 10:34:09 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(char const *s1, char const *set);
 char				**ft_split(char const *s, char c);
+char				**ft_strsplit(char	const *s, char *c, int skip);
 char				*ft_itoa(int n);
 char				*ft_strmapi(char const *s, char (*f) (unsigned int, char));
 
