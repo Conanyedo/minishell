@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:46:50 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/08 17:06:25 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/08 17:14:52 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	end_cmd_check(t_mini *mini, int  i) // check if ';;' double in the same lin
 		(mini->input[i] == ';' && mini->check.end == 1) ? ft_error_end(";", mini) : (mini->check.end = 0);
 		if (mini->input[i] == '"') // 
 			i = check_bdl_quot(mini,i);
+		else if (mini->input[i] == '\'')
+			i = check_one_quot(mini,i);
 		else
 			i++;
 	}

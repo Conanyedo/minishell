@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/08 17:01:58 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/09 17:35:23 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct		s_mini
 {
 	t_checkers		check;
 	t_env			*myenv;
+	t_list			**cmd_list;
+	char			**cmds;
 	int				status;
 	char			*input;
 	char			**paths;
@@ -45,6 +47,7 @@ typedef struct		s_mini
 void				init_env(char **env, t_env **myenv);
 char				*ft_lstsearch(t_env	*env, char *to_search);
 void				prompt(t_mini *mini);
+void				ft_free(char **arr);
 int					is_builtins(t_mini *mini);
 void				do_builtins(t_mini *mini);
 void				check_point(t_mini *mini);
@@ -56,7 +59,15 @@ void				ft_check_err(t_mini	*mini);
 void				ft_separate(t_mini *mini);
 void				exec_cmd(t_mini *mini, char **env);
 int					check_bdl_quot(t_mini *mini, int i);
+int					check_one_quot(t_mini *mini, int i);
+void				check_symbols(t_mini *mini);
+void				error_newline(t_mini *mini);
 
 // Builtins
 void				ft_env(t_env *env);
 void				ft_echo(char **str);
+void				ft_exit(t_mini *mini);
+void				ft_cd(t_mini *mini);
+void				ft_export(t_mini *mini);
+void				ft_pwd(t_mini *mini);
+void				ft_unset(t_mini *mini);
