@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/09 11:25:14 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/10 18:24:25 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,16 @@ void	ft_free(char **arr)
 	arr = NULL;
 }
 
-char	*ft_lstsearch(t_env	*env, char *to_search)
+char	*ft_lstsearch(t_env	*env, char *key)
 {
-	t_env	*fresh;
+	t_env	*list;
 
-	fresh = env;
-	while (fresh != NULL)
+	list = env;
+	while (list)
 	{
-		if (!(ft_strncmp(fresh->key, to_search, ft_strlen(to_search))))
-			return (fresh->value);
-		fresh = fresh->next;
+		if (!(ft_strncmp(list->key, key, ft_strlen(key))))
+			return (list->value);
+		list = list->next;
 	}
 	return (NULL);
 }
@@ -75,31 +75,31 @@ void	prompt(t_mini *mini)
 
 void	init_env(char **env, t_env **myenv)
 {
-	t_env	*fresh;
+	t_env	*list;
 	char	**splitted;
 	int		i;
 
 	*myenv = NULL;
-	fresh = NULL;
+	list = NULL;
 	splitted = NULL;
 	*myenv = (t_env*)malloc(sizeof(t_env));
 	(*myenv)->next = NULL;
-	fresh = *myenv;
+	list = *myenv;
 	i = 0;
 	while (env[i])
 	{
 		splitted = ft_split(env[i], '=');
-		fresh->key = ft_strdup(splitted[0]);
+		list->key = ft_strdup(splitted[0]);
 		if (splitted[1])
-			fresh->value = ft_strdup(splitted[1]);
+			list->value = ft_strdup(splitted[1]);
 		ft_free(splitted);
 		if (!env[i + 1])
 			break ;
-		fresh->next = (t_env*)malloc(sizeof(t_env));
-		fresh = fresh->next;
+		list->next = (t_env*)malloc(sizeof(t_env));
+		list = list->next;
 		i++;
 	}
-	fresh->next = NULL;
+	list->next = NULL;
 }
 
 void    exec_cmd(t_mini *mini, char **env)
