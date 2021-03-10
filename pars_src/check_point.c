@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_point.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:46:50 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/08 17:14:52 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/10 11:09:52 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	end_cmd_check(t_mini *mini, int  i) // check if ';;' double in the same lin
 	{
 		if (mini->status)
 			break;
-		while (mini->input[i] == ' ')
-			i++;
 		if (mini->input[i] == ';')
 		{
 			(mini->input[i + 1] == ';') ? ft_error_end(";;", mini) : (mini->check.end = 1);
@@ -46,8 +44,6 @@ void	ft_check_err(t_mini	*mini)
 	i = 0;
 	while (mini->input[i])
 	{
-		while (mini->input[i] == ' ')
-			i++;
 		if (mini->input[i] == ';')
 		{
 			if (mini->input[i + 1] == ';')
