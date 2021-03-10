@@ -6,44 +6,72 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 17:15:17 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/09 15:37:59 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/10 19:30:09 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int		if_error_symbols(char *s)
+//bash-3.2$ echo > <
+// bash: syntax error near unexpected token `<'
+// bash-3.2$ > > > >
+// bash: syntax error near unexpected token `>'
+// bash-3.2$ >> >> >> >>
+// bash: syntax error near unexpected token `>>'
+int		if_error_symbols(char *s , t_mini *mini)
 {
 	int		i;
-	int		check;
+	int		len;
+	char	symbol;
 
 	i = 0;
-	check = 0;
-	while (s[i] && s[i] != '"' && s[i] != '\'')
+	symbol = 0;
+	while (s[i])
 	{
-		if (s[i] == '>' || s[i] == '<')
+		if (s[i] == '<' || s[i] == '>')
 		{
-			check = 1;
-			if (s[i + 1] == '>' || s[i + 1] == '<')
+			symbol = s[i];
+			len = 0;
+			while ((s[i] && s[i] == symbol))
 			{
-				check = 2;
-				i += 2;
+				i++;
+				len++;
+			}
+			if (len > 2)
+			{
+				mini->check.symbols = (i < 3) ? s[i] : symbol;
+				return (len);
 			}
 			while (s[i] == ' ')
 				i++;
-			if (!s[i] || !ft_isalpha(s[i]) || !ft_isdigit(s[i]))
-				return (1);
-			else
-				break;
+			if ((ft_isalpha(s[i]) || ft_isdigit(s[i])) && i < 3 && i >= 0)
+			{
+				symbol = 0;
+				i++;
+			}
+			else if (!ft_isalpha(s[i]) && !ft_isdigit(s[i]))
+			{
+				if ('>' == symbol && s[i] == '<')
+					symbol = '<';
+				mini->check.symbols = (i < 3) ? s[i] : symbol;
+				printf("%c\n",mini->check.symbols);
+				return (len);
+			}
 		}
 		i++;
 	}
+	// mini->check.symbols = s[i];
 	return (0);
 }
 
 void	check_symbols(t_mini *mini)
 {
-	if (if_error_symbols(mini->input))
+	int		res;
+
+	res = if_error_symbols(mini->input, mini);
+	if (res < 3 && res != 0)
 		error_newline(mini);
-	
+	else if (res < 4 && mini->check.symbols == '<')
+		error_newline(mini);
+	else if (res > 2)
+		error_symbols_left(mini, res);
 }

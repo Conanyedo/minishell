@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_point.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:46:50 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/10 11:09:52 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/10 11:36:22 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	end_cmd_check(t_mini *mini, int  i) // check if ';;' double in the same lin
 		while (mini->input[i] == ' ')
 			i++;
 		(mini->input[i] == ';' && mini->check.end == 1) ? ft_error_end(";", mini) : (mini->check.end = 0);
-		if (mini->input[i] == '"') // 
+		if (mini->input[i] == '"')
 			i = check_bdl_quot(mini,i);
 		else if (mini->input[i] == '\'')
 			i = check_one_quot(mini,i);
@@ -37,36 +37,17 @@ void	end_cmd_check(t_mini *mini, int  i) // check if ';;' double in the same lin
 	}
 }
 
-void	ft_check_err(t_mini	*mini)
-{
-	int		i;
-
-	i = 0;
-	while (mini->input[i])
-	{
-		if (mini->input[i] == ';')
-		{
-			if (mini->input[i + 1] == ';')
-				ft_error_end(";;", mini);
-			else
-				ft_error_end(";", mini);
-		}
-		break ;
-	}
-	end_cmd_check(mini, i);
-}
-
-void	ft_separate(t_mini *mini)
+void	ft_checkpoints(t_mini *mini)
 {
 	int i;
-	// char **splt;
 
-	i = 0;
-	ft_check_err(mini);
-	// splt = ft_split(mini->input, ';');
-	// while (splt[i])
-	// {
-	//		TO DO
-	// 		i++;
-	// }
+	i = 0;i = 0;
+	if (mini->input[i] == ';')
+	{
+		if (mini->input[i + 1] == ';')
+			ft_error_end(";;", mini);
+		else
+			ft_error_end(";", mini);
+	}
+	end_cmd_check(mini, i);
 }

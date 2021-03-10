@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/09 17:35:23 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/10 14:51:10 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct	s_checkers
 	int			and;
 	int			end;
 	int			error;
+	char		symbols;
 	char		*err;
 	char		*value;
 }				t_checkers;
@@ -56,12 +57,16 @@ void				check_point(t_mini *mini);
 void				parse(t_mini *mini);
 void				ft_error_end(char *s, t_mini *mini);
 void				ft_check_err(t_mini	*mini);
-void				ft_separate(t_mini *mini);
+void				ft_checkpoints(t_mini *mini);
 void				exec_cmd(t_mini *mini, char **env);
 int					check_bdl_quot(t_mini *mini, int i);
 int					check_one_quot(t_mini *mini, int i);
 void				check_symbols(t_mini *mini);
 void				error_newline(t_mini *mini);
+void				error_symbols_right(t_mini *mini, int nb);
+void				error_symbols_left(t_mini *mini, int nb);
+void				check_pipes(t_mini *mini);
+void				error_pips(t_mini *mini, int res);
 
 // Builtins
 void				ft_env(t_env *env);
