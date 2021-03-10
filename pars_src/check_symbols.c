@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 17:15:17 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/08 18:00:26 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/09 15:37:59 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		if_error_symbols(char *s)
 
 	i = 0;
 	check = 0;
-	while (s[i])
+	while (s[i] && s[i] != '"' && s[i] != '\'')
 	{
 		if (s[i] == '>' || s[i] == '<')
 		{
