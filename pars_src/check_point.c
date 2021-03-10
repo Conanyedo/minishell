@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:46:50 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/08 17:14:52 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/09 15:05:31 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ void	ft_check_err(t_mini	*mini)
 	i = 0;
 	while (mini->input[i])
 	{
-		while (mini->input[i] == ' ')
-			i++;
 		if (mini->input[i] == ';')
 		{
 			if (mini->input[i + 1] == ';')

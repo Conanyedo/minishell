@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/09 14:41:19 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/09 15:04:58 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 void	parse(t_mini *mini)
 {
     int i;
-
-    i = 0;
-	int		i;
 	int		j;
 	char	**tmp;
 
@@ -28,16 +25,10 @@ void	parse(t_mini *mini)
 	ft_separate(mini);
     if (ft_strchr(mini->input,'<') || ft_strchr(mini->input,'>'))
         check_symbols(mini);
-    while (mini->input[i])
-    {
-        i++;
-    }
-	// if (mini->check.value != '\0')
-		// printf("{%s}\n",mini->check.err);
 	mini->cmd = ft_split(mini->input, ';');
 	while (mini->cmd[i])
 	{
-		mini->cmd[i] = ft_strtrim(mini->cmd[i], " \t");
+		// mini->cmd[i] = ft_strtrim(mini->cmd[i], " \t");
 		// tmp = ft_split(mini->cmd[i], '|');
 		// j = 0;
 		// while (tmp[j])
@@ -50,7 +41,7 @@ void	parse(t_mini *mini)
 		// 	j++;
 		// }
 		// mini->pip_list->next = NULL;
-		printf("------\n(|%s|)\n", mini->cmd[i]);
+		// printf("------\n(|%s|)\n", mini->cmd[i]);
 		i++;
 	}
 	// printf("\n---------------\n");
