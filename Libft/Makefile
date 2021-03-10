@@ -6,7 +6,7 @@
 #    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/03 17:14:04 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/03/09 17:20:40 by ybouddou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRC = ft_memset.c\
 	  ft_strjoin.c\
 	  ft_strtrim.c\
 	  ft_split.c\
+	  ft_strsplit.c\
 	  ft_itoa.c\
 	  ft_putchar_fd.c\
 	  ft_putstr_fd.c\

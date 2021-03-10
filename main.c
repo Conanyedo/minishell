@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/09 12:54:02 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/10 10:54:30 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		main(int ac, char **av, char **env)
 	(void)av;
 	mini.myenv = (t_env *){0};
 	mini.check = (t_checkers){0};
-	mini.pip_list = (t_list*){0};
+	mini.cmd_list = (t_list**){0};
 	mini = (t_mini){0};
 	init_env(env, &mini.myenv);
 	while(1)
@@ -36,5 +36,6 @@ int		main(int ac, char **av, char **env)
 				exec_cmd(&mini, env);
 		}
 		free(mini.input);
+		mini.input = NULL;
 	}
 }

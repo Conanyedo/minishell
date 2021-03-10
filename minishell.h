@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/09 14:43:21 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/09 17:35:23 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ typedef struct		s_mini
 {
 	t_checkers		check;
 	t_env			*myenv;
-	t_list			*pip_list;
-	char			**cmd;
+	t_list			**cmd_list;
+	char			**cmds;
 	int				status;
 	char			*input;
 	char			**paths;
@@ -47,6 +47,7 @@ typedef struct		s_mini
 void				init_env(char **env, t_env **myenv);
 char				*ft_lstsearch(t_env	*env, char *to_search);
 void				prompt(t_mini *mini);
+void				ft_free(char **arr);
 int					is_builtins(t_mini *mini);
 void				do_builtins(t_mini *mini);
 void				check_point(t_mini *mini);

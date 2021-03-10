@@ -6,7 +6,7 @@
 #    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/09 14:40:51 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/03/10 10:35:21 by ybouddou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,14 +39,14 @@ $(NAME): $(OBJ)
 	@ar rcs $(NAME) $(OBJ)
 	@gcc $(NAME) $(LIB_PATH)/$(LIB) -o minishell
 
-# $(LIB):
-# 	@make -C $(LIB_PATH)
+$(LIB):
+	@make -C $(LIB_PATH)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $^ -o $@
 
 clean:
-#	@make clean -C $(LIB_PATH)/
+	@make clean -C $(LIB_PATH)/
 	@rm -rf $(OBJ)
 
 fclean: clean
