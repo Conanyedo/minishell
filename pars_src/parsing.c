@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/11 11:16:48 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/11 11:44:32 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,13 @@ void	splitting(t_mini *mini)
 
 void	parse(t_mini *mini)
 {
-	ft_separate(mini);
-    if (ft_strchr(mini->input,'<') || ft_strchr(mini->input,'>'))
-        check_symbols(mini);
-	mini->cmds = ft_strsplit(ft_strtrim(mini->input, " \t"), ";", 1);
+	mini->input = ft_strtrim(mini->input, " \t");
+	ft_checkpoints(mini);
+	check_symbols(mini);
+	check_pipes(mini);
+	if (mini->status)
+		return;
+	mini->cmds = ft_strsplit(mini->input, ";", 1);
 	splitting(mini);
 	
 	// t_cmd	*list;
