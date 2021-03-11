@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
+#    By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/10 10:35:21 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/03/10 14:49:00 by cabouelw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC = main.c\
 	pars_src/parsing.c\
 	errors/errors_parsing.c\
 	pars_src/check_symbols.c\
+	pars_src/check_pipes.c\
 
 OBJ = $(SRC:.c=.o)
 
