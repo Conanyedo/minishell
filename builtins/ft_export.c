@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:03:14 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/11 11:00:30 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/11 11:48:34 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	**split_env(char *tab)
 		i++;
 	if (!tab[i])
 		ft_putstr_fd("declare -x ", 1);
+	return (tmp);
 }
 
 void	print_export(t_mini *mini)
@@ -41,15 +42,15 @@ void	print_export(t_mini *mini)
 	}
 }
 
-void	add_env(t_mini *mini)
-{
+// void	add_env(t_mini *mini)
+// {
 	
-}
+// }
 
-void	edit_env(t_mini *mini)
-{
+// void	edit_env(t_mini *mini)
+// {
 	
-}
+// }
 
 void	ft_export(t_mini *mini)
 {
@@ -66,10 +67,10 @@ void	ft_export(t_mini *mini)
 	}
 	while (mini->tab[i])
 	{
-		splitted = mini->tab[i];
-		if (ft_lstsearch(mini->myenv, mini->tab[i]))
-			edit_env(mini);
-		else
+		splitted = split_env(mini->tab[i]);
+		// if (ft_lstsearch(mini->myenv, mini->tab[i]))
+		// 	edit_env(mini);
+		// else
 		i++;
 	}
 }
