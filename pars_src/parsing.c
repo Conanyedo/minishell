@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/10 16:39:59 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/11 11:10:36 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,12 @@ void	parse(t_mini *mini)
 	c = 0;
 	tmp = NULL;
 	mini->input = ft_strtrim(mini->input, " \t");
-	// mini->cmds = ft_strsplit(mini->input, ";", 1);
+	mini->cmds = ft_strsplit(mini->input, ";", 1);
 	ft_checkpoints(mini);
-	(!mini->status) ? check_symbols(mini) : (void)0;
-	(!mini->status) ? check_pipes(mini) : (void)0;
+	check_symbols(mini);
+	check_pipes(mini);
 	if (mini->status)
 		return;
-	mini->cmds = ft_strsplit(mini->input, ";", 1);
-
 /*
 	while (mini->cmds[c])
 	{

@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 14:42:04 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/10 15:14:29 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/11 11:06:42 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	check_pipes(t_mini *mini)
 {
 	int		res;
 
+	if (mini->status)
+		return;
 	res = 0;
 	if ((res = pipes_checker(mini->input)))
 		error_pips(mini,res);
