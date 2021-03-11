@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/10 19:11:58 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/11 11:16:48 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	splitting(t_mini *mini)
 
 void	parse(t_mini *mini)
 {
-
 	ft_separate(mini);
     if (ft_strchr(mini->input,'<') || ft_strchr(mini->input,'>'))
         check_symbols(mini);

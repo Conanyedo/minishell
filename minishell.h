@@ -6,11 +6,13 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/10 19:22:45 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/11 10:14:55 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Libft/libft.h"
+#include <sys/types.h>
+#include <dirent.h>
 
 typedef struct		s_pipe
 {
