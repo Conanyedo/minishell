@@ -6,11 +6,26 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/09 17:35:23 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/11 10:14:55 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Libft/libft.h"
+#include <sys/types.h>
+#include <dirent.h>
+
+typedef struct		s_pipe
+{
+	char			*content;
+	struct s_pipe	*next;
+}					t_pipe;
+
+typedef struct		s_cmd
+{
+	void			*content;
+	struct s_pipe	*pipe;
+	struct s_cmd	*next;
+}					t_cmd;
 
 typedef struct		s_env
 {
@@ -34,7 +49,8 @@ typedef struct		s_mini
 {
 	t_checkers		check;
 	t_env			*myenv;
-	t_list			**cmd_list;
+	t_cmd			*cmd_list;
+	char			**tab;
 	char			**cmds;
 	int				status;
 	char			*input;
@@ -45,7 +61,7 @@ typedef struct		s_mini
 }					t_mini;
 
 void				init_env(char **env, t_env **myenv);
-char				*ft_lstsearch(t_env	*env, char *to_search);
+char				*ft_lstsearch(t_env	*env, char *key);
 void				prompt(t_mini *mini);
 void				ft_free(char **arr);
 int					is_builtins(t_mini *mini);
@@ -65,7 +81,7 @@ void				error_newline(t_mini *mini);
 
 // Builtins
 void				ft_env(t_env *env);
-void				ft_echo(char **str);
+void				ft_echo(char **tab);
 void				ft_exit(t_mini *mini);
 void				ft_cd(t_mini *mini);
 void				ft_export(t_mini *mini);
