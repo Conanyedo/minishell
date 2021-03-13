@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:27:05 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/13 10:42:46 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/13 14:39:17 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void ft_error_end(char *s, t_mini *mini) // error return
 	mini->status = 1;
 	mini->check.point = 0;
 }
+
 void error_newline(t_mini *mini, int i) // error newlin >> << > < ...
 {
 	(void)i;
