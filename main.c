@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/13 14:40:24 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/13 16:05:21 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,48 +16,89 @@ int		ifexist(t_mini *mini)
 {
 	int		i;
 	int		fd;
-	char	*cmd;
-	char	*joincmd;
+	char	*slashcmd;
 
 	i = 0;
-	cmd = mini->tab[0];
+	slashcmd = ft_strjoin("/", mini->tab[0]);
 	while (mini->paths[i])
 	{
-		joincmd = ft_strjoin("/",cmd);
-		joincmd = ft_strjoin(mini->paths[i],joincmd);
-		if ((fd = open(joincmd,O_RDONLY)) > 0)
+		mini->cmd_exist = ft_strjoin(mini->paths[i], slashcmd);
+		if ((fd = open(mini->cmd_exist, O_RDONLY)) > 0)
 		{
-			mini->cmd_exist = joincmd;
+			ft_strlcpy(mini->tab[0], mini->cmd_exist,\
+				ft_strlen(mini->cmd_exist) + 1);
 			close(fd);
+			free(slashcmd);
 			return (1);
 		}
-		free(joincmd);
+		free(mini->cmd_exist);
 		i++;
 	}
+	free(slashcmd);
 	return (0);
 }
 
-void	execution(t_mini *mini, char **env)
+void	dollar(t_mini *mini, int i, int j, char **tmp)
 {
-	// t_cmd	*list;
-	// t_pipe	*pipelist;
-	
-	// list = NULL;
-	// pipelist = NULL;
-	// list = mini->cmd_list;
-	while (!mini->status && mini->cmd_list)
+	char	*value;
+
+	value = ft_substr(mini->tab[i], j, checksymbol(mini->tab[i], j + 1) - j);
+	value = ft_strchr(value, '$') + 1;
+	*tmp = ft_strdup(ft_lstsearch(mini->myenv, value));
+}
+
+void	expansions(t_mini *mini)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+	char	*temp;
+
+	i = 0;
+	while (mini->tab[i])
 	{
-		mini->tab = ft_strsplit(mini->cmd_list->pipe->content, " ", 1);
-		if (is_builtins(mini))
-			do_builtins(mini);
-		else
+		j = 0;
+		temp = ft_strdup("");
+		while (mini->tab[i][j])
 		{
-			if (ifexist(mini))
-				exec_cmd(mini, env);
+			if (mini->tab[i][j] == '$' && mini->tab[i][j + 1])
+				dollar(mini, i, j, &tmp);
 			else
-				cmd_not_found(mini);
+				tmp = ft_substr(mini->tab[i], j,\
+					checksymbol(mini->tab[i], j + 1) - j);
+			j = checksymbol(mini->tab[i], j + 1);
+			temp = ft_strjoin(temp, tmp);
+			free(tmp);
 		}
-			
+		ft_strlcpy(mini->tab[i], temp, ft_strlen(temp) + 1);
+		free(temp);
+		i++;
+	}
+}
+
+void	execution(t_mini *mini)
+{
+	mini->tab = NULL;
+	while (mini->cmd_list && !mini->status)
+	{
+		while (mini->cmd_list->pipe)
+		{
+			mini->tab = ft_strsplit(mini->cmd_list->pipe->content, " ", 1);
+			expansions(mini);
+			trimming_quotes(mini->tab[0]);
+			if (is_builtins(mini))
+				do_builtins(mini);
+			else
+			{
+				if (ifexist(mini))
+					exec_cmd(mini);
+				else
+					cmd_not_found(mini);
+			}
+			ft_free(mini->tab);
+			mini->tab = NULL;
+			mini->cmd_list->pipe = mini->cmd_list->pipe->next;
+		}
 		mini->cmd_list = mini->cmd_list->next;
 	}
 }
@@ -73,12 +114,13 @@ int		main(int ac, char **av, char **env)
 	mini.cmd_list = (t_cmd*){0};
 	mini = (t_mini){0};
 	init_env(env, &mini.myenv);
-	while(1)
+	while (1)
 	{
 		prompt(&mini);
 		get_next_line(0, &mini.input);
 		parse(&mini);
-		execution(&mini, env);
+		if (!mini.status)
+			execution(&mini);
 		free(mini.input);
 		mini.input = NULL;
 	}

@@ -6,11 +6,35 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/10 18:24:25 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/13 15:04:07 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+int		checksymbol(char *tab, int i)
+{
+	while (tab[i] && (ft_isalnum(tab[i]) || tab[i] == '_'))
+		i++;
+	return (i);
+}
+
+void	trimming_quotes(char *tab)
+{
+	char	*tmp;
+	
+	tmp = NULL;
+	if (tab[0] == '\"')
+		tmp = ft_strtrim(tab, "\"");
+	else if (tab[0] == '\'')
+		tmp = ft_strtrim(tab, "\'");
+	if (tmp)
+	{
+		ft_strlcpy(tab, tmp, ft_strlen(tmp) + 1);
+		free(tmp);
+	}
+}
 
 void	ft_free(char **arr)
 {
@@ -25,20 +49,6 @@ void	ft_free(char **arr)
 	}
 	free(arr);
 	arr = NULL;
-}
-
-char	*ft_lstsearch(t_env	*env, char *key)
-{
-	t_env	*list;
-
-	list = env;
-	while (list)
-	{
-		if (!(ft_strncmp(list->key, key, ft_strlen(key))))
-			return (list->value);
-		list = list->next;
-	}
-	return (NULL);
 }
 
 void	prompt(t_mini *mini)
@@ -73,44 +83,12 @@ void	prompt(t_mini *mini)
 	mini->status = 0;
 }
 
-void	init_env(char **env, t_env **myenv)
+void    exec_cmd(t_mini *mini)
 {
-	t_env	*list;
-	char	**splitted;
-	int		i;
-
-	*myenv = NULL;
-	list = NULL;
-	splitted = NULL;
-	*myenv = (t_env*)malloc(sizeof(t_env));
-	(*myenv)->next = NULL;
-	list = *myenv;
-	i = 0;
-	while (env[i])
-	{
-		splitted = ft_split(env[i], '=');
-		list->key = ft_strdup(splitted[0]);
-		if (splitted[1])
-			list->value = ft_strdup(splitted[1]);
-		ft_free(splitted);
-		if (!env[i + 1])
-			break ;
-		list->next = (t_env*)malloc(sizeof(t_env));
-		list = list->next;
-		i++;
-	}
-	list->next = NULL;
-}
-
-void    exec_cmd(t_mini *mini, char **env)
-{
+	ft_lsttoarray(mini->myenv, &mini->env_array);
 	mini->pid = fork();
 	if (mini->pid > 0)
 		wait(NULL);
 	else
-	{
-		*mini->argv = mini->input;
-		mini->argv[1] = NULL;
-		execve(mini->input, mini->argv, env);
-	}
+		execve(mini->tab[0], mini->tab, mini->env_array);
 }
