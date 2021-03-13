@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 09:36:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/10 19:22:35 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/11 18:04:05 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,4 @@ void	do_builtins(t_mini *mini)
 		ft_unset(mini);
 	else if (!(ft_strncmp(mini->tab[0], "export", ft_strlen(mini->tab[0]))))
 		ft_export(mini);
-	
 }

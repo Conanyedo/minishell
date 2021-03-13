@@ -1,33 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_quotation.c                                  :+:      :+:    :+:   */
+/*   errors_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/08 16:59:58 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/12 16:33:22 by cabouelw         ###   ########.fr       */
+/*   Created: 2021/03/11 12:36:19 by cabouelw          #+#    #+#             */
+/*   Updated: 2021/03/11 18:05:07 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	check_bdl_quot(t_mini *mini)//get value exmpl (echo "test;;;")
+void	cmd_not_found(t_mini *mini)
 {
-	if (mini->check.quota)
-		return;
-	if (mini->check.dbl_quota == 1)
-		mini->check.dbl_quota = 0;
-	else if (mini->check.dbl_quota == 0)
-		mini->check.dbl_quota = 1;
-}
-
-void		check_one_quot(t_mini *mini)
-{
-	if (mini->check.dbl_quota)
-		return;
-	if (mini->check.quota == 1)
-		mini->check.quota = 0;
-	else if (mini->check.quota == 0)
-		mini->check.quota = 1;
+	mini->status = 1;
+	ft_putstr_fd("minishell: ", 1);
+	ft_putstr_fd(mini->tab[0], 1);
+	ft_putstr_fd(": command not found\n", 1);
 }

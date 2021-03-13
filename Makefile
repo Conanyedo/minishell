@@ -6,7 +6,7 @@
 #    By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/10 14:49:00 by cabouelw         ###   ########.fr        #
+#    Updated: 2021/03/11 12:41:48 by cabouelw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC = main.c\
 	errors/errors_parsing.c\
 	pars_src/check_symbols.c\
 	pars_src/check_pipes.c\
+	errors/errors_cmd.c\
 
 OBJ = $(SRC:.c=.o)
 

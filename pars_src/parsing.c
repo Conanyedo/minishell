@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/11 11:49:50 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/13 10:30:10 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,64 @@ void	splitting(t_mini *mini)
 	list->next = NULL;
 }
 
+void	check_all(t_mini *mini, int i, int idx)
+{
+	if (i == 1)
+	{
+		if (mini->check.dbl_quota)
+			ft_error_end("\"",mini);
+		else if (mini->check.quota)
+			ft_error_end("'",mini);
+		if (mini->check.right || mini->check.left)
+			error_symbols(mini, idx);
+	}
+	else
+	{
+		if (mini->check.left > 3 || mini->check.left > 2)
+			error_symbols(mini, idx);
+	}
+}
+
+void	checker(t_mini *mini)
+{
+	int		i;
+
+	i = 0;
+	mini->check = (t_checkers) {0};
+	while (mini->input[i])
+	{
+		if (mini->status == 1)
+			break;
+		else if (mini->input[i] == ';')
+			check_point(mini, i);
+		else if (mini->input[i] == '|')
+			check_pipes(mini , i);
+		else if (mini->input[i] == '"')
+			check_bdl_quot(mini);
+		else if (mini->input[i] == '\'')
+			check_one_quot(mini);
+		else if (mini->input[i] == '<' || mini->input[i] == '>')
+			check_symbols(mini, i);
+		else if (ft_isprint(mini->input[i]) && mini->input[i] != ';' && mini->input[i] != ' ')
+		{
+			mini->check.point = 0;
+			mini->check.left = 0;
+			mini->check.right = 0;
+			mini->check.pipe = 0;
+			mini->check.symbols = 0;
+		}
+		else
+			check_all(mini, 0, i);
+		i++;
+	}
+	if (mini->status == 0)
+		check_all(mini, 1, i);
+}
+
 void	parse(t_mini *mini)
 {
 	mini->input = ft_strtrim(mini->input, " \t");
-	ft_checkpoints(mini);
-	check_symbols(mini);
-	check_pipes(mini);
+	checker(mini);
 	if (mini->status)
 		return;
 	mini->cmds = ft_strsplit(mini->input, ";", 1);
@@ -85,6 +137,6 @@ void	parse(t_mini *mini)
 	// 	}
 	// 	list = list->next;
 	// }
-	// mini->path_value = ft_lstsearch(mini->myenv, "PATH");
-	// mini->paths = ft_split(mini->path_value, ':');
+	mini->path_value = ft_lstsearch(mini->myenv, "PATH");
+	mini->paths = ft_split(mini->path_value, ':');
 }
