@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 17:15:17 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/13 11:44:33 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/13 13:00:05 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	check_symbols(t_mini *mini,int i)
 {
+	if (mini->status || mini->check.quota || mini->check.dbl_quota)
+		return ;
 	if (mini->check.symbols == 0)
 		mini->check.symbols = mini->input[i];
 	if (mini->check.symbols == '>' && mini->input[i] == '<')
