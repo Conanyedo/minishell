@@ -6,50 +6,27 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 14:42:04 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/11 11:06:42 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/12 15:37:13 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		pipes_checker(char *s)
+void	check_pipes(t_mini *mini, int i)
 {
-	int		i;
-	int		p;
-
-	i = 0;
-	if (s[i] && s[i] == '|')
-	{
-		if (s[i + 1] && s[i + 1] =='|')
-			return (2);
-		else
-			return (1);
-	}
-	while (s[i])//awddw|||
-	{
-		p = i;
-		if (s[i] == '|' && !s[i + 1])
-			return (1);
-		if (s[i] == '|')
-			while (s[p] && s[p] == '|')
-				p++;
-		if ((p - i) == 3 && s[p])
-			return (1);
-		else if ((p - i) > 3)
-			return (2);
-		i++;
-	}
-	return (0);
-}
-
-
-void	check_pipes(t_mini *mini)
-{
-	int		res;
-
-	if (mini->status)
+	if (mini->check.dbl_quota || mini->check.quota)
 		return;
-	res = 0;
-	if ((res = pipes_checker(mini->input)))
-		error_pips(mini,res);
+	if (i == 0)
+	{
+		if (mini->input[i + 1] && mini->input[i + 1] == '|')
+			error_pips(mini, 2);
+		else
+			error_pips(mini, 1);
+	}
+	else if (mini->check.pipe && mini->input[i + 1] == '|')
+		error_pips(mini, 2);
+	else if (mini->check.pipe || (!mini->input[i + 1]))
+		error_pips(mini, 1);
+	else if (mini->check.pipe == 0)
+		mini->check.pipe = 1;
 }

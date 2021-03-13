@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/10 18:50:59 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/12 18:59:15 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		ifexist(t_mini *mini)
+{
+	int		i;
+	int		fd;
+	char	*cmd;
+	char	*joincmd;
+
+	i = 0;
+	cmd = mini->tab[0];
+	while (mini->paths[i])
+	{
+		joincmd = ft_strjoin("/",cmd);
+		joincmd = ft_strjoin(mini->paths[i],joincmd);
+		if ((fd = open(joincmd,O_RDONLY)) > 0)
+		{
+			mini->cmd_exist = joincmd;
+			close(fd);
+			return (1);
+		}
+		free(joincmd);
+		i++;
+	}
+	return (0);
+}
 
 void	execution(t_mini *mini, char **env)
 {
@@ -26,7 +51,13 @@ void	execution(t_mini *mini, char **env)
 		if (is_builtins(mini))
 			do_builtins(mini);
 		else
-			exec_cmd(mini, env);
+		{
+			if (ifexist(mini))
+				exec_cmd(mini, env);
+			else
+				cmd_not_found(mini);
+		}
+			
 		mini->cmd_list = mini->cmd_list->next;
 	}
 }

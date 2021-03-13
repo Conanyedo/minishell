@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 10:30:50 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/10 10:33:43 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/12 16:52:31 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,21 @@ static int		skipping(char const *s, char *token, int i, int *words, char *q)
 		else
 			i++;
 	}
-	if (exist(token, s[i]))
+	if (exist(token, s[i]) && !dq)
 	{
 		*words = *words + 1;
 		while (s[i] && exist(token, s[i]))
 			i++;
 	}
-	else if (s[i] && s[i] == *q && dq == 1 && (i++))
+	else if (s[i] && s[i] == *q && dq == 1)
 	{
+		i++;
 		while (s[i] && s[i] != *q)
 			i++;
 		dq = 0;
 		i++;
 	}
-	*words = (!s[i] && s[i - 1] != ';') ? (*words + 1) : *words;
+	*words = (!s[i] && !exist(token, s[i - 1])) ? (*words + 1) : *words;
 	return (i);
 }
 
