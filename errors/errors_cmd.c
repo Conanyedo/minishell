@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   errors_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/07 15:03:10 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/11 14:08:35 by ybouddou         ###   ########.fr       */
+/*   Created: 2021/03/11 12:36:19 by cabouelw          #+#    #+#             */
+/*   Updated: 2021/03/11 17:21:38 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_exit(t_mini *mini)
+void cmd_not_found(t_mini *mini)
 {
-	(void)mini;
-	exit(1);
+	mini->status = 1;
+	ft_putstr_fd("minishell: ", 1);
+	ft_putstr_fd(mini->tab[0], 1);
+	ft_putstr_fd(": command not found\n", 1);
 }

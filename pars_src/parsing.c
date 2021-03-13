@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/11 11:49:50 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/12 14:26:34 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	splitting(t_mini *mini)
 
 void	parse(t_mini *mini)
 {
+	// int i = 0;
 	mini->input = ft_strtrim(mini->input, " \t");
 	ft_checkpoints(mini);
 	check_symbols(mini);
@@ -85,6 +86,6 @@ void	parse(t_mini *mini)
 	// 	}
 	// 	list = list->next;
 	// }
-	// mini->path_value = ft_lstsearch(mini->myenv, "PATH");
-	// mini->paths = ft_split(mini->path_value, ':');
+	mini->path_value = ft_lstsearch(mini->myenv, "PATH");
+	mini->paths = ft_split(mini->path_value, ':');
 }
