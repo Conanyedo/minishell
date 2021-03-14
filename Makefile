@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
+#    By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/13 16:06:49 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/03/14 17:14:49 by cabouelw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC = main.c\
 	builtins/ft_cd.c\
 	builtins/ft_unset.c\
 	builtins/ft_pwd.c\
+	builtins/ft_redirecting.c\
 	builtins/ft_export.c\
 	builtins.c\
 	pars_src/check_point.c\

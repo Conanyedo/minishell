@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:03:10 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/11 14:08:35 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/13 17:28:19 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 void	ft_exit(t_mini *mini)
 {
 	(void)mini;
-	exit(1);
+	ft_putstr_fd("exit\n", 1);
+	exit(0);
 }
