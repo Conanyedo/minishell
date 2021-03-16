@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/14 17:18:36 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/16 18:19:48 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,38 @@ void	splitting(t_mini *mini)
 	list->next = NULL;
 }
 
+char	**remove_dust(char **str)
+{
+	int		i;
+	int		j;
+	int		t;
+	char	**cpy;
+
+	j = 0;
+	t = 0;
+	while (str[t])
+		t++;
+	cpy = (char**)malloc(sizeof(char*) * t + 1);
+	t = 0;
+	while (str[t])
+	{
+		cpy[t] = (char*)malloc(sizeof(char) * ft_strlen(str[t]) + 1);
+		i = 0;
+		j = 0;
+		while (str[t][i] != '\0')
+		{
+			if (str[t][i] > 0)
+				cpy[t][j++] = str[t][i];
+			i++;
+		}
+		cpy[t][j] = '\0';
+		t++;
+	}
+	cpy[t] = NULL;
+	// ft_free(str);
+	return(cpy);
+}
+
 void	check_all(t_mini *mini, int i, int idx)
 {
 	if (i == 1)
@@ -76,6 +108,27 @@ void	check_all(t_mini *mini, int i, int idx)
 	}
 }
 
+char	check_slash(t_mini *mini, int i)
+{
+	if (mini->input[i + 1] && mini->input[i + 1] == '\\')
+		return('\\' * -1);
+	else if (mini->check.dbl_quota)
+	{
+		if (mini->input[i + 1] == '"')
+			return (mini->input[i] * -1);
+		else if (mini->input[i + 1] == '\'')
+			return (mini->input[i]);
+	}
+	else if (mini->check.quota)
+	{
+		if (mini->input[i + 1] == '"')
+			return (mini->input[i]);
+		else if (mini->input[i + 1] == '\'')
+			return (mini->input[i] * -1);
+	}
+	return (mini->input[i] * -1);
+}
+
 void	checker(t_mini *mini)
 {
 	int		i;
@@ -86,14 +139,19 @@ void	checker(t_mini *mini)
 	{
 		if (mini->status == 1)
 			break;
+		if (mini->input[i] == '\\' && mini->check.quota == 0)
+		{
+			mini->input[i] = check_slash(mini, i);
+			i++;
+		}
 		else if (mini->input[i] == ';')
 			check_point(mini, i);
 		else if (mini->input[i] == '|')
 			check_pipes(mini , i);
 		else if (mini->input[i] == '"')
-			check_bdl_quot(mini);
+			check_bdl_quot(mini, i);
 		else if (mini->input[i] == '\'')
-			check_one_quot(mini);
+			check_one_quot(mini, i);
 		else if (mini->input[i] == '<' || mini->input[i] == '>')
 			check_symbols(mini, i);
 		else if (ft_isprint(mini->input[i]) && mini->input[i] != ';' && mini->input[i] != ' ')

@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/14 18:27:58 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/16 18:55:20 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	expansions(t_mini *mini)
 {
 	int		i;
 	int		j;
+	char	s;
 	char	*tmp;
 	char	*temp;
 
@@ -61,7 +62,11 @@ void	expansions(t_mini *mini)
 		temp = ft_strdup("");
 		while (mini->tab[i][j])
 		{
-			if (mini->tab[i][j] == '$' && mini->tab[i][j + 1])
+			if (s == mini->tab[i][j] * -1)
+				s = 0;
+			if (mini->tab[i][j] < 0)
+				s = mini->tab[i][j] * -1;
+			if (mini->tab[i][j] == '$' && mini->tab[i][j + 1] && s != '\'')
 				dollar(mini, i, j, &tmp);
 			else
 				tmp = ft_substr(mini->tab[i], j,\
@@ -83,20 +88,23 @@ void	execution(t_mini *mini)
 	{
 		while (mini->cmd_list->pipe)
 		{
+			check_redirec(mini);
 			mini->tab = ft_strsplit(mini->cmd_list->pipe->content, " ", 1);
 			expansions(mini);
-			trimming_quotes(mini->tab[0]);
+			mini->tab = remove_dust(mini->tab);
+			// trimming_quotes(mini->tab[0]);
 			if (is_builtins(mini))
 				do_builtins(mini);
 			else
 			{
-				check_redirec(mini);
 				if (ifexist(mini))
 					exec_cmd(mini);
 				else
 					cmd_not_found(mini);
 			}
-			ft_free(mini->tab);
+			if (mini->fd != 0)
+				close(mini->fd);
+			// ft_free(mini->tab);
 			mini->tab = NULL;
 			mini->cmd_list->pipe = mini->cmd_list->pipe->next;
 		}
