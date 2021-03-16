@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 12:36:19 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/16 11:11:48 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/16 19:04:17 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ void	error_file(char	*file, t_mini *mini)
 	(void)mini;
 	ft_putstr_fd("minishell: ", 1);
 	ft_putstr_fd(file, 1);
-	ft_putstr_fd(": failed to open\n", 1);
+	ft_putstr_fd(": No such file or directory\n", 1);
 }

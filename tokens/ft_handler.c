@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 09:07:44 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/16 11:02:14 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/16 19:31:53 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	check_redirec(t_mini *mini)
 	redir.str = ft_strdup(mini->cmd_list->pipe->content);
 	free(mini->cmd_list->pipe->content);
 	mini->cmd_list->pipe->content = (char*)malloc(sizeof(char) * ft_strlen(redir.str) + 1);
-	while (redir.str[len] && redir.str[len] != ' ' && redir.str[len] != '>')
+	while (redir.str[len] && redir.str[len] != '>' && redir.str[len] != '<')
 		len++;
 	ft_strlcpy(mini->cmd_list->pipe->content, redir.str, len + 1);
 	if (ft_strchr(redir.str, '>') || ft_strchr(redir.str, '<'))

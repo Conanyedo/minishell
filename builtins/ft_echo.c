@@ -6,12 +6,11 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:49:02 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/16 15:53:34 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/16 19:31:38 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 void	skip(char *tab)
 {

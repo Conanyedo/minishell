@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/16 18:55:20 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/16 19:05:54 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void	execution(t_mini *mini)
 			mini->tab = ft_strsplit(mini->cmd_list->pipe->content, " ", 1);
 			expansions(mini);
 			mini->tab = remove_dust(mini->tab);
-			// trimming_quotes(mini->tab[0]);
 			if (is_builtins(mini))
 				do_builtins(mini);
 			else

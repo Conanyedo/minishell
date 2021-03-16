@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:11:31 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/16 11:11:03 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/16 19:30:53 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	open_files(t_mini *mini, t_redir *redir, int status)
 	while (redir->str[redir->i] == ' ')
 		redir->i++;
 	len = 0;
-	while (redir->str[redir->i] && redir->str[redir->i] != ' ' && redir->str[redir->i] != redir->dp)
+	while (redir->str[redir->i] && redir->str[redir->i] != ' ' &&\
+		redir->str[redir->i] != '>' && redir->str[redir->i] != '<')
 	{
 		redir->i++;
 		len++;
@@ -58,7 +59,6 @@ void case_left(t_redir *redir)
 	redir->file = ft_strjoin(" ", redir->file);
 }
 
-
 void	redirect_right(t_mini *mini, t_redir *redir)
 {
 	while (redir->str[redir->i])
@@ -79,8 +79,8 @@ void	redirect_right(t_mini *mini, t_redir *redir)
 			case_left(redir);
 		redir->i++;
 	}
-	if (mini->fd < 0)
-		error_file(redir->tmpfile, mini);
 	if (redir->file)
 		mini->cmd_list->pipe->content = ft_strjoin(mini->cmd_list->pipe->content, redir->file);
+	if (mini->fd < 0)
+		error_file(redir->tmpfile, mini);
 }
