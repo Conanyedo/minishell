@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 10:30:50 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/13 16:06:55 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/16 17:53:36 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static int		skipping(char const *s, char *token, int i, int *words, char *q)
 	dq = 0;
 	while (s[i] && !exist(token, s[i]) && dq == 0)
 	{
-		if (s[i] == '"' || s[i] == '\'')
+		if (s[i] < 0)
 		{
-			*q = (s[i] == '"') ? '"' : '\'';
+			*q = s[i];
 			dq = 1;
 		}
 		else
@@ -94,14 +94,15 @@ static int		words_len(char const *s, char *token, int skip)
 	db = 0;
 	while (s[++i])
 	{
-		if (s[i] == '"' || s[i] == '\'')
-			q = (s[i] == '"') ? '"' : '\'';
+		if (s[i] < 0)
+			q = s[i];
 		if (s[i] == q && skip)
 			db = (db == 0) ? 1 : 0;
 		if (exist(token, s[i]) && !db)
 			return (i);
-		else if (s[i] && s[i] != q && db && skip && (i++))
+		else if (s[i] && s[i] != q && db && skip)
 		{
+			i++;
 			while (s[i] && s[i] != q)
 				i++;
 			db = 0;

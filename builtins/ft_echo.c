@@ -3,39 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:49:02 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/13 15:21:08 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/16 19:31:38 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
 void	skip(char *tab)
 {
 	int		i;
-	char	q;
 
 	i = 0;
 	while (tab[i])
 	{
-		if (tab[i] != '\"' && tab[i] != '\'')
+		if (tab[i] > 0)
 			ft_putchar_fd(tab[i], 1);
-		else if (tab[i] == '\"' || tab[i] == '\'')
-		{
-			q = tab[i];
-			i++;
-			while (tab[i] && tab[i] != q)
-				ft_putchar_fd(tab[i++], 1);
-		}
-		if (tab[i])
-			i++;
+		i++;
 	}
 }
 
-void	ft_echo(char **tab)
+void	ft_echo(char **tab, int status)
 {
 	int		i;
 	int		newline;
@@ -43,10 +33,10 @@ void	ft_echo(char **tab)
 	i = 1;
 	if (!tab[i] || !*tab[i])
 		return (ft_putstr_fd("\n", 1));
-	newline = ft_strncmp(tab[i], "-n", ft_strlen(tab[i]));
+	newline = ft_strncmp(tab[i], "-n", ft_strlen("-n"));
 	if (!newline)
 		i++;
-	while (tab[i] && !ft_strncmp(tab[i], "-n", ft_strlen(tab[i])))
+	while (tab[i] && !ft_strncmp(tab[i], "-n", ft_strlen("-n")))
 		i++;
 	while (tab[i] && tab[i][0])
 	{
@@ -55,6 +45,6 @@ void	ft_echo(char **tab)
 			ft_putstr_fd(" ", 1);
 		i++;
 	}
-	if (newline)
+	if (newline && !status)
 		ft_putstr_fd("\n", 1);
 }
