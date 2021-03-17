@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:51:47 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/11 14:50:54 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/14 15:26:36 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 void	ft_env(t_env *env)
 {
-	t_env	*fresh;
+	t_env	*list;
 
-	fresh = env;
-	while (fresh && *fresh->value)
+	list = env;
+	while (list)
 	{
-		ft_putstr_fd(fresh->key, 1);
-		ft_putchar_fd('=', 1);
-		ft_putstr_fd(fresh->value, 1);
-		ft_putstr_fd("\n", 1);
-		fresh = fresh->next;
+		if (*list->symbol)
+		{
+			ft_putstr_fd(list->key, 1);
+			ft_putstr_fd(list->symbol, 1);
+			ft_putstr_fd(list->value, 1);
+			ft_putstr_fd("\n", 1);
+		}
+		list = list->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 18:24:43 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/13 15:33:11 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/14 15:15:20 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ void	init_env(char **env, t_env **myenv)
 		splitted = ft_split(env[i], '=');
 		list->key = ft_strdup(splitted[0]);
 		if (splitted[1])
+		{
+			list->symbol = ft_strdup("=");
 			list->value = ft_strdup(splitted[1]);
+		}
 		ft_free(splitted);
 		if (!env[i + 1])
 			break ;
@@ -94,5 +97,5 @@ char	*ft_lstsearch(t_env	*env, char *key)
 			return (list->value);
 		list = list->next;
 	}
-	return (ft_strdup(""));
+	return (NULL);
 }

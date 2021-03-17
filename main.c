@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/13 16:05:21 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/17 14:33:54 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,43 +38,6 @@ int		ifexist(t_mini *mini)
 	return (0);
 }
 
-void	dollar(t_mini *mini, int i, int j, char **tmp)
-{
-	char	*value;
-
-	value = ft_substr(mini->tab[i], j, checksymbol(mini->tab[i], j + 1) - j);
-	value = ft_strchr(value, '$') + 1;
-	*tmp = ft_strdup(ft_lstsearch(mini->myenv, value));
-}
-
-void	expansions(t_mini *mini)
-{
-	int		i;
-	int		j;
-	char	*tmp;
-	char	*temp;
-
-	i = 0;
-	while (mini->tab[i])
-	{
-		j = 0;
-		temp = ft_strdup("");
-		while (mini->tab[i][j])
-		{
-			if (mini->tab[i][j] == '$' && mini->tab[i][j + 1])
-				dollar(mini, i, j, &tmp);
-			else
-				tmp = ft_substr(mini->tab[i], j,\
-					checksymbol(mini->tab[i], j + 1) - j);
-			j = checksymbol(mini->tab[i], j + 1);
-			temp = ft_strjoin(temp, tmp);
-			free(tmp);
-		}
-		ft_strlcpy(mini->tab[i], temp, ft_strlen(temp) + 1);
-		free(temp);
-		i++;
-	}
-}
 
 void	execution(t_mini *mini)
 {
@@ -84,17 +47,13 @@ void	execution(t_mini *mini)
 		while (mini->cmd_list->pipe)
 		{
 			mini->tab = ft_strsplit(mini->cmd_list->pipe->content, " ", 1);
-			expansions(mini);
-			trimming_quotes(mini->tab[0]);
+			// printf("++++\n");
+			// expansions(mini);
+			// trimming(mini);
 			if (is_builtins(mini))
 				do_builtins(mini);
 			else
-			{
-				if (ifexist(mini))
-					exec_cmd(mini);
-				else
-					cmd_not_found(mini);
-			}
+				exec_cmd(mini);
 			ft_free(mini->tab);
 			mini->tab = NULL;
 			mini->cmd_list->pipe = mini->cmd_list->pipe->next;

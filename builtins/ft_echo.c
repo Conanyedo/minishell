@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:49:02 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/13 15:21:08 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/15 14:45:50 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_echo(char **tab)
 	i = 1;
 	if (!tab[i] || !*tab[i])
 		return (ft_putstr_fd("\n", 1));
-	newline = ft_strncmp(tab[i], "-n", ft_strlen(tab[i]));
+	newline = ft_strncmp(tab[i], "-n", ft_strlen("-n"));
 	if (!newline)
 		i++;
 	while (tab[i] && !ft_strncmp(tab[i], "-n", ft_strlen(tab[i])))

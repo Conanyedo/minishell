@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/13 16:06:19 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/13 16:37:41 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ void	checker(t_mini *mini)
 
 void	parse(t_mini *mini)
 {
-	// int i = 0;
 	mini->input = ft_strtrim(mini->input, " \t");
 	checker(mini);
 	if (mini->status)

@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/13 16:08:26 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/16 10:39:16 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct		s_env
 {
 	char			*key;
 	char			*value;
+	char			*symbol;
 	struct s_env	*next;
 }					t_env;
 
@@ -46,15 +47,26 @@ typedef struct	s_checkers
 	char		symbols;
 	int			left;
 	int			right;
-	char		*err;
+	char		quote;
+	char		*tmp;
 	char		*value;
 }				t_checkers;
+
+typedef struct	s_quotes
+{
+	int			sq;
+	int			dq;
+	char		q;
+	char		*tmp;
+	char		*value;
+}				t_quotes;
 
 typedef struct		s_mini
 {
 	t_checkers		check;
 	t_env			*myenv;
 	t_cmd			*cmd_list;
+	t_quotes		*quotes;
 	char			*cmd_exist;
 	char			**env_array;
 	char			**tab;
@@ -72,10 +84,12 @@ void				execution(t_mini *mini);
 void				ft_free(char **arr);
 int					is_builtins(t_mini *mini);
 void				do_builtins(t_mini *mini);
-int					checksymbol(char *tab, int i);
-void				trimming_quotes(char *tab);
-void				dollar(t_mini *mini, int i, int j, char **tmp);
+int					checksymbol(t_mini *mini, int i, int j, int *k);
+int					checkquotes(char *tab, int i, char *q);
+void				trimming(t_mini *mini);
+void				dollar(t_mini *mini, int i, int j, int *k);
 void				expansions(t_mini *mini);
+int					ifexist(t_mini *mini);
 
 //linkedlist
 void				init_env(char **env, t_env **myenv);
