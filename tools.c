@@ -6,11 +6,20 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/15 15:54:07 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/17 14:54:56 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		checksymbol(char *tab, int i)
+{
+	if (tab[i] == '?')
+		return (++i);
+	while (tab[i] && (ft_isalnum(tab[i]) || tab[i] == '_'))
+		i++;
+	return (i);
+}
 
 void	ft_free(char **arr)
 {

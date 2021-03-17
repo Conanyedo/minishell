@@ -1,20 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   ft_pips.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/07 15:03:10 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/17 14:48:57 by ybouddou         ###   ########.fr       */
+/*   Created: 2021/03/16 09:06:07 by cabouelw          #+#    #+#             */
+/*   Updated: 2021/03/16 09:07:08 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_exit(t_mini *mini)
-{
-	(void)mini;
-	ft_putstr_fd("exit\n", 1);
-	exit(0);
-}
