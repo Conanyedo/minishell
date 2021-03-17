@@ -6,24 +6,35 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:03:14 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/12 15:49:31 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/14 17:01:14 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**export_errors(t_mini *mini, char **tmp)
+char	**export_errors(t_mini *mini, char ***tmp, char *tab)
 {
-	if (!*tmp[0])
+	ft_putstr_fd("export: `", 1);
+	ft_putstr_fd(tab, 1);
+	ft_putstr_fd("\': not a valid identifier\n", 1);
+	mini->status = 1;
+	ft_free(*tmp);
+	(*tmp) = NULL;
+	return (NULL);
+}
+
+char	**filling(t_mini *mini, char ***tmp, char *tab, int i)
+{
+	if (tab[0] == '=')
+		return (export_errors(mini, tmp, tab));
+	else
 	{
-		ft_putstr_fd("export: `=", 1);
-		ft_putstr_fd(tmp[1], 1);
-		ft_putstr_fd("\': not a valid identifier\n", 1);
-		ft_free(tmp);
-		mini->status = 1;
-		return (NULL);
+		(*tmp)[0] = ft_strdup(ft_substr(tab, 0, i));
+		(*tmp)[1] = ft_strdup("=");
+		(*tmp)[2] = ft_strdup(tab + i + 1);
+		(*tmp)[3] = NULL;
 	}
-	return (tmp);
+	return (*tmp);
 }
 
 char	**split_env(t_mini *mini, char *tab)
@@ -33,51 +44,45 @@ char	**split_env(t_mini *mini, char *tab)
 
 	i = 0;
 	tmp = NULL;
-	tmp = (char **)malloc(sizeof(char *) * 3);
+	tmp = (char **)malloc(sizeof(char *) * 4);
 	while (tab[i] && tab[i] != '=')
 	{
 		if (ft_isalnum(tab[i]) || tab[i] == '_')
 			i++;
 		else
-		{
-			ft_putstr_fd("export: `", 1);
-			ft_putstr_fd(tab, 1);
-			ft_putstr_fd("\': not a valid identifier\n", 1);
-			mini->status = 1;
-			return (NULL);
-		}
+			return (export_errors(mini, &tmp, tab));
 	}
 	if (!tab[i])
 	{
 		tmp[0] = ft_strdup(tab);
-		tmp[1] = NULL;
-		tmp[2] = NULL;
+		tmp[1] = ft_strdup("");
+		tmp[2] = ft_strdup("");
+		tmp[3] = NULL;
+		return (tmp);
 	}
-	else
-	{
-		tmp[0] = ft_strdup(ft_substr(tab, 0, i));
-		tmp[1] = ft_strdup(tab + i + 1);
-		tmp[2] = NULL;
-		tmp = export_errors(mini, tmp);
-	}
-	return (tmp);
+	return (filling(mini, &tmp, tab, i));
 }
 
 void	print_export(t_mini *mini)
 {
-	t_env	*fresh;
+	t_env	*list;
 
-	fresh = mini->myenv;
-	while (fresh)
+	list = mini->myenv;
+	while (list)
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(fresh->key, 1);
-		if (!*fresh->value)
-			return (ft_putstr_fd("\n", 1));
-		ft_putstr_fd("=\"", 1);
-		ft_putstr_fd(fresh->value, 1);
-		ft_putstr_fd("\"\n", 1);
-		fresh = fresh->next;
+		if (ft_strncmp(list->key, "_", ft_strlen(list->key)))
+		{
+			ft_putstr_fd("declare -x ", 1);
+			ft_putstr_fd(list->key, 1);
+			if (*list->symbol)
+			{
+				ft_putstr_fd("=\"", 1);
+				ft_putstr_fd(list->value, 1);
+				ft_putstr_fd("\"", 1);
+			}
+			ft_putstr_fd("\n", 1);
+		}
+		list = list->next;
 	}
 	return ;
 }
@@ -93,10 +98,8 @@ void	add_env(t_mini *mini, char **splitted)
 	list->next = (t_env*)malloc(sizeof(t_env));
 	list = list->next;
 	list->key = ft_strdup(splitted[0]);
-	if (splitted[1])
-		list->value = ft_strdup(splitted[1]);
-	else
-		list->value = ft_strdup("");
+	list->symbol = ft_strdup(splitted[1]);
+	list->value = ft_strdup(splitted[2]);
 	list->next = NULL;
 }
 
@@ -105,14 +108,25 @@ void	edit_env(t_mini *mini, char **splitted)
 	t_env	*list;
 
 	list = NULL;
+	if (!ft_strncmp("_", splitted[0], ft_strlen(splitted[0])))
+		return ;
 	list = mini->myenv;
 	while (list)
 	{
 		if (!(ft_strncmp(list->key, splitted[0], ft_strlen(splitted[0]))))
-			list->value = ft_strdup(splitted[1]);
+		{
+			if (*list->symbol == '=')
+				ft_strlcpy(list->symbol, "=", 2);
+			else
+				ft_strlcpy(list->symbol, splitted[1], 2);
+			if (*splitted[1])
+			{
+				free(list->value);
+				list->value = ft_strdup(splitted[2]);
+			}
+		}
 		list = list->next;
 	}
-	print_export(mini);
 }
 
 void	ft_export(t_mini *mini)

@@ -3,37 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/14 17:42:33 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/17 14:54:56 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 int		checksymbol(char *tab, int i)
 {
+	if (tab[i] == '?')
+		return (++i);
 	while (tab[i] && (ft_isalnum(tab[i]) || tab[i] == '_'))
 		i++;
 	return (i);
-}
-
-void	trimming_quotes(char *tab)
-{
-	char	*tmp;
-	
-	tmp = NULL;
-	if (tab[0] == '\"')
-		tmp = ft_strtrim(tab, "\"");
-	else if (tab[0] == '\'')
-		tmp = ft_strtrim(tab, "\'");
-	if (tmp)
-	{
-		ft_strlcpy(tab, tmp, ft_strlen(tmp) + 1);
-		free(tmp);
-	}
 }
 
 void	ft_free(char **arr)
@@ -85,6 +70,8 @@ void	prompt(t_mini *mini)
 
 void    exec_cmd(t_mini *mini)
 {
+	if (!ifexist(mini))
+		return (cmd_not_found(mini));
 	ft_lsttoarray(mini->myenv, &mini->env_array);
 	mini->pid = fork();
 	if (mini->pid > 0)

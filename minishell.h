@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/16 17:04:10 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/17 14:53:46 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct		s_env
 {
 	char			*key;
 	char			*value;
+	char			*symbol;
 	struct s_env	*next;
 }					t_env;
 
@@ -58,7 +59,8 @@ typedef struct	s_checkers
 	char		symbols;
 	int			left;
 	int			right;
-	char		*err;
+	char		quote;
+	char		*tmp;
 	char		*value;
 }				t_checkers;
 
@@ -87,9 +89,11 @@ void				ft_free(char **arr);
 int					is_builtins(t_mini *mini);
 void				do_builtins(t_mini *mini);
 int					checksymbol(char *tab, int i);
-void				trimming_quotes(char *tab);
+int					checkquotes(char *tab, int i, char *q);
+void				trimming(t_mini *mini);
 void				dollar(t_mini *mini, int i, int j, char **tmp);
 void				expansions(t_mini *mini);
+int					ifexist(t_mini *mini);
 
 //linkedlist
 void				init_env(char **env, t_env **myenv);

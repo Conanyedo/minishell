@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/16 19:05:54 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/17 14:54:49 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,7 @@ void	execution(t_mini *mini)
 			if (is_builtins(mini))
 				do_builtins(mini);
 			else
-			{
-				if (ifexist(mini))
-					exec_cmd(mini);
-				else
-					cmd_not_found(mini);
-			}
+				exec_cmd(mini);
 			if (mini->fd != 0)
 				close(mini->fd);
 			// ft_free(mini->tab);
