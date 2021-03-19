@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_point.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:46:50 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/12 19:23:34 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/19 11:17:10 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	end_cmd_check(t_mini *mini, int  i) // check if ';;' double in the same line
+void	end_cmd_check(t_mini *mini, int i)
 {
 	if (mini->status || mini->check.quota || mini->check.dbl_quota)
 		return ;
@@ -25,9 +25,11 @@ void	end_cmd_check(t_mini *mini, int  i) // check if ';;' double in the same lin
 	}
 	if (mini->input[i] == ';' && mini->check.point == 0)
 		mini->check.point = 1;
-	else if (mini->input[i] == ';' && mini->input[i + 1] == ';' && mini->check.point == 1)
+	else if (mini->input[i] == ';' && mini->input[i + 1] == ';'
+		&& mini->check.point == 1)
 		ft_error_end(";;", mini);
-	else if (mini->input[i] == ';' && mini->input[i - 1] == ';' && mini->check.point == 1)
+	else if (mini->input[i] == ';' && mini->input[i - 1] == ';'
+		&& mini->check.point == 1)
 		ft_error_end(";;", mini);
 	else if (mini->input[i] == ';' && mini->check.point == 1)
 		ft_error_end(";", mini);

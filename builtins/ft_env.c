@@ -6,17 +6,22 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:51:47 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/14 15:26:36 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/19 12:34:42 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_env(t_env *env)
+void	ft_env(t_mini *mini)
 {
 	t_env	*list;
 
-	list = env;
+	if (mini->tab[1])
+	{
+		error_file(mini, mini->tab[1], "env");
+		return ;
+	}
+	list = mini->myenv;
 	while (list)
 	{
 		if (*list->symbol)
@@ -28,4 +33,5 @@ void	ft_env(t_env *env)
 		}
 		list = list->next;
 	}
+	mini->cmd_status = 0;
 }

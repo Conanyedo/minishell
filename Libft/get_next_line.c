@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/06 16:19:05 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/01 18:03:31 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/19 11:25:16 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,3 @@ int			get_next_line(int fd, char **line)
 	free(buffer);
 	return (r < 0 ? -1 : result(fd, line, str, r));
 }
-
-// int		main(int ac, char **av)
-// {
-// 	int		r;
-// 	char	*line;
-// 	int		fd = open(av[1], O_RDONLY);
-	
-// 	r = 1;
-// 	while (r == 1)
-// 	{
-// 		r = get_next_line(fd, &line);
-// 		printf("line : %s\n", line);
-// 		free(line);
-// 	}
-// }

@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/17 14:53:46 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/19 15:02:55 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,21 @@ typedef struct		s_mini
 {
 	t_checkers		check;
 	t_env			*myenv;
-	t_cmd			*cmd_list;
+	t_cmd			*cmd;
 	char			*cmd_exist;
 	char			**env_array;
 	char			**tab;
 	char			**cmds;
 	int				status;
+	int				cmd_status;
 	char			*input;
 	char			**paths;
 	char			*path_value;
 	int				pid;
 	int				fd;
-	char			*argv[];
+	char			*tmp;
+	char			*temp;
+	char			buff[1028];
 }					t_mini;
 
 void				prompt(t_mini *mini);
@@ -91,7 +94,7 @@ void				do_builtins(t_mini *mini);
 int					checksymbol(char *tab, int i);
 int					checkquotes(char *tab, int i, char *q);
 void				trimming(t_mini *mini);
-void				dollar(t_mini *mini, int i, int j, char **tmp);
+void				dollar(t_mini *mini, int i, char **tmp);
 void				expansions(t_mini *mini);
 int					ifexist(t_mini *mini);
 
@@ -124,15 +127,18 @@ char				**remove_dust(char **str);
 // Builtins
 void				do_builtins(t_mini *mini);
 int					is_builtins(t_mini *mini);
-void				ft_env(t_env *env);
-void				ft_echo(char **tab, int status);
+void				ft_env(t_mini *mini);
+void				ft_echo(t_mini *mini);
 void				ft_exit(t_mini *mini);
 void				ft_cd(t_mini *mini);
 void				ft_export(t_mini *mini);
 void				ft_pwd(t_mini *mini);
 void				ft_unset(t_mini *mini);
+void				add_env(t_mini *mini, char **splitted);
+void				edit_env(t_mini *mini, char **splitted);
 
 
 //errors cmd
 void				cmd_not_found(t_mini *mini);
-void				error_file(char	*file, t_mini *mibi);
+void				error_file(t_mini *mini, char *file, char *cmd);
+void				error_env(t_mini *mini, char *env, char *cmd);

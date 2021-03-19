@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:03:17 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/13 18:03:29 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/19 12:57:07 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,5 @@ void	ft_pwd(t_mini *mini)
 	else
 		ft_putstr_fd(ft_lstsearch(mini->myenv, "PWD"), 1);
 	ft_putstr_fd("\n", 1);
+	mini->cmd_status = 0;
 }

@@ -3,33 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   check_quotation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:59:58 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/16 15:46:31 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/19 11:17:49 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	check_bdl_quot(t_mini *mini, int i)//get value exmpl (echo "test;;;")
+void	check_bdl_quot(t_mini *mini, int i)
 {
 	if (mini->check.quota)
-		return;
+		return ;
 	if (mini->check.dbl_quota == 1)
 		mini->check.dbl_quota = 0;
 	else if (mini->check.dbl_quota == 0)
 		mini->check.dbl_quota = 1;
-	mini->input[i] *= -1; 
+	mini->input[i] *= -1;
 }
 
-void		check_one_quot(t_mini *mini, int i)
+void	check_one_quot(t_mini *mini, int i)
 {
 	if (mini->check.dbl_quota)
-		return;
+		return ;
 	if (mini->check.quota == 1)
 		mini->check.quota = 0;
 	else if (mini->check.quota == 0)
 		mini->check.quota = 1;
-	mini->input[i] *= -1; 
+	mini->input[i] *= -1;
 }
