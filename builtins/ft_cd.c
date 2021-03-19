@@ -6,40 +6,80 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:50:39 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/13 18:03:23 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/19 12:31:12 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void	init_splitted(char ***oldpwd, char ***pwd)
+{
+	*pwd = (char **)malloc(sizeof(char *) * 4);
+	*oldpwd = (char **)malloc(sizeof(char *) * 4);
+	(*oldpwd)[0] = ft_strdup("OLDPWD");
+	(*oldpwd)[1] = ft_strdup("=");
+	(*oldpwd)[3] = NULL;
+	(*pwd)[0] = ft_strdup("PWD");
+	(*pwd)[1] = ft_strdup("=");
+	(*pwd)[3] = NULL;
+}
+
+void	changeenv(t_mini *mini, char *path, char ***oldpwd, char ***pwd)
+{
+	char	cwd[1028];
+
+	getcwd(cwd, 1028);
+	chdir(path);
+	(*oldpwd)[2] = ft_strdup(cwd);
+	if (ft_lstsearch(mini->myenv, "OLDPWD"))
+		edit_env(mini, *oldpwd);
+	else
+		add_env(mini, *oldpwd);
+	getcwd(cwd, 1028);
+	(*pwd)[2] = ft_strdup(cwd);
+	if (ft_lstsearch(mini->myenv, "PWD"))
+		edit_env(mini, *pwd);
+	else
+		add_env(mini, *pwd);
+}
+
 void	ft_cd(t_mini *mini)
 {
 	DIR		*dir;
+	char	**pwd;
+	char	**oldpwd;
 	int		i;
-	
+
 	i = 1;
+	init_splitted(&oldpwd, &pwd);
 	if (!mini->tab[i])
 	{
 		if (!ft_lstsearch(mini->myenv, "HOME"))
-			ft_putstr_fd("cd: HOME not set\n", 1);
+			error_env(mini, "HOME", "cd");
 		else
-			chdir(ft_lstsearch(mini->myenv, "HOME"));
+			changeenv(mini, ft_lstsearch(mini->myenv, "HOME"), &oldpwd, &pwd);
 	}
-	else if (mini->tab[i] && *mini->tab[i] == '-')
-		chdir(ft_lstsearch(mini->myenv, "OLDPWD"));
+	else if (!ft_strncmp(mini->tab[i], "-", ft_strlen(mini->tab[i])))
+	{
+		if (!ft_lstsearch(mini->myenv, "OLDPWD"))
+			error_env(mini, "OLDPWD", "cd");
+		else
+		{
+			changeenv(mini, ft_lstsearch(mini->myenv, "OLDPWD"), &oldpwd, &pwd);
+			ft_putstr_fd(pwd[2], 1);
+			ft_putstr_fd("\n", 1);
+		}
+	}
 	else
 	{
-		dir = opendir(mini->tab[i]);
+		dir = opendir(ft_strjoin(mini->tab[i], "/"));
 		if (dir)
 		{
 			closedir(dir);
-			chdir(mini->tab[i]);
+			changeenv(mini, mini->tab[i], &oldpwd, &pwd);
 		}
 		else
-		{
-			ft_putstr_fd("No such file or directory\n", 1);
-			mini->status = 1;
-			return ;
-		}
+			return (error_file(mini, mini->tab[i], "cd"));
 	}
+	mini->cmd_status = 0;
 }

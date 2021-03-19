@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 09:36:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/16 16:42:41 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/19 11:11:19 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	do_builtins(t_mini *mini)
 	if (!*mini->tab[0])
 		return ;
 	if (!(ft_strncmp(mini->tab[0], "echo", ft_strlen(mini->tab[0]))))
-		ft_echo(mini->tab, mini->status);
+		ft_echo(mini);
 	else if (!(ft_strncmp(mini->tab[0], "env", ft_strlen(mini->tab[0]))))
-		ft_env(mini->myenv);
+		ft_env(mini);
 	else if (!(ft_strncmp(mini->tab[0], "exit", ft_strlen(mini->tab[0]))))
 		ft_exit(mini);
 	else if (!(ft_strncmp(mini->tab[0], "pwd", ft_strlen(mini->tab[0]))))

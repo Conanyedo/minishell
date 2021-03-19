@@ -6,12 +6,11 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 18:24:43 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/14 15:15:20 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/19 14:49:27 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	init_env(char **env, t_env **myenv)
 {
@@ -19,9 +18,6 @@ void	init_env(char **env, t_env **myenv)
 	char	**splitted;
 	int		i;
 
-	*myenv = NULL;
-	list = NULL;
-	splitted = NULL;
 	*myenv = (t_env*)malloc(sizeof(t_env));
 	(*myenv)->next = NULL;
 	list = *myenv;
@@ -49,7 +45,7 @@ int		ft_listsize(t_env *env)
 {
 	t_env	*list;
 	int		i;
-	
+
 	i = 0;
 	list = NULL;
 	list = env;
@@ -86,7 +82,7 @@ void	ft_lsttoarray(t_env *env, char ***tab)
 	(*tab)[i] = NULL;
 }
 
-char	*ft_lstsearch(t_env	*env, char *key)
+char	*ft_lstsearch(t_env *env, char *key)
 {
 	t_env	*list;
 

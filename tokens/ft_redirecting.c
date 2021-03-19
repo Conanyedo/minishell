@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirecting.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:11:31 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/16 19:30:53 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/19 15:02:55 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ void	open_files(t_mini *mini, t_redir *redir, int status)
 	if (status == 1)
 		mini->fd = open(redir->tmpfile, O_CREAT | O_WRONLY, 0666);
 	else if (status == 2)
-		mini->fd = open(redir->tmpfile,O_CREAT | O_RDWR | O_APPEND, 0666);
+		mini->fd = open(redir->tmpfile, O_CREAT | O_RDWR | O_APPEND, 0666);
 	redir->end = redir->i;
 	redir->i--;
 }
 
-void case_left(t_redir *redir)
+void	case_left(t_redir *redir)
 {
 	int		len;
 	int		start;
@@ -50,7 +50,8 @@ void case_left(t_redir *redir)
 	while (redir->str[redir->i] == ' ')
 		redir->i++;
 	start = redir->i;
-	while (redir->str[redir->i] && redir->str[redir->i] != ' ' && redir->str[redir->i] != redir->dp)
+	while (redir->str[redir->i] && redir->str[redir->i] != ' '\
+		&& redir->str[redir->i] != redir->dp)
 	{
 		redir->i++;
 		len++;
@@ -63,7 +64,8 @@ void	redirect_right(t_mini *mini, t_redir *redir)
 {
 	while (redir->str[redir->i])
 	{
-		if (redir->str[redir->i] && (redir->str[redir->i] == '"' || redir->str[redir->i] == '\''))
+		if (redir->str[redir->i] && (redir->str[redir->i] == '"'
+			|| redir->str[redir->i] == '\''))
 		{
 			redir->dp = redir->str[redir->i++];
 			while (redir->str[redir->i] && redir->str[redir->i] != redir->dp)
@@ -80,7 +82,7 @@ void	redirect_right(t_mini *mini, t_redir *redir)
 		redir->i++;
 	}
 	if (redir->file)
-		mini->cmd_list->pipe->content = ft_strjoin(mini->cmd_list->pipe->content, redir->file);
+		mini->cmd->pipe->content = ft_strjoin(mini->cmd->pipe->content, redir->file);
 	if (mini->fd < 0)
-		error_file(redir->tmpfile, mini);
+		error_file(mini, redir->tmpfile, "");
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_pipes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 14:42:04 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/12 15:37:13 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/19 11:16:31 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	check_pipes(t_mini *mini, int i)
 {
 	if (mini->check.dbl_quota || mini->check.quota)
-		return;
+		return ;
 	if (i == 0)
 	{
 		if (mini->input[i + 1] && mini->input[i + 1] == '|')

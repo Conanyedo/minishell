@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/17 14:48:39 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/19 15:02:55 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	splitting(t_mini *mini)
 	splitted = NULL;
 	list = NULL;
 	pipelist = NULL;
-	mini->cmd_list = NULL;
-	mini->cmd_list = (t_cmd*)malloc(sizeof(t_cmd));
-	mini->cmd_list->next = NULL;
-	mini->cmd_list->pipe = NULL;
-	list = mini->cmd_list;
+	mini->cmd = NULL;
+	mini->cmd = (t_cmd*)malloc(sizeof(t_cmd));
+	mini->cmd->next = NULL;
+	mini->cmd->pipe = NULL;
+	list = mini->cmd;
 	while (mini->cmds[i])
 	{
 		list->content = ft_strtrim(mini->cmds[i], " \t");
@@ -65,29 +65,23 @@ char	**remove_dust(char **str)
 	int		t;
 	char	**cpy;
 
-	j = 0;
 	t = 0;
 	while (str[t])
 		t++;
 	cpy = (char**)malloc(sizeof(char*) * t + 1);
-	t = 0;
-	while (str[t])
+	t = -1;
+	while (str[++t])
 	{
 		cpy[t] = (char*)malloc(sizeof(char) * ft_strlen(str[t]) + 1);
-		i = 0;
+		i = -1;
 		j = 0;
-		while (str[t][i] != '\0')
-		{
+		while (str[t][++i] != '\0')
 			if (str[t][i] > 0)
 				cpy[t][j++] = str[t][i];
-			i++;
-		}
 		cpy[t][j] = '\0';
-		t++;
 	}
 	cpy[t] = NULL;
-	// ft_free(str);
-	return(cpy);
+	return (cpy);
 }
 
 void	check_all(t_mini *mini, int i, int idx)
@@ -95,9 +89,9 @@ void	check_all(t_mini *mini, int i, int idx)
 	if (i == 1)
 	{
 		if (mini->check.dbl_quota)
-			ft_error_end("\"",mini);
+			ft_error_end("\"", mini);
 		else if (mini->check.quota)
-			ft_error_end("'",mini);
+			ft_error_end("'", mini);
 		if (mini->check.right || mini->check.left)
 			error_symbols(mini, idx);
 	}
@@ -111,7 +105,7 @@ void	check_all(t_mini *mini, int i, int idx)
 char	check_slash(t_mini *mini, int i)
 {
 	if (mini->input[i + 1] && mini->input[i + 1] == '\\')
-		return('\\' * -1);
+		return ('\\' * -1);
 	else if (mini->check.dbl_quota)
 	{
 		if (mini->input[i + 1] == '"')
@@ -138,7 +132,7 @@ void	checker(t_mini *mini)
 	while (mini->input[i])
 	{
 		if (mini->status == 1)
-			break;
+			break ;
 		if (mini->input[i] == '\\' && mini->check.quota == 0)
 		{
 			mini->input[i] = check_slash(mini, i);
@@ -147,14 +141,15 @@ void	checker(t_mini *mini)
 		else if (mini->input[i] == ';')
 			check_point(mini, i);
 		else if (mini->input[i] == '|')
-			check_pipes(mini , i);
+			check_pipes(mini, i);
 		else if (mini->input[i] == '"')
 			check_bdl_quot(mini, i);
 		else if (mini->input[i] == '\'')
 			check_one_quot(mini, i);
 		else if (mini->input[i] == '<' || mini->input[i] == '>')
 			check_symbols(mini, i);
-		else if (ft_isprint(mini->input[i]) && mini->input[i] != ';' && mini->input[i] != ' ')
+		else if (ft_isprint(mini->input[i]) && mini->input[i] != ';'
+			&& mini->input[i] != ' ')
 		{
 			mini->check.point = 0;
 			mini->check.left = 0;
@@ -175,26 +170,8 @@ void	parse(t_mini *mini)
 	mini->input = ft_strtrim(mini->input, " \t");
 	checker(mini);
 	if (mini->status)
-		return;
+		return ;
 	mini->cmds = ft_strsplit(mini->input, ";", 1);
 	splitting(mini);
-	
-	// t_cmd	*list;
-	// t_pipe	*pipelist;
-	// list = NULL;
-	// pipelist = NULL;
-	// list = mini->cmd_list;
-	// while (list)
-	// {
-	// 	printf("|%s|\n", list->content);
-	// 	pipelist = list->pipe;
-	// 	while (pipelist)
-	// 	{
-	// 		printf("{%s}\n", pipelist->content);
-	// 		pipelist = pipelist->next;
-	// 	}
-	// 	list = list->next;
-	// }
-	mini->path_value = ft_lstsearch(mini->myenv, "PATH");
-	mini->paths = ft_split(mini->path_value, ':');
+	ft_free(mini->cmds);
 }

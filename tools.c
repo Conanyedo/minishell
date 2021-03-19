@@ -6,20 +6,11 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/17 14:54:56 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/19 14:55:04 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int		checksymbol(char *tab, int i)
-{
-	if (tab[i] == '?')
-		return (++i);
-	while (tab[i] && (ft_isalnum(tab[i]) || tab[i] == '_'))
-		i++;
-	return (i);
-}
 
 void	ft_free(char **arr)
 {
@@ -36,42 +27,66 @@ void	ft_free(char **arr)
 	arr = NULL;
 }
 
+void	git(char *tmp)
+{
+	int		fd;
+	DIR		*dir;
+
+	tmp = NULL;
+	dir = opendir(".git");
+	if (dir)
+	{
+		closedir(dir);
+		ft_putstr_fd("\033[1;36mgit:(", 1);
+		fd = open(".git/HEAD", O_RDONLY, 0666);
+		get_next_line(fd, &tmp);
+		tmp = ft_strdup(ft_strrchr(tmp, '/') + 1);
+		ft_putstr_fd("\033[1;31m", 1);
+		ft_putstr_fd(tmp, 1);
+		ft_putstr_fd("\033[1;36m) \033[0m", 1);
+		free(tmp);
+		close(fd);
+	}
+}
+
 void	prompt(t_mini *mini)
 {
-	char	buff[1028];
-	char	*ptr;
 	char	*tmp;
 
-	ptr = getcwd(buff, 1028);
+	tmp = getcwd(mini->buff, 1028);
 	tmp = NULL;
-	if (mini->status == 0)
-		ft_putstr_fd("\033[1;32m", 1);
+	if (mini->status)
+		mini->cmd_status = 258;
+	if (mini->status == 0 && mini->cmd_status == 0)
+		ft_putstr_fd("\033[1;32m➜  \033[1;34m", 1);
 	else
-		ft_putstr_fd("\033[1;31m", 1);
-	if (ptr == NULL)
+		ft_putstr_fd("\033[1;31m➜  \033[1;34m", 1);
+	if (tmp == NULL)
 		tmp = ft_strdup(ft_strrchr(ft_lstsearch(mini->myenv, "PWD"), '/') + 1);
 	else
 	{
-		if (!ft_strncmp(ptr, "/", ft_strlen(ptr)))
-			tmp = ft_strdup(ptr);
+		if (!ft_strncmp(tmp, "/", ft_strlen(tmp)))
+			tmp = ft_strdup(tmp);
 		else
-			tmp = ft_strdup(ft_strrchr(ptr, '/') + 1);
+			tmp = ft_strdup(ft_strrchr(tmp, '/') + 1);
 	}
-	ft_putstr_fd("➜  \033[1;34m", 1);//6
 	ft_putstr_fd(tmp, 1);
-	if (mini->status == 0)
-		ft_putstr_fd("\033[1;32m $>", 1);
-	else
-		ft_putstr_fd("\033[1;31m $>", 1);
-	ft_putstr_fd("\033[0m ", 1);
 	free(tmp);
+	ft_putstr_fd(" \033[0m", 1);
+	git(tmp);
 	mini->status = 0;
 }
 
-void    exec_cmd(t_mini *mini)
+void	exec_cmd(t_mini *mini)
 {
+	int		fd;
+
 	if (!ifexist(mini))
-		return (cmd_not_found(mini));
+	{
+		if ((fd = open(mini->tab[0], O_RDONLY)) < 0)
+			return (cmd_not_found(mini));
+	}
+	mini->cmd_status = 0;
 	ft_lsttoarray(mini->myenv, &mini->env_array);
 	mini->pid = fork();
 	if (mini->pid > 0)

@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:03:14 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/14 17:01:14 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/19 12:56:32 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**export_errors(t_mini *mini, char ***tmp, char *tab)
 	ft_putstr_fd("export: `", 1);
 	ft_putstr_fd(tab, 1);
 	ft_putstr_fd("\': not a valid identifier\n", 1);
-	mini->status = 1;
+	mini->cmd_status = 1;
 	ft_free(*tmp);
 	(*tmp) = NULL;
 	return (NULL);
@@ -70,20 +70,18 @@ void	print_export(t_mini *mini)
 	list = mini->myenv;
 	while (list)
 	{
-		if (ft_strncmp(list->key, "_", ft_strlen(list->key)))
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(list->key, 1);
+		if (*list->symbol)
 		{
-			ft_putstr_fd("declare -x ", 1);
-			ft_putstr_fd(list->key, 1);
-			if (*list->symbol)
-			{
-				ft_putstr_fd("=\"", 1);
-				ft_putstr_fd(list->value, 1);
-				ft_putstr_fd("\"", 1);
-			}
-			ft_putstr_fd("\n", 1);
+			ft_putstr_fd("=\"", 1);
+			ft_putstr_fd(list->value, 1);
+			ft_putstr_fd("\"", 1);
 		}
+		ft_putstr_fd("\n", 1);
 		list = list->next;
 	}
+	mini->cmd_status = 0;
 	return ;
 }
 
@@ -150,4 +148,5 @@ void	ft_export(t_mini *mini)
 		ft_free(splitted);
 		i++;
 	}
+	mini->cmd_status = 0;
 }
