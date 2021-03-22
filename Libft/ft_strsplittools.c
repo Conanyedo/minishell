@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 11:29:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/19 12:15:02 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/19 17:32:21 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	loop(char **s, char *token, int *dq, char *q)
 {
 	while (**s && !exist(token, **s) && *dq == 0)
 	{
-		if (**s < 0)
+		if (**s < 0 && **s != -92)
 		{
 			*q = **s;
 			*dq = 1;
@@ -42,7 +42,7 @@ void	loop(char **s, char *token, int *dq, char *q)
 
 void	skipping(char **s, char *token, int *words, char *q)
 {
-	int	dq;
+	int		dq;
 
 	dq = 0;
 	loop(s, token, &dq, q);
@@ -60,5 +60,5 @@ void	skipping(char **s, char *token, int *words, char *q)
 		dq = 0;
 		(*s)++;
 	}
-	*words = (!**s && !exist(token, **s--)) ? (*words + 1) : *words;
+	*words = (!**s && !exist(token, *(*s - 1))) ? (*words + 1) : *words;
 }

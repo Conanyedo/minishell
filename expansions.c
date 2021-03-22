@@ -6,11 +6,33 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:50:08 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/19 15:02:55 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/21 13:35:01 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	tilde(t_mini *mini)
+{
+	int		i;
+
+	i = 0;
+	mini->tmp = NULL;
+	while (mini->tab[i])
+	{
+		if (mini->tab[i][0] == '~' && (mini->tab[i][1] == '/'
+			|| !mini->tab[i][1]))
+		{
+			mini->tmp = ft_strjoin(ft_lstsearch(mini->myenv, "HOME"),
+				mini->tab[i] + 1);
+			free(mini->tab[i]);
+			mini->tab[i] = ft_strdup(mini->tmp);
+			free(mini->tmp);
+			mini->tmp = NULL;
+		}
+		i++;
+	}
+}
 
 int		checksymbol(char *tab, int i)
 {
@@ -23,12 +45,14 @@ int		checksymbol(char *tab, int i)
 	return (i);
 }
 
-void	dollar(t_mini *mini, int i, char **tmp)
+void	dollar(t_mini *mini, t_pipe *pipe, int i, char **tmp)
 {
 	char	*value;
+	char	join[2];
+	char	*temp;
 
-	value = ft_substr(mini->cmd->pipe->content, i,\
-		checksymbol(mini->cmd->pipe->content, i + 1) - i);
+	value = ft_substr(pipe->content, i,\
+		checksymbol(pipe->content, i + 1) - i);
 	if (!ft_strncmp(value, "$", ft_strlen(value)))
 	{
 		*tmp = ft_strdup("$");
@@ -41,9 +65,16 @@ void	dollar(t_mini *mini, int i, char **tmp)
 		*tmp = ft_strdup(ft_lstsearch(mini->myenv, value));
 	else
 		*tmp = ft_strdup("");
+	join[0] = '"' * -1;
+	join[1] = '\0';
+	temp = ft_strjoin(join, *tmp);
+	free(*tmp);
+	*tmp = ft_strjoin(temp, join);
+	free(temp);
+	
 }
 
-void	expansions(t_mini *mini)
+void	expansions(t_mini *mini, t_pipe *pipe)
 {
 	int		i;
 	char	s;
@@ -51,7 +82,7 @@ void	expansions(t_mini *mini)
 
 	i = 0;
 	s = 0;
-	mini->tmp = mini->cmd->pipe->content;
+	mini->tmp = pipe->content;
 	mini->temp = ft_strdup("");
 	while (mini->tmp[i])
 	{
@@ -59,15 +90,15 @@ void	expansions(t_mini *mini)
 			s = 0;
 		else if (mini->tmp[i] < 0)
 			s = mini->tmp[i] * -1;
-		if (mini->tmp[i] == '$' && mini->tmp[i + 1] && s != '\'')
-			dollar(mini, i, &tmp);
+		if (mini->tmp[i] == '$' && mini->tmp[i + 1] && s != '\'' && mini->tmp[i - 1] != 1)
+			dollar(mini, pipe, i, &tmp);
 		else
 			tmp = ft_substr(mini->tmp, i, checksymbol(mini->tmp, i + 1) - i);
 		i = checksymbol(mini->tmp, i + 1);
 		mini->temp = ft_strjoin(mini->temp, tmp);
 		free(tmp);
 	}
-	free(mini->cmd->pipe->content);
-	mini->cmd->pipe->content = ft_strdup(mini->temp);
+	free(pipe->content);
+	pipe->content = ft_strdup(mini->temp);
 	free(mini->temp);
 }

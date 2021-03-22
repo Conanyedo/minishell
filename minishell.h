@@ -6,13 +6,15 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/19 15:02:55 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/22 16:02:42 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Libft/libft.h"
 #include <sys/types.h>
 #include <dirent.h>
+#include <signal.h>
+#include <sys/stat.h>
 
 typedef struct		s_pipe
 {
@@ -70,6 +72,7 @@ typedef struct		s_mini
 	t_checkers		check;
 	t_env			*myenv;
 	t_cmd			*cmd;
+	struct stat		stats;
 	char			*cmd_exist;
 	char			**env_array;
 	char			**tab;
@@ -81,10 +84,14 @@ typedef struct		s_mini
 	char			*path_value;
 	int				pid;
 	int				fd;
+	int				r;
+	int				plus;
 	char			*tmp;
 	char			*temp;
 	char			buff[1028];
 }					t_mini;
+
+t_mini	*g_mini;
 
 void				prompt(t_mini *mini);
 void				execution(t_mini *mini);
@@ -94,8 +101,9 @@ void				do_builtins(t_mini *mini);
 int					checksymbol(char *tab, int i);
 int					checkquotes(char *tab, int i, char *q);
 void				trimming(t_mini *mini);
-void				dollar(t_mini *mini, int i, char **tmp);
-void				expansions(t_mini *mini);
+void				dollar(t_mini *mini, t_pipe *pipe, int i, char **tmp);
+void				tilde(t_mini *mini);
+void				expansions(t_mini *mini, t_pipe *pipe);
 int					ifexist(t_mini *mini);
 
 //linkedlist
@@ -120,8 +128,6 @@ void				error_symbols(t_mini *mini, int nb);
 void				check_pipes(t_mini *mini, int i);
 void				error_pips(t_mini *mini, int res);
 void				check_all(t_mini *mini, int i, int idx);
-void    			check_redirec(t_mini *mini);
-void				redirect_right(t_mini *mini, t_redir *redir);
 char				**remove_dust(char **str);
 
 // Builtins
@@ -142,3 +148,5 @@ void				edit_env(t_mini *mini, char **splitted);
 void				cmd_not_found(t_mini *mini);
 void				error_file(t_mini *mini, char *file, char *cmd);
 void				error_env(t_mini *mini, char *env, char *cmd);
+void				is_directory(t_mini *mini);
+void				permission(t_mini *mini);

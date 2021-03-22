@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:50:39 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/19 12:31:12 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/19 17:36:44 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,6 @@ void	ft_cd(t_mini *mini)
 			return (error_file(mini, mini->tab[i], "cd"));
 	}
 	mini->cmd_status = 0;
+	ft_free(pwd);
+	ft_free(oldpwd);
 }

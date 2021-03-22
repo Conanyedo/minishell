@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 10:30:50 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/19 12:15:16 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/19 17:31:02 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int		words_len(char *s, char *token, int skip)
 	db = 0;
 	while (s[++i])
 	{
-		if (s[i] < 0)
+		if (s[i] < 0 && s[i] != -92)
 			q = s[i];
 		if (s[i] == q && skip)
 			db = (db == 0) ? 1 : 0;

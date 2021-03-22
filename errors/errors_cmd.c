@@ -6,11 +6,27 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 12:36:19 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/19 12:18:24 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/21 12:28:53 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	is_directory(t_mini *mini)
+{
+	mini->cmd_status = 126;
+	ft_putstr_fd("minishell: ", 1);
+	ft_putstr_fd(mini->tab[0], 1);
+	ft_putstr_fd(": is a directory\n", 1);
+}
+
+void	permission(t_mini *mini)
+{
+	mini->cmd_status = 126;
+	ft_putstr_fd("minishell: ", 1);
+	ft_putstr_fd(mini->tab[0], 1);
+	ft_putstr_fd(": Permission denied\n", 1);
+}
 
 void	cmd_not_found(t_mini *mini)
 {
