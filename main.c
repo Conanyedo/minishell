@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/22 17:20:08 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/22 18:01:14 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	commands(t_mini *mini)
 		do_builtins(mini);
 	else
 		exec_cmd(mini);
-	if (mini->fd > 1)
-		close(mini->fd);
+	if (mini->fd[0] > 1)
+		close(mini->fd[0]);
 }
 
 void	execution(t_mini *mini)
@@ -67,7 +67,7 @@ void	execution(t_mini *mini)
 		while (pipe)
 		{
 			expansions(mini, pipe);
-			// check_redirec(mini);
+			redir(mini, 0);
 			mini->tab = ft_strsplit(pipe->content, " ", 1);
 			tilde(mini);
 			mini->tab = remove_dust(mini->tab);

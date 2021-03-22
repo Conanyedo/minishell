@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/22 16:28:47 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/22 17:57:03 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,30 @@ void	exec_cmd(t_mini *mini)
 	}
 	else
 		execve(mini->tab[0], mini->tab, mini->env_array);
+}
+
+char	**remove_dust(char **str)
+{
+	int		i;
+	int		j;
+	int		t;
+	char	**cpy;
+
+	t = 0;
+	while (str[t])
+		t++;
+	cpy = (char**)malloc(sizeof(char*) * t + 1);
+	t = -1;
+	while (str[++t])
+	{
+		cpy[t] = (char*)malloc(sizeof(char) * ft_strlen(str[t]) + 1);
+		i = -1;
+		j = 0;
+		while (str[t][++i] != '\0')
+			if (str[t][i] > 0)
+				cpy[t][j++] = str[t][i];
+		cpy[t][j] = '\0';
+	}
+	cpy[t] = NULL;
+	return (cpy);
 }
