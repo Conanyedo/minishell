@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/19 15:02:55 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/22 15:49:35 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ void	execution(t_mini *mini)
 		while (mini->cmd->pipe)
 		{
 			expansions(mini);
-			check_redirec(mini);
+			redir(mini, 0);
 			mini->tab = ft_strsplit(mini->cmd->pipe->content, " ", 1);
 			mini->tab = remove_dust(mini->tab);
-			if (is_builtins(mini))
+			if (is_builtins(mini) && mini->redir.len != -1)
 				do_builtins(mini);
-			else
+			else if (mini->redir.len != -1)
 				exec_cmd(mini);
-			if (mini->fd > 1)
-				close(mini->fd);
-			// ft_free(mini->tab);
+			if (mini->fd[0] > 1)
+				close(mini->fd[0]);
+			ft_free(mini->tab);
 			mini->tab = NULL;
 			mini->cmd->pipe = mini->cmd->pipe->next;
 		}

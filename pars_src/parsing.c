@@ -3,124 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/19 15:02:55 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/22 10:40:18 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void	split_pipe(t_mini *mini, t_cmd **cmd, int i)
+{
+	t_pipe	*pipe;
+	int		j;
+
+	pipe = NULL;
+	(*cmd)->content = ft_strtrim(mini->cmds[i], " \t");
+	mini->tab = ft_strsplit((*cmd)->content, "|", 1);
+	(*cmd)->pipe = NULL;
+	(*cmd)->pipe = (t_pipe*)malloc(sizeof(t_pipe));
+	(*cmd)->pipe->next = NULL;
+	pipe = (*cmd)->pipe;
+	j = -1;
+	while (mini->tab[++j])
+	{
+		pipe->content = ft_strtrim(mini->tab[j], " \t");
+		if (!mini->tab[j + 1])
+			break ;
+		pipe->next = (t_pipe*)malloc(sizeof(t_pipe));
+		pipe = pipe->next;
+	}
+	pipe->next = NULL;
+	ft_free(mini->tab);
+	mini->tab = NULL;
+}
+
 void	splitting(t_mini *mini)
 {
 	int		i;
-	int		j;
-	char	**splitted;
-	t_cmd	*list;
-	t_pipe	*pipelist;
+	t_cmd	*cmd;
 
-	i = 0;
-	splitted = NULL;
-	list = NULL;
-	pipelist = NULL;
+	i = -1;
+	mini->tab = NULL;
+	cmd = NULL;
 	mini->cmd = NULL;
 	mini->cmd = (t_cmd*)malloc(sizeof(t_cmd));
 	mini->cmd->next = NULL;
 	mini->cmd->pipe = NULL;
-	list = mini->cmd;
-	while (mini->cmds[i])
+	cmd = mini->cmd;
+	while (mini->cmds[++i])
 	{
-		list->content = ft_strtrim(mini->cmds[i], " \t");
-		splitted = ft_strsplit(list->content, "|", 1);
-		list->pipe = NULL;
-		list->pipe = (t_pipe*)malloc(sizeof(t_pipe));
-		list->pipe->next = NULL;
-		pipelist = list->pipe;
-		j = 0;
-		while (splitted[j])
-		{
-			pipelist->content = ft_strtrim(splitted[j], " \t");
-			if (!splitted[j + 1])
-				break ;
-			pipelist->next = (t_pipe*)malloc(sizeof(t_pipe));
-			pipelist = pipelist->next;
-			j++;
-		}
-		pipelist->next = NULL;
-		ft_free(splitted);
+		split_pipe(mini, &cmd, i);
 		if (!mini->cmds[i + 1])
 			break ;
-		list->next = (t_cmd*)malloc(sizeof(t_cmd));
-		list = list->next;
-		i++;
+		cmd->next = (t_cmd*)malloc(sizeof(t_cmd));
+		cmd = cmd->next;
 	}
-	list->next = NULL;
+	cmd->next = NULL;
+	ft_free(mini->cmds);
+	mini->cmds = NULL;
 }
 
-char	**remove_dust(char **str)
+int		loop_check(t_mini *mini, int i)
 {
-	int		i;
-	int		j;
-	int		t;
-	char	**cpy;
-
-	t = 0;
-	while (str[t])
-		t++;
-	cpy = (char**)malloc(sizeof(char*) * t + 1);
-	t = -1;
-	while (str[++t])
+	if (mini->input[i] == '\\' && mini->check.quota == 0)
 	{
-		cpy[t] = (char*)malloc(sizeof(char) * ft_strlen(str[t]) + 1);
-		i = -1;
-		j = 0;
-		while (str[t][++i] != '\0')
-			if (str[t][i] > 0)
-				cpy[t][j++] = str[t][i];
-		cpy[t][j] = '\0';
+		mini->input[i] = check_slash(mini, i);
+		++i;
 	}
-	cpy[t] = NULL;
-	return (cpy);
-}
-
-void	check_all(t_mini *mini, int i, int idx)
-{
-	if (i == 1)
-	{
-		if (mini->check.dbl_quota)
-			ft_error_end("\"", mini);
-		else if (mini->check.quota)
-			ft_error_end("'", mini);
-		if (mini->check.right || mini->check.left)
-			error_symbols(mini, idx);
-	}
-	else
-	{
-		if (mini->check.left > 3 || mini->check.left > 2)
-			error_symbols(mini, idx);
-	}
-}
-
-char	check_slash(t_mini *mini, int i)
-{
-	if (mini->input[i + 1] && mini->input[i + 1] == '\\')
-		return ('\\' * -1);
-	else if (mini->check.dbl_quota)
-	{
-		if (mini->input[i + 1] == '"')
-			return (mini->input[i] * -1);
-		else if (mini->input[i + 1] == '\'')
-			return (mini->input[i]);
-	}
-	else if (mini->check.quota)
-	{
-		if (mini->input[i + 1] == '"')
-			return (mini->input[i]);
-		else if (mini->input[i + 1] == '\'')
-			return (mini->input[i] * -1);
-	}
-	return (mini->input[i] * -1);
+	else if (mini->input[i] == ';')
+		check_point(mini, i);
+	else if (mini->input[i] == '|')
+		check_pipes(mini, i);
+	else if (mini->input[i] == '"')
+		check_bdl_quot(mini, i);
+	else if (mini->input[i] == '\'')
+		check_one_quot(mini, i);
+	else if (mini->input[i] == '<' || mini->input[i] == '>')
+		check_symbols(mini, i);
+	return (i);
 }
 
 void	checker(t_mini *mini)
@@ -131,24 +92,11 @@ void	checker(t_mini *mini)
 	mini->check = (t_checkers) {0};
 	while (mini->input[i])
 	{
-		if (mini->status == 1)
+		if (mini->status)
 			break ;
-		if (mini->input[i] == '\\' && mini->check.quota == 0)
-		{
-			mini->input[i] = check_slash(mini, i);
-			i++;
-		}
-		else if (mini->input[i] == ';')
-			check_point(mini, i);
-		else if (mini->input[i] == '|')
-			check_pipes(mini, i);
-		else if (mini->input[i] == '"')
-			check_bdl_quot(mini, i);
-		else if (mini->input[i] == '\'')
-			check_one_quot(mini, i);
-		else if (mini->input[i] == '<' || mini->input[i] == '>')
-			check_symbols(mini, i);
-		else if (ft_isprint(mini->input[i]) && mini->input[i] != ';'
+		if (!ft_isalnum(mini->input[i]))
+			i = loop_check(mini, i);
+		else if (ft_isalnum(mini->input[i]) && mini->input[i] != ';'\
 			&& mini->input[i] != ' ')
 		{
 			mini->check.point = 0;
@@ -161,8 +109,7 @@ void	checker(t_mini *mini)
 			check_all(mini, 0, i);
 		i++;
 	}
-	if (mini->status == 0)
-		check_all(mini, 1, i);
+	(mini->status == 0) ? check_all(mini, 1, i) : (void)0;
 }
 
 void	parse(t_mini *mini)
@@ -173,5 +120,4 @@ void	parse(t_mini *mini)
 		return ;
 	mini->cmds = ft_strsplit(mini->input, ";", 1);
 	splitting(mini);
-	ft_free(mini->cmds);
 }
