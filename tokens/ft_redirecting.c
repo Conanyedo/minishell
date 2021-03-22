@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:11:31 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/22 18:09:43 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/22 18:16:35 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ int		redir_right(t_mini *mini, int i)
 	mini->redir.tmpfile[mini->redir.len] = '\0';
 	if (mini->redir.opn)
 		mini->redir.fd[0] = open(mini->redir.tmpfile,\
-			O_CREAT | O_WRONLY | O_APPEND);
+			O_CREAT | O_RDWR | O_APPEND, 0666);
 	else
 		mini->redir.fd[0] = open(mini->redir.tmpfile,\
-			O_CREAT | O_WRONLY | O_TRUNC);
+			O_CREAT | O_RDWR | O_TRUNC, 0666);
 	return (i);
 }
 
