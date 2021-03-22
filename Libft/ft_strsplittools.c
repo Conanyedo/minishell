@@ -3,62 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplittools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 11:29:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/19 12:15:02 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/21 18:08:47 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		exist(char *s, char c)
+int		exist(t_var *var)
 {
 	int		i;
 
 	i = 0;
-	while (s[i])
+	var->pr = var->s[var->i - 1];
+	while (var->token[i])
 	{
-		if (s[i] == c)
+		if (var->token[i] == var->s[var->i] && var->pr > 0)
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-void	loop(char **s, char *token, int *dq, char *q)
+void	loop(t_var *var)
 {
-	while (**s && !exist(token, **s) && *dq == 0)
+	while (var->s[var->i] && !exist(var) && var->dq == 0)
 	{
-		if (**s < 0)
+		if (var->s[var->i] < 0 && var->s[var->i] != -92)
 		{
-			*q = **s;
-			*dq = 1;
+			var->q = var->s[var->i];
+			var->dq = 1;
 		}
 		else
-			(*s)++;
+			var->i++;
 	}
 }
 
-void	skipping(char **s, char *token, int *words, char *q)
+void	skipping(t_var *var)
 {
-	int	dq;
-
-	dq = 0;
-	loop(s, token, &dq, q);
-	if (exist(token, **s) && !dq)
+	loop(var);
+	if (exist(var) && !var->dq)
 	{
-		*words = *words + 1;
-		while (**s && exist(token, **s))
-			(*s)++;
+		var->words++;
+		while (var->s[var->i] && exist(var))
+			var->i++;
 	}
-	else if (**s && **s == *q && dq == 1)
+	else if (var->s[var->i] && var->s[var->i] == var->q && var->dq == 1)
 	{
-		(*s)++;
-		while (**s && **s != *q)
-			(*s)++;
-		dq = 0;
-		(*s)++;
+		var->i++;
+		while (var->s[var->i] && var->s[var->i] != var->q)
+			var->i++;
+		var->dq = 0;
+		var->i++;
 	}
-	*words = (!**s && !exist(token, **s--)) ? (*words + 1) : *words;
+	if (!var->s[var->i])
+	{
+		var->end = 1;
+		var->i--;
+	}
+	var->words = (var->end && !exist(var)) ? var->words + 1 : var->words;
+	var->i += (var->end) ? 1 : 0;
 }

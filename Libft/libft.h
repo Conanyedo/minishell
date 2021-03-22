@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 22:28:11 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/19 12:14:23 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/21 17:45:55 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,20 @@ int					ft_memcmp(const void *s1, const void *s2, size_t n);
 void				*ft_calloc(size_t count, size_t size);
 char				*ft_strdup(const char *s1);
 
+typedef struct		s_var
+{
+	int				i;
+	char			*s;
+	char			*token;
+	char			pr;
+	int				skip;
+	int				words;
+	char			**splt;
+	char			dq;
+	char			q;
+	int				end;
+}					t_var;
+
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
@@ -51,8 +65,8 @@ char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(char const *s1, char const *set);
 char				**ft_split(char const *s, char c);
 char				**ft_strsplit(char *s, char *c, int skip);
-int					exist(char *s, char c);
-void				skipping(char **s, char *token, int *words, char *q);
+int					exist(t_var *var);
+void				skipping(t_var *var);
 char				*ft_itoa(int n);
 char				*ft_strmapi(char const *s, char (*f) (unsigned int, char));
 
@@ -61,6 +75,7 @@ typedef struct		s_list
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
 
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **alst, t_list *new);

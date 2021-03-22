@@ -3,114 +3,115 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 10:30:50 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/19 12:15:16 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/21 18:09:12 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		count_words(char *s, char *token, int skip)
+static void		count_words(t_var *var)
 {
-	int		words;
-	char	q;
-
-	words = 0;
-	q = 0;
-	while (*s)
+	while (var->s[var->i])
 	{
-		if (skip == 0)
+		if (var->skip == 0)
 		{
-			while (*s && !exist(token, *s))
-				s++;
-			words++;
-			while (*s && exist(token, *s))
-				s++;
+			while (var->s[var->i] && !exist(var))
+				var->i++;
+			var->words++;
+			while (var->s[var->i] && exist(var))
+				var->i++;
 		}
 		else
-			skipping(&s, token, &words, &q);
+			skipping(var);
 	}
-	return (words);
 }
 
-static int		words_len(char *s, char *token, int skip)
+static int		words_len(t_var *var, int len)
 {
-	int		i;
-	char	q;
-	int		db;
-
-	i = -1;
-	q = 0;
-	db = 0;
-	while (s[++i])
+	while (var->s[var->i])
 	{
-		if (s[i] < 0)
-			q = s[i];
-		if (s[i] == q && skip)
-			db = (db == 0) ? 1 : 0;
-		if (exist(token, s[i]) && !db)
-			return (i);
-		else if (s[i] && s[i] != q && db && skip)
+		if (var->s[var->i] < 0 && var->s[var->i] != -92)
+			var->q = var->s[var->i];
+		if (var->s[var->i] == var->q && var->skip)
+			var->dq = (var->dq == 0) ? 1 : 0;
+		if (exist(var) && !var->dq)
+			return (len);
+		else if (var->s[var->i] && var->s[var->i] != var->q && var->dq && var->skip)
 		{
-			i++;
-			while (s[i] && s[i] != q)
-				i++;
-			db = 0;
+			var->i++;
+			len++;
+			while (var->s[var->i] && var->s[var->i] != var->q)
+			{
+				len++;
+				var->i++;
+			}
+			var->dq = 0;
 		}
+		var->i++;
+		len++;
 	}
-	return (i);
+	return (len);
 }
 
-static void		*leak(char **splitted, int words)
+static void		*leak(t_var *var)
 {
 	int	i;
 
 	i = 0;
-	while (i < words)
+	while (i < var->words)
 	{
-		free(splitted[i]);
+		free(var->splt[i]);
 		i++;
 	}
-	free(splitted);
+	free(var->splt);
 	return (NULL);
 }
 
-static char		**fill(char *s, int words, char *c, int skip)
+static char		**fill(t_var *var)
 {
 	int		i;
 	int		j;
+	int		old_i;
 	int		len;
-	char	**splitted;
+	
 
+	var->i = 0;
 	i = -1;
-	if (!(splitted = (char **)malloc(sizeof(char *) * (words + 1))))
+	old_i = 0;
+	if (!(var->splt = (char **)malloc(sizeof(char *) * (var->words + 1))))
 		return (NULL);
-	while (++i < words)
+	while (++i < var->words)
 	{
-		while (exist(c, *s))
-			s++;
-		len = words_len(s, c, skip);
-		if (!(splitted[i] = (char *)malloc(sizeof(char) * (len + 1))))
-			return (leak(splitted, i));
+		var->i = old_i;
+		while (exist(var))
+			var->i++;
+		old_i = var->i;
+		len = words_len(var, 0);
+		if (!(var->splt[i] = (char *)malloc(sizeof(char) * (len + 1))))
+			return (leak(var));
 		j = 0;
 		while (j < len)
-			splitted[i][j++] = *s++;
-		splitted[i][j] = '\0';
+			var->splt[i][j++] = var->s[old_i++];
+		var->splt[i][j] = '\0';
 	}
-	splitted[i] = NULL;
-	return (splitted);
+	var->splt[i] = NULL;
+	return (var->splt);
 }
 
 char			**ft_strsplit(char *s, char *c, int skip)
 {
-	char	**splitted;
-	int		words;
+	t_var	var;
 
 	if (!s)
 		return (NULL);
-	words = count_words(s, c, skip);
-	splitted = fill(s, words, c, skip);
-	return (splitted);
+	var = (t_var) {0};
+	var.s = s;
+	var.token = c;
+	var.skip = skip;
+	count_words(&var);
+	fill(&var);
+	return (var.splt);
 }

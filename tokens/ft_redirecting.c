@@ -3,86 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirecting.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:11:31 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/19 15:02:55 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/22 15:51:05 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	open_files(t_mini *mini, t_redir *redir, int status)
+int		redir_right(t_mini *mini, int i)
 {
-	int		len;
-
-	if (mini->fd > 1)
-		close(mini->fd);
-	if (redir->start == 0)
-		redir->start = redir->i;
-	redir->i += status;
-	while (redir->str[redir->i] == ' ')
-		redir->i++;
-	len = 0;
-	while (redir->str[redir->i] && redir->str[redir->i] != ' ' &&\
-		redir->str[redir->i] != '>' && redir->str[redir->i] != '<')
-	{
-		redir->i++;
-		len++;
-	}
-	redir->tmpfile = (char*)malloc(sizeof(char) * len + 1);
-	ft_strlcpy(redir->tmpfile, redir->str + (redir->i - len), len + 1);
-	if (status == 1)
-		mini->fd = open(redir->tmpfile, O_CREAT | O_WRONLY, 0666);
-	else if (status == 2)
-		mini->fd = open(redir->tmpfile, O_CREAT | O_RDWR | O_APPEND, 0666);
-	redir->end = redir->i;
-	redir->i--;
+	(mini->redir.fd[0]) ? close(mini->redir.fd[0]) : (void)0;
+	mini->redir.opn = (mini->redir.str[i + 1] == '>') ? 1 : 0;
+	while (mini->redir.str[i] == '>')
+		i++;
+	while (mini->redir.len > 0)
+		mini->redir.tmpfile[mini->redir.len--] = '\0';
+	while (mini->redir.str[i] == ' ')
+		i++;
+	while (ft_isalnum(mini->redir.str[i]) || mini->redir.str[i] < 0)
+		(mini->redir.str[i] > 0) ? mini->redir.tmpfile[mini->redir.len++] =\
+			mini->redir.str[i++] : i++;
+	mini->redir.tmpfile[mini->redir.len] = '\0';
+	if (mini->redir.opn)
+		mini->redir.fd[0] = open(mini->redir.tmpfile,\
+			O_CREAT | O_WRONLY | O_APPEND);
+	else
+		mini->redir.fd[0] = open(mini->redir.tmpfile,\
+			O_CREAT | O_WRONLY | O_TRUNC);
+	return (i);
 }
 
-void	case_left(t_redir *redir)
+int		redir_left(t_mini *mini, int i)
 {
-	int		len;
-	int		start;
-
-	len = 0;
-	redir->i++;
-	while (redir->str[redir->i] == ' ')
-		redir->i++;
-	start = redir->i;
-	while (redir->str[redir->i] && redir->str[redir->i] != ' '\
-		&& redir->str[redir->i] != redir->dp)
+	(mini->redir.fd[1]) ? close(mini->redir.fd[1]) : (void)0;
+	i++;
+	while (mini->redir.len > 0)
+		mini->redir.file[mini->redir.len--] = '\0';
+	while (mini->redir.str[i] == ' ')
+		i++;
+	while (ft_isalnum(mini->redir.str[i]) || mini->redir.str[i] < 0)
+		(mini->redir.str[i] > 0) ? mini->redir.file[mini->redir.len++] =\
+			mini->redir.str[i++] : i++;
+	mini->redir.file[mini->redir.len] = '\0';
+	mini->redir.fd[1] = open(mini->redir.file, O_RDONLY);
+	if (mini->redir.fd[1] < 0)
 	{
-		redir->i++;
-		len++;
+		mini->redir.len = -1;
+		error_file(mini, mini->redir.file, "");
+		return (i);
 	}
-	redir->file = ft_substr(redir->str, start, len + 1);
-	redir->file = ft_strjoin(" ", redir->file);
+	return (i);
 }
 
-void	redirect_right(t_mini *mini, t_redir *redir)
+void	redir(t_mini *mini, int i)
 {
-	while (redir->str[redir->i])
-	{
-		if (redir->str[redir->i] && (redir->str[redir->i] == '"'
-			|| redir->str[redir->i] == '\''))
-		{
-			redir->dp = redir->str[redir->i++];
-			while (redir->str[redir->i] && redir->str[redir->i] != redir->dp)
-				redir->i++;
-		}
-		else if (redir->str[redir->i + 1] && redir->str[redir->i] == '>'\
-			&& redir->str[redir->i + 1] != '>')
-			open_files(mini, redir, 1);
-		else if (redir->str[redir->i + 1] && redir->str[redir->i] == '>'\
-			&& redir->str[redir->i + 1] == '>')
-			open_files(mini, redir, 2);
-		else if (redir->str[redir->i] == '<')
-			case_left(redir);
-		redir->i++;
-	}
-	if (redir->file)
-		mini->cmd->pipe->content = ft_strjoin(mini->cmd->pipe->content, redir->file);
-	if (mini->fd < 0)
-		error_file(mini, redir->tmpfile, "");
+	int		idx;
+
+	mini->redir = (t_redir) {0};
+	if (!ft_strchr(mini->cmd->pipe->content, '>') &&\
+		!ft_strchr(mini->cmd->pipe->content, '<'))
+		return ;
+	mini->redir.str = mini->cmd->pipe->content;
+	mini->redir.tmpstr = (char*)malloc(sizeof(char) *\
+		ft_strlen(mini->redir.str));
+	mini->redir.file = (char*)malloc(sizeof(char) * ft_strlen(mini->redir.str));
+	mini->redir.tmpfile = (char*)malloc(sizeof(char) *\
+		ft_strlen(mini->redir.str));
+	idx = i;
+	while (mini->redir.str[i] && !mini->cmd_status)
+		if (mini->redir.str[i] == '>')
+			i = redir_right(mini, i);
+		else if (mini->redir.str[i] == '<')
+			i = redir_left(mini, i);
+		else
+			mini->redir.tmpstr[idx++] = mini->redir.str[i++];
+	mini->redir.tmpstr[idx] = '\0';
+	free(mini->cmd->pipe->content);
+	mini->cmd->pipe->content = mini->redir.tmpstr;
+	mini->fd[0] = mini->redir.fd[0];
+	mini->fd[1] = mini->redir.fd[1];
 }

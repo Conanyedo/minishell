@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/19 15:02:55 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/22 15:35:46 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,14 @@ typedef struct		s_env
 
 typedef	struct		s_redir
 {
-	int				i;
-	char			dp;
-	int				start;
-	int				end;
 	char			*tmpfile;
+	char			*tmpstr;
 	char			*file;
 	char			*str;
+	int				fd[2];
+	int				len;
+	int				opn;
 }					t_redir;
-
 
 typedef struct	s_checkers
 {
@@ -70,6 +69,7 @@ typedef struct		s_mini
 	t_checkers		check;
 	t_env			*myenv;
 	t_cmd			*cmd;
+	t_redir			redir;
 	char			*cmd_exist;
 	char			**env_array;
 	char			**tab;
@@ -80,7 +80,7 @@ typedef struct		s_mini
 	char			**paths;
 	char			*path_value;
 	int				pid;
-	int				fd;
+	int				fd[2];
 	char			*tmp;
 	char			*temp;
 	char			buff[1028];
@@ -119,9 +119,9 @@ void				error_newline(t_mini *mini, int i);
 void				error_symbols(t_mini *mini, int nb);
 void				check_pipes(t_mini *mini, int i);
 void				error_pips(t_mini *mini, int res);
+char				check_slash(t_mini *mini, int i);
 void				check_all(t_mini *mini, int i, int idx);
-void    			check_redirec(t_mini *mini);
-void				redirect_right(t_mini *mini, t_redir *redir);
+void    			redir(t_mini *mini, int i);
 char				**remove_dust(char **str);
 
 // Builtins

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_quotation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:59:58 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/19 11:17:49 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/21 18:15:28 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,45 @@ void	check_one_quot(t_mini *mini, int i)
 	else if (mini->check.quota == 0)
 		mini->check.quota = 1;
 	mini->input[i] *= -1;
+}
+
+char	check_slash(t_mini *mini, int i)
+{
+	if (mini->input[i + 1] && mini->input[i + 1] == '\\')
+		return ('\\' * -1);
+	else if (mini->input[i + 1] && mini->input[i + 1] == '$')
+		return (1);
+	else if (mini->check.dbl_quota)
+	{
+		if (mini->input[i + 1] == '"')
+			return (mini->input[i] * -1);
+		else
+			return (mini->input[i]);
+	}
+	else if (mini->check.quota)
+	{
+		if (mini->input[i + 1] == '"')
+			return (mini->input[i]);
+		else if (mini->input[i + 1] == '\'')
+			return (mini->input[i] * -1);
+	}
+	return (mini->input[i] * -1);
+}
+
+void	check_all(t_mini *mini, int i, int idx)
+{
+	if (i == 1)
+	{
+		if (mini->check.dbl_quota)
+			ft_error_end("\"", mini);
+		else if (mini->check.quota)
+			ft_error_end("'", mini);
+		if (mini->check.right || mini->check.left)
+			error_symbols(mini, idx);
+	}
+	else
+	{
+		if (mini->check.left > 3 || mini->check.left > 2)
+			error_symbols(mini, idx);
+	}
 }

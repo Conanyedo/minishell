@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
+#    By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/19 14:50:49 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/03/19 17:27:34 by cabouelw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,6 @@ SRC = main.c\
 	builtins/ft_export.c\
 	builtins.c\
 	tokens/ft_redirecting.c\
-	tokens/ft_handler.c\
 	pars_src/check_point.c\
 	pars_src/check_quotation.c\
 	pars_src/parsing.c\
@@ -42,7 +41,7 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) $(LIB)
 	@ar rcs $(NAME) $(OBJ)
 	@gcc $(NAME) $(LIB_PATH)/$(LIB) -o minishell
 

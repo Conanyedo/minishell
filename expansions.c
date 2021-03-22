@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:50:08 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/19 15:02:55 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/20 18:27:33 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	expansions(t_mini *mini)
 			s = 0;
 		else if (mini->tmp[i] < 0)
 			s = mini->tmp[i] * -1;
-		if (mini->tmp[i] == '$' && mini->tmp[i + 1] && s != '\'')
+		if (mini->tmp[i] == '$' && mini->tmp[i + 1] && s != '\'' && mini->tmp[i - 1] != 1)
 			dollar(mini, i, &tmp);
 		else
 			tmp = ft_substr(mini->tmp, i, checksymbol(mini->tmp, i + 1) - i);
