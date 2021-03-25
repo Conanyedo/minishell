@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/22 18:01:14 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/25 11:48:31 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int		ifexist(t_mini *mini)
 {
 	int		i;
-	int		fd;
 	char	*slashcmd;
 
 	i = 0;
@@ -25,11 +24,10 @@ int		ifexist(t_mini *mini)
 	while (mini->paths[i])
 	{
 		mini->cmd_exist = ft_strjoin(mini->paths[i], slashcmd);
-		if ((fd = open(mini->cmd_exist, O_RDONLY)) > 0)
+		if (!stat(mini->cmd_exist, &mini->stats) && S_ISREG(mini->stats.st_mode))
 		{
 			free(mini->tab[0]);
 			mini->tab[0] = ft_strdup(mini->cmd_exist);
-			close(fd);
 			free(slashcmd);
 			ft_free(mini->paths);
 			free(mini->cmd_exist);
@@ -51,6 +49,8 @@ void	commands(t_mini *mini)
 		exec_cmd(mini);
 	if (mini->fd[0] > 1)
 		close(mini->fd[0]);
+	// dup2(mini->redir.oldoutput, 0);
+	// dup2(mini->redir.oldinput, 1);
 }
 
 void	execution(t_mini *mini)
@@ -76,6 +76,8 @@ void	execution(t_mini *mini)
 			mini->tab = NULL;
 			pipe = pipe->next;
 		}
+		dup2(mini->redir.oldinput, 1);
+		dup2(mini->redir.oldoutput, 0);
 		cmd = cmd->next;
 	}
 }
@@ -105,6 +107,8 @@ void	handle_ctrl_d(t_mini *mini)
 		free(mini->input);
 		mini->r = get_next_line(0, &mini->input);
 	}
+	// close(mini->fd[0]);
+	// close(mini->fd[1]);
 	if (!mini->r && !*mini->input)
 	{
 		ft_putstr_fd("exit\n", 1);

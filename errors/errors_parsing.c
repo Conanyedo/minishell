@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_parsing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:27:05 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/19 12:19:01 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/25 11:42:31 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,11 @@ void	error_pips(t_mini *mini, int res)
 		printf("minishell: syntax error near unexpected token `|'\n");
 	mini->status = 1;
 	mini->check.pipe = 0;
+}
+
+void	error_arg(t_mini *mini)
+{
+	mini->cmd_status = 2;
+	ft_putstr_fd("minishell: .: filename argument required\n", 1);
+	ft_putstr_fd(".: usage: . filename [arguments]\n", 1);
 }
