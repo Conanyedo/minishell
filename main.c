@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/25 11:48:31 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/26 16:25:48 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,28 @@ int		ifexist(t_mini *mini)
 
 void	commands(t_mini *mini)
 {
+	if (mini->redir.err)
+		return ;
 	if (is_builtins(mini))
 		do_builtins(mini);
 	else
 		exec_cmd(mini);
-	if (mini->fd[0] > 1)
+	if (mini->fd[1])
+	{
+		close(mini->fd[1]);
+		mini->fd[1] = 0;
+		dup2(mini->redir.oldoutput, 1);
+		close(mini->redir.oldoutput);
+		mini->redir.oldoutput = 0;
+	}
+	if (mini->fd[0])
+	{
 		close(mini->fd[0]);
-	// dup2(mini->redir.oldoutput, 0);
-	// dup2(mini->redir.oldinput, 1);
+		mini->fd[0] = 0;
+		dup2(mini->redir.oldinput, 0);
+		close(mini->redir.oldinput);
+		mini->redir.oldinput = 0;
+	}
 }
 
 void	execution(t_mini *mini)
@@ -67,7 +81,7 @@ void	execution(t_mini *mini)
 		while (pipe)
 		{
 			expansions(mini, pipe);
-			redir(mini, 0);
+			redir(mini, &pipe, 0);
 			mini->tab = ft_strsplit(pipe->content, " ", 1);
 			tilde(mini);
 			mini->tab = remove_dust(mini->tab);
@@ -76,8 +90,6 @@ void	execution(t_mini *mini)
 			mini->tab = NULL;
 			pipe = pipe->next;
 		}
-		dup2(mini->redir.oldinput, 1);
-		dup2(mini->redir.oldoutput, 0);
 		cmd = cmd->next;
 	}
 }
@@ -107,8 +119,6 @@ void	handle_ctrl_d(t_mini *mini)
 		free(mini->input);
 		mini->r = get_next_line(0, &mini->input);
 	}
-	// close(mini->fd[0]);
-	// close(mini->fd[1]);
 	if (!mini->r && !*mini->input)
 	{
 		ft_putstr_fd("exit\n", 1);
@@ -138,6 +148,8 @@ int		main(int ac, char **av, char **env)
 		parse(&mini);
 		if (!mini.status)
 			execution(&mini);
+		free(mini.cmd);
+		mini.cmd = NULL;
 		free(mini.input);
 		mini.input = NULL;
 	}
