@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/27 10:58:21 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/27 14:17:18 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	handle_sigquit(int sig)
 	g_mini->temp = ft_strdup("");
 	if (g_mini->pid)
 		return (ft_putstr_fd("Quit: 3\n", 1));
-	if (!g_mini->r  && !g_mini->input)
+	if (!g_mini->r && !g_mini->input)
 	{
 		ft_putstr_fd("\033[2D\033[K", 1);
 		// printf("input : |%s|\n", g_mini->input);
@@ -71,7 +71,6 @@ void	handle_sigquit(int sig)
 		g_mini->tmp = ft_strjoin(g_mini->temp, g_mini->input);
 		free(g_mini->input);
 		g_mini->input = ft_strdup(g_mini->tmp);
-		
 	}
 }
 
@@ -88,7 +87,6 @@ void	handle_ctrl_d(t_mini *mini)
 		mini->tmp = ft_strjoin(mini->temp, mini->input);
 		free(mini->input);
 		mini->input = ft_strdup(mini->tmp);
-		
 	}
 	if (!mini->r && !*mini->input)
 	{

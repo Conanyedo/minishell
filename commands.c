@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/25 17:49:58 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/27 14:16:02 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,20 +100,20 @@ void	commands(t_mini *mini)
 	else
 		exec_cmd(mini);
 	if (mini->fd[1])
-    {
-        close(mini->fd[1]);
-        mini->fd[1] = 0;
-        dup2(mini->redir.oldoutput, 1);
-        close(mini->redir.oldoutput);
-        mini->redir.oldoutput = 0;
-    }
-    if (mini->fd[0])
-    {
-        close(mini->fd[0]);
-        mini->fd[0] = 0;
-        dup2(mini->redir.oldinput, 0);
-        close(mini->redir.oldinput);
-        mini->redir.oldinput = 0;
-    }
+	{
+		close(mini->fd[1]);
+		mini->fd[1] = 0;
+		dup2(mini->redir.oldoutput, 1);
+		close(mini->redir.oldoutput);
+		mini->redir.oldoutput = 0;
+	}
+	if (mini->fd[0])
+	{
+		close(mini->fd[0]);
+		mini->fd[0] = 0;
+		dup2(mini->redir.oldinput, 0);
+		close(mini->redir.oldinput);
+		mini->redir.oldinput = 0;
+	}
 	underscore(mini);
 }
