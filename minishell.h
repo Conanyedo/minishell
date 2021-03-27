@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/22 18:01:31 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/25 12:51:47 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <dirent.h>
 #include <signal.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 
 typedef struct		s_pipe
 {
@@ -46,6 +47,9 @@ typedef	struct		s_redir
 	int				fd[2];
 	int				len;
 	int				opn;
+	int				oldinput;
+	int				oldoutput;
+	int				err;
 }					t_redir;
 
 typedef struct	s_checkers
@@ -71,7 +75,7 @@ typedef struct		s_mini
 	t_checkers		check;
 	t_env			*myenv;
 	t_cmd			*cmd;
-	struct stat		stats;
+	struct stat		stt;
 	t_redir			redir;
 	char			*cmd_exist;
 	char			**env_array;
@@ -105,6 +109,9 @@ void				dollar(t_mini *mini, t_pipe *pipe, int i, char **tmp);
 void				tilde(t_mini *mini);
 void				expansions(t_mini *mini, t_pipe *pipe);
 int					ifexist(t_mini *mini);
+void				if_isdirect(t_mini *mini, char *s);
+void				not_exist(t_mini *mini);
+void				commands(t_mini *mini);
 
 //linkedlist
 void				init_env(char **env, t_env **myenv);
@@ -144,6 +151,10 @@ void				ft_pwd(t_mini *mini);
 void				ft_unset(t_mini *mini);
 void				add_env(t_mini *mini, char **splitted);
 void				edit_env(t_mini *mini, char **splitted);
+void				edit(t_mini *mini, t_env **list, char ***splitted);
+void				print_export(t_mini *mini);
+void				sortarray(t_mini *mini, char ***tab);
+void				underscore(t_mini *mini);
 
 
 //errors cmd
@@ -152,3 +163,4 @@ void				error_file(t_mini *mini, char *file, char *cmd);
 void				error_env(t_mini *mini, char *env, char *cmd);
 void				is_directory(t_mini *mini);
 void				permission(t_mini *mini);
+void				error_arg(t_mini *mini);

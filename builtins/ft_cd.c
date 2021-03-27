@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:50:39 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/19 17:36:44 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/25 13:16:48 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,31 @@ void	changeenv(t_mini *mini, char *path, char ***oldpwd, char ***pwd)
 		add_env(mini, *pwd);
 }
 
+void	cd_home(t_mini *mini, char ***oldpwd, char ***pwd)
+{
+	int		i;
+
+	i = 1;
+	if (!mini->tab[i])
+	{
+		if (!ft_lstsearch(mini->myenv, "HOME"))
+			error_env(mini, "HOME", "cd");
+		else
+			changeenv(mini, ft_lstsearch(mini->myenv, "HOME"), oldpwd, pwd);
+	}
+	else if (!ft_strncmp(mini->tab[i], "-", 1))
+	{
+		if (!ft_lstsearch(mini->myenv, "OLDPWD"))
+			error_env(mini, "OLDPWD", "cd");
+		else
+		{
+			changeenv(mini, ft_lstsearch(mini->myenv, "OLDPWD"), oldpwd, pwd);
+			ft_putstr_fd((*pwd)[2], 1);
+			ft_putstr_fd("\n", 1);
+		}
+	}
+}
+
 void	ft_cd(t_mini *mini)
 {
 	DIR		*dir;
@@ -52,24 +77,8 @@ void	ft_cd(t_mini *mini)
 
 	i = 1;
 	init_splitted(&oldpwd, &pwd);
-	if (!mini->tab[i])
-	{
-		if (!ft_lstsearch(mini->myenv, "HOME"))
-			error_env(mini, "HOME", "cd");
-		else
-			changeenv(mini, ft_lstsearch(mini->myenv, "HOME"), &oldpwd, &pwd);
-	}
-	else if (!ft_strncmp(mini->tab[i], "-", ft_strlen(mini->tab[i])))
-	{
-		if (!ft_lstsearch(mini->myenv, "OLDPWD"))
-			error_env(mini, "OLDPWD", "cd");
-		else
-		{
-			changeenv(mini, ft_lstsearch(mini->myenv, "OLDPWD"), &oldpwd, &pwd);
-			ft_putstr_fd(pwd[2], 1);
-			ft_putstr_fd("\n", 1);
-		}
-	}
+	if (!mini->tab[i] || !ft_strncmp(mini->tab[i], "-", 1))
+		cd_home(mini, &oldpwd, &pwd);
 	else
 	{
 		dir = opendir(ft_strjoin(mini->tab[i], "/"));

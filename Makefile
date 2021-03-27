@@ -6,7 +6,7 @@
 #    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/22 18:02:58 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/03/25 12:49:59 by ybouddou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ CFLAGS = -Wall -Wextra -Werror
 SRC = main.c\
 	tools.c\
 	expansions.c\
+	commands.c\
 	linkedlist.c\
 	builtins/ft_env.c\
 	builtins/ft_echo.c\
@@ -27,6 +28,7 @@ SRC = main.c\
 	builtins/ft_pwd.c\
 	builtins/ft_export.c\
 	builtins/export.c\
+	builtins/utils.c\
 	builtins.c\
 	tokens/ft_redirecting.c\
 	pars_src/check_point.c\
@@ -58,6 +60,6 @@ clean:
 
 fclean: clean
 #	@make fclean -C
-#	@rm -rf $(NAME)
+	@rm -rf $(NAME)
 
 re: fclean all

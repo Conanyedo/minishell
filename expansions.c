@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:50:08 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/22 18:02:33 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/25 12:34:55 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	dollar(t_mini *mini, t_pipe *pipe, int i, char **tmp)
 	free(*tmp);
 	*tmp = ft_strjoin(temp, join);
 	free(temp);
-	
 }
 
 void	expansions(t_mini *mini, t_pipe *pipe)
@@ -90,7 +89,7 @@ void	expansions(t_mini *mini, t_pipe *pipe)
 			s = 0;
 		else if (mini->tmp[i] < 0)
 			s = mini->tmp[i] * -1;
-		if (mini->tmp[i] == '$' && mini->tmp[i + 1] && s != '\'' && mini->tmp[i - 1] != 1)
+		if (mini->tmp[i] == '$' && s != '\'' && mini->tmp[i - 1] != 1)
 			dollar(mini, pipe, i, &tmp);
 		else
 			tmp = ft_substr(mini->tmp, i, checksymbol(mini->tmp, i + 1) - i);

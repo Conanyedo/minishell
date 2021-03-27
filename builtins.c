@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 09:36:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/22 18:02:46 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/23 19:25:35 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,4 @@ void	do_builtins(t_mini *mini)
 		ft_unset(mini);
 	else if (!(ft_strncmp(mini->tab[0], "export", ft_strlen("export"))))
 		ft_export(mini);
-	if (mini->fd[0] > 1)
-		close(mini->fd[0]);
 }

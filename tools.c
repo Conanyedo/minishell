@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/22 17:57:03 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/25 12:30:00 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,30 +83,18 @@ void	prompt(t_mini *mini)
 
 void	exec_cmd(t_mini *mini)
 {
+	mini->check.point = 1;
+	if_isdirect(mini, mini->tab[0]);
+	if (mini->check.point)
+		return ;
 	if (!ifexist(mini))
-	{
-		if (*mini->tab[0] == '.' && mini->tab[0][1] == '/')
-		{
-			if (stat(mini->tab[0], &mini->stats))
-				return (cmd_not_found(mini));
-			if (mini->stats.st_mode & S_IFMT & S_IFDIR)
-				return (is_directory(mini));
-			if (!(mini->stats.st_mode & X_OK))
-				return (permission(mini));
-		}
-		else
-		{
-			if (*mini->tab[0] == '/')
-				return (is_directory(mini));
-			return (cmd_not_found(mini));
-		}
-	}
+		return (not_exist(mini));
 	else
 	{
-		stat(mini->tab[0], &mini->stats);
-		if (mini->stats.st_mode & S_IFMT & S_IFDIR)
+		stat(mini->tab[0], &mini->stt);
+		if (mini->stt.st_mode & S_IFMT & S_IFDIR)
 			return (is_directory(mini));
-		if (!(mini->stats.st_mode & X_OK))
+		if (!(mini->stt.st_mode & X_OK))
 			return (permission(mini));
 	}
 	mini->cmd_status = 0;

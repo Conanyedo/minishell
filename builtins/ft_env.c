@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:51:47 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/19 12:34:42 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/23 19:10:00 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	ft_env(t_mini *mini)
 		{
 			ft_putstr_fd(list->key, 1);
 			ft_putstr_fd(list->symbol, 1);
-			ft_putstr_fd(list->value, 1);
+			if (!ft_strncmp(list->key, "_", 1))
+				ft_putstr_fd("/usr/bin/env", 1);
+			else
+				ft_putstr_fd(list->value, 1);
 			ft_putstr_fd("\n", 1);
 		}
 		list = list->next;

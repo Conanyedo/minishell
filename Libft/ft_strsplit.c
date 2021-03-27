@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 10:30:50 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/22 18:03:57 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/25 12:43:21 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static int		words_len(t_var *var, int len)
 			var->dq = (var->dq == 0) ? 1 : 0;
 		if (exist(var) && !var->dq)
 			return (len);
-		else if (var->s[var->i] && var->s[var->i] != var->q && var->dq && var->skip)
+		else if (var->s[var->i] && var->s[var->i] != var->q
+			&& var->dq && var->skip)
 		{
 			var->i++;
 			len++;
@@ -76,9 +77,7 @@ static char		**fill(t_var *var)
 	int		j;
 	int		old_i;
 	int		len;
-	
 
-	var->i = 0;
 	i = -1;
 	old_i = 0;
 	if (!(var->splt = (char **)malloc(sizeof(char *) * (var->words + 1))))
@@ -112,6 +111,7 @@ char			**ft_strsplit(char *s, char *c, int skip)
 	var.token = c;
 	var.skip = skip;
 	count_words(&var);
+	var.i = 0;
 	fill(&var);
 	return (var.splt);
 }

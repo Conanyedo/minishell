@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:03:14 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/22 17:02:39 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/25 12:46:42 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,26 +71,20 @@ char	**split_env(t_mini *mini, char *tab)
 	return (filling(mini, &tmp, tab, i));
 }
 
-void	print_export(t_mini *mini)
+void	add_env(t_mini *mini, char **splitted)
 {
 	t_env	*list;
 
+	list = NULL;
 	list = mini->myenv;
-	while (list)
-	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(list->key, 1);
-		if (*list->symbol)
-		{
-			ft_putstr_fd("=\"", 1);
-			ft_putstr_fd(list->value, 1);
-			ft_putstr_fd("\"", 1);
-		}
-		ft_putstr_fd("\n", 1);
+	while (list->next)
 		list = list->next;
-	}
-	mini->cmd_status = 0;
-	return ;
+	list->next = (t_env*)malloc(sizeof(t_env));
+	list = list->next;
+	list->key = ft_strdup(splitted[0]);
+	list->symbol = ft_strdup(splitted[1]);
+	list->value = ft_strdup(splitted[2]);
+	list->next = NULL;
 }
 
 void	ft_export(t_mini *mini)

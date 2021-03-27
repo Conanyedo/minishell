@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_quotation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:59:58 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/21 18:15:28 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/25 16:17:21 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,12 @@ void	check_one_quot(t_mini *mini, int i)
 
 char	check_slash(t_mini *mini, int i)
 {
-	if (mini->input[i + 1] && mini->input[i + 1] == '\\')
+	if (mini->input[0] == '\\' && !mini->input[1])
+	{
+		ft_error_end("\\", mini);
+		return (mini->input[0]);
+	}
+	else if (mini->input[i + 1] && mini->input[i + 1] == '\\')
 		return ('\\' * -1);
 	else if (mini->input[i + 1] && mini->input[i + 1] == '$')
 		return (1);
