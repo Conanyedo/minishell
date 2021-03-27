@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/27 11:40:54 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/27 12:06:38 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,9 @@ void				error_pips(t_mini *mini, int res);
 char				check_slash(t_mini *mini, int i);
 void				check_all(t_mini *mini, int i, int idx);
 void				redir(t_mini *mini, t_pipe **pipe, int i);
+int					redir_right(t_mini *mini, int i);
+int					redir_left(t_mini *mini, int i);
+int					check_redir(char *str);
 char				**remove_dust(char **str);
 
 // Builtins
