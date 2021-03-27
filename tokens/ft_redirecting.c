@@ -3,38 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirecting.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:11:31 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/27 11:02:43 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/27 11:41:53 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		redir_right(t_mini *mini, int i)// echo "hello>word" > file1 > "file>2" from > file3 me
+int		redir_right_open(t_mini	*mini, int i)
 {
-	(mini->redir.fd[1]) ? close(mini->redir.fd[1]) : (void)0;
-	mini->redir.opn = (mini->redir.str[i + 1] == '>') ? 1 : 0;
-	while (mini->redir.str[i] == '>')
-		i++;
-	ft_memset(mini->redir.tmpfile, '\0', mini->redir.len);
-	mini->redir.len = 0;
-	while (mini->redir.str[i] == ' ')
-		i++;
-	while (ft_isprint(mini->redir.str[i]) || mini->redir.str[i] < 0)
-	{
-		if (mini->redir.str[i] < 0)
-		{
-			i++;
-			while (mini->redir.str[i] && mini->redir.str[i] > 0)
-				mini->redir.tmpfile[mini->redir.len++] = mini->redir.str[i++];
-			i++;
-		}
-		if (mini->redir.str[i] == '>' || mini->redir.str[i] == '<' || mini->redir.str[i] == ' ')
-			break ;
-		mini->redir.tmpfile[mini->redir.len++] = mini->redir.str[i++];
-	}
 	mini->redir.tmpfile[mini->redir.len] = '\0';
 	stat(mini->redir.tmpfile, &mini->stt);
 	// if (!(mini->stt.st_mode & X_OK))
@@ -57,6 +36,32 @@ int		redir_right(t_mini *mini, int i)// echo "hello>word" > file1 > "file>2" fro
 		return (i);
 	}
 	return (i);
+}
+
+int		redir_right(t_mini *mini, int i)
+{
+	(mini->redir.fd[1]) ? close(mini->redir.fd[1]) : (void)0;
+	mini->redir.opn = (mini->redir.str[i + 1] == '>') ? 1 : 0;
+	while (mini->redir.str[i] == '>')
+		i++;
+	ft_memset(mini->redir.tmpfile, '\0', mini->redir.len);
+	mini->redir.len = 0;
+	while (mini->redir.str[i] == ' ')
+		i++;
+	while (ft_isprint(mini->redir.str[i]) || mini->redir.str[i] < 0)
+	{
+		if (mini->redir.str[i] < 0)
+		{
+			i++;
+			while (mini->redir.str[i] && mini->redir.str[i] > 0)
+				mini->redir.tmpfile[mini->redir.len++] = mini->redir.str[i++];
+			i++;
+		}
+		if (mini->redir.str[i] == '>' || mini->redir.str[i] == '<' || mini->redir.str[i] == ' ')
+			break ;
+		mini->redir.tmpfile[mini->redir.len++] = mini->redir.str[i++];
+	}
+	return (redir_right_open(mini, i));
 }
 
 int		redir_left(t_mini *mini, int i)
