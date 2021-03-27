@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/25 15:30:25 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/27 10:58:21 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	execution(t_mini *mini)
 		while (pipe)
 		{
 			expansions(mini, pipe);
-			redir(mini, 0);
+			redir(mini, &pipe, 0);
 			mini->tab = ft_strsplit(pipe->content, " ", 1);
 			tilde(mini);
 			mini->tab = remove_dust(mini->tab);
@@ -119,6 +119,8 @@ int		main(int ac, char **av, char **env)
 		parse(&mini);
 		if (!mini.status)
 			execution(&mini);
+		free(mini.cmd);
+		mini.cmd = NULL;
 		free(mini.input);
 		mini.input = NULL;
 	}

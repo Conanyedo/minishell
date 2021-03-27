@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/25 12:51:47 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/27 11:03:56 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ typedef	struct		s_redir
 	char			*str;
 	int				fd[2];
 	int				len;
+	int				err;
+	int				oldinput;
+	int				oldoutput;
 	int				opn;
 	int				oldinput;
 	int				oldoutput;
@@ -90,6 +93,7 @@ typedef struct		s_mini
 	int				r;
 	int				plus;
 	int				fd[2];
+	int				fdtst;
 	char			*tmp;
 	char			*temp;
 	char			buff[1028];
@@ -136,7 +140,7 @@ void				check_pipes(t_mini *mini, int i);
 void				error_pips(t_mini *mini, int res);
 char				check_slash(t_mini *mini, int i);
 void				check_all(t_mini *mini, int i, int idx);
-void    			redir(t_mini *mini, int i);
+void				redir(t_mini *mini, t_pipe **pipe, int i);
 char				**remove_dust(char **str);
 
 // Builtins

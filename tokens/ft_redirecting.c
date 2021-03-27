@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:11:31 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/25 18:15:58 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/27 11:02:43 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int		check_redir(char	*str)
 	return (0);
 }
 
-void	redir(t_mini *mini, int i)
+void	redir(t_mini *mini, t_pipe **pipe, int i)
 {
 	int		idx;
 
@@ -124,10 +124,10 @@ void	redir(t_mini *mini, int i)
 	mini->redir.oldoutput = dup(1);
 	mini->fd[0] = 0;
 	mini->fd[1] = 0;
-	if (!check_redir(mini->cmd->pipe->content))
+	if (!check_redir((*pipe)->content))
 		return ;
-	mini->redir.str = ft_strdup(mini->cmd->pipe->content);
-	free(mini->cmd->pipe->content);
+	mini->redir.str = ft_strdup((*pipe)->content);
+	free((*pipe)->content);
 	mini->redir.tmpstr = (char*)malloc(sizeof(char) *\
 		ft_strlen(mini->redir.str));
 	mini->redir.file = (char*)malloc(sizeof(char) * ft_strlen(mini->redir.str));
@@ -143,15 +143,19 @@ void	redir(t_mini *mini, int i)
 				mini->redir.tmpstr[idx++] = mini->redir.str[i++];
 			i++;
 		}
-		if ((mini->redir.str[i] == '>' && !i) || (mini->redir.str[i] == '>' && mini->redir.str[i - 1] > 0))
+		else if ((mini->redir.str[i] == '>' && !i) || (mini->redir.str[i] == '>' && mini->redir.str[i - 1] > 0))
 			i = redir_right(mini, i);
 		else if ((mini->redir.str[i] == '<' && !i) || (mini->redir.str[i] == '<' && mini->redir.str[i - 1] > 0))
 			i = redir_left(mini, i);
+		else if (mini->redir.str[i] == '1' && mini->redir.str[i + 1] == '>')
+			i++;
+		else if (mini->redir.str[i])
+			mini->redir.tmpstr[idx++] = (mini->redir.str[i] > 0) ? mini->redir.str[i++] : idx--;
 		else
-			mini->redir.tmpstr[idx++] = (mini->redir.str[i] > 0) ? mini->redir.str[i++] : i++;
+			i++;
 	}
 	mini->redir.tmpstr[idx] = '\0';
-	mini->cmd->pipe->content = ft_strtrim(mini->redir.tmpstr, " \t");
+	(*pipe)->content = ft_strtrim(mini->redir.tmpstr, " \t");
 	free(mini->redir.tmpstr);
 	if (mini->redir.err)
 		return ;
