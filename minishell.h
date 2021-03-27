@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/27 11:03:56 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/27 11:08:01 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,6 @@ typedef	struct		s_redir
 	int				oldinput;
 	int				oldoutput;
 	int				opn;
-	int				oldinput;
-	int				oldoutput;
-	int				err;
 }					t_redir;
 
 typedef struct	s_checkers
