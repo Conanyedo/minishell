@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_quotation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:59:58 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/27 11:03:06 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/27 18:38:59 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ char	check_slash(t_mini *mini, int i)
 	{
 		ft_error_end("\\", mini);
 		return (mini->input[0]);
+	}
+	if (!mini->input[i + 1])
+	{
+		error_newline(mini, i);
+		return (0);
 	}
 	else if (mini->input[i + 1] && mini->input[i + 1] == '\\')
 		return ('\\' * -1);
@@ -75,7 +80,7 @@ void	check_all(t_mini *mini, int i, int idx)
 	}
 	else
 	{
-		if (mini->check.left > 3 || mini->check.left > 2)
+		if (mini->check.left > 3 || mini->check.right > 2)
 			error_symbols(mini, idx);
 	}
 }

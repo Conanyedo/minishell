@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/27 11:02:53 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/27 18:10:22 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	checker(t_mini *mini)
 		else if (ft_isalnum(mini->input[i]) && mini->input[i] != ';'\
 			&& mini->input[i] != ' ')
 		{
-			mini->check.point = 0;
 			mini->check.left = 0;
 			mini->check.right = 0;
 			mini->check.pipe = 0;
@@ -107,6 +106,8 @@ void	checker(t_mini *mini)
 		}
 		else
 			check_all(mini, 0, i);
+		if (mini->input[i] != ';' && mini->input[i] != ' ')
+			mini->check.point = 0;
 		i++;
 	}
 	(mini->status == 0) ? check_all(mini, 1, i) : (void)0;
@@ -114,6 +115,15 @@ void	checker(t_mini *mini)
 
 void	parse(t_mini *mini)
 {
+	int		i;
+
+	i = 0;
+	while (mini->input[i] == ' ')
+		i++;
+	if (mini->input[i] == ';' && mini->input[i + 1] == ';')
+		ft_error_end(";;", mini);
+	else if (mini->input[i] == ';')
+		ft_error_end(";", mini);
 	checker(mini);
 	if (mini->status)
 		return ;

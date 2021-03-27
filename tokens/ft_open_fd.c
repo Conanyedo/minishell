@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 11:56:25 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/27 12:04:40 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/27 18:24:54 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ void	redir_left_open(t_mini *mini)
 
 int		redir_right(t_mini *mini, int i)
 {
-	(mini->redir.fd[1]) ? close(mini->redir.fd[1]) : (void)0;
-	mini->redir.opn = (mini->redir.str[i + 1] == '>') ? 1 : 0;
+	if (mini->redir.fd[1])
+		close(mini->redir.fd[1]);
+	if (mini->redir.str[i + 1] == '>')
+		mini->redir.opn = 1;
 	while (mini->redir.str[i] == '>')
 		i++;
 	ft_memset(mini->redir.tmpfile, '\0', mini->redir.len);
@@ -77,7 +79,8 @@ int		redir_right(t_mini *mini, int i)
 
 int		redir_left(t_mini *mini, int i)
 {
-	(mini->redir.fd[0]) ? close(mini->redir.fd[0]) : (void)0;
+	if (mini->redir.fd[0])
+		close(mini->redir.fd[0]);
 	i++;
 	ft_memset(mini->redir.file, '\0', mini->redir.len);
 	mini->redir.len = 0;
@@ -107,12 +110,12 @@ int		check_redir(char *str)
 	int		i;
 	char	dq;
 
-	i = 1;
+	i = 0;
 	if ((str[0] == '>' || str[0] == '<'))
 		return (1);
 	while (str[i])
 	{
-		if (str[i] < 0 && str[i] != ('\\' * -1))
+		if (str[i] < 0 && str[i] != -92)
 		{
 			dq = str[i++];
 			while (str[i] != dq)

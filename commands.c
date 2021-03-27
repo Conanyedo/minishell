@@ -6,20 +6,19 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/27 14:16:02 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/27 18:14:35 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ifexist(t_mini *mini)
+int		ifexist(t_mini *mini, int i)
 {
-	int		i;
 	char	*slashcmd;
 
-	i = 0;
-	mini->path_value = ft_lstsearch(mini->myenv, "PATH");
-	mini->paths = (mini->path_value) ? ft_split(mini->path_value, ':') : NULL;
+	mini->paths = NULL;
+	if ((mini->path_value = ft_lstsearch(mini->myenv, "PATH")))
+		mini->paths = ft_split(mini->path_value, ':');
 	slashcmd = ft_strjoin("/", mini->tab[0]);
 	while (mini->paths[i])
 	{

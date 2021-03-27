@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/19 23:30:12 by ybouddou          #+#    #+#             */
-/*   Updated: 2019/12/30 21:15:16 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/27 16:48:54 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ static int		ft_intlen(int n, int sign)
 		n = n / 10;
 		len++;
 	}
-	return (((len == 0) ? 1 : len) + sign);
+	if (len == 0)
+		return (1 + sign);
+	return (len + sign);
 }
 
 static char		*ft_convert(int nlen, int sign, int n)
