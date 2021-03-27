@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/22 17:58:27 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/26 15:52:26 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,10 @@ void	checker(t_mini *mini)
 
 void	parse(t_mini *mini)
 {
-	mini->input = ft_strtrim(mini->input, " \t");
 	checker(mini);
 	if (mini->status)
 		return ;
+	mini->input = ft_strtrim(mini->input, " \t");
 	mini->cmds = ft_strsplit(mini->input, ";", 1);
 	splitting(mini);
 }

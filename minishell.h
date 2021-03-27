@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/22 18:01:31 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/25 18:31:56 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ typedef	struct		s_redir
 	char			*str;
 	int				fd[2];
 	int				len;
+	int				err;
+	int				oldinput;
+	int				oldoutput;
 	int				opn;
 }					t_redir;
 
@@ -86,6 +89,7 @@ typedef struct		s_mini
 	int				r;
 	int				plus;
 	int				fd[2];
+	int				fdtst;
 	char			*tmp;
 	char			*temp;
 	char			buff[1028];
@@ -105,6 +109,7 @@ void				dollar(t_mini *mini, t_pipe *pipe, int i, char **tmp);
 void				tilde(t_mini *mini);
 void				expansions(t_mini *mini, t_pipe *pipe);
 int					ifexist(t_mini *mini);
+void				if_isdirect(t_mini *mini, char *s);
 
 //linkedlist
 void				init_env(char **env, t_env **myenv);
@@ -129,7 +134,7 @@ void				check_pipes(t_mini *mini, int i);
 void				error_pips(t_mini *mini, int res);
 char				check_slash(t_mini *mini, int i);
 void				check_all(t_mini *mini, int i, int idx);
-void    			redir(t_mini *mini, int i);
+void				redir(t_mini *mini, t_pipe **pipe, int i);
 char				**remove_dust(char **str);
 
 // Builtins
@@ -152,3 +157,4 @@ void				error_file(t_mini *mini, char *file, char *cmd);
 void				error_env(t_mini *mini, char *env, char *cmd);
 void				is_directory(t_mini *mini);
 void				permission(t_mini *mini);
+void				error_arg(t_mini *mini);

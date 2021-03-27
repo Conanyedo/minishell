@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/22 18:01:14 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/26 16:25:48 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int		ifexist(t_mini *mini)
 {
 	int		i;
-	int		fd;
 	char	*slashcmd;
 
 	i = 0;
@@ -25,11 +24,10 @@ int		ifexist(t_mini *mini)
 	while (mini->paths[i])
 	{
 		mini->cmd_exist = ft_strjoin(mini->paths[i], slashcmd);
-		if ((fd = open(mini->cmd_exist, O_RDONLY)) > 0)
+		if (!stat(mini->cmd_exist, &mini->stats) && S_ISREG(mini->stats.st_mode))
 		{
 			free(mini->tab[0]);
 			mini->tab[0] = ft_strdup(mini->cmd_exist);
-			close(fd);
 			free(slashcmd);
 			ft_free(mini->paths);
 			free(mini->cmd_exist);
@@ -45,12 +43,28 @@ int		ifexist(t_mini *mini)
 
 void	commands(t_mini *mini)
 {
+	if (mini->redir.err)
+		return ;
 	if (is_builtins(mini))
 		do_builtins(mini);
 	else
 		exec_cmd(mini);
-	if (mini->fd[0] > 1)
+	if (mini->fd[1])
+	{
+		close(mini->fd[1]);
+		mini->fd[1] = 0;
+		dup2(mini->redir.oldoutput, 1);
+		close(mini->redir.oldoutput);
+		mini->redir.oldoutput = 0;
+	}
+	if (mini->fd[0])
+	{
 		close(mini->fd[0]);
+		mini->fd[0] = 0;
+		dup2(mini->redir.oldinput, 0);
+		close(mini->redir.oldinput);
+		mini->redir.oldinput = 0;
+	}
 }
 
 void	execution(t_mini *mini)
@@ -67,7 +81,7 @@ void	execution(t_mini *mini)
 		while (pipe)
 		{
 			expansions(mini, pipe);
-			redir(mini, 0);
+			redir(mini, &pipe, 0);
 			mini->tab = ft_strsplit(pipe->content, " ", 1);
 			tilde(mini);
 			mini->tab = remove_dust(mini->tab);
@@ -134,6 +148,8 @@ int		main(int ac, char **av, char **env)
 		parse(&mini);
 		if (!mini.status)
 			execution(&mini);
+		free(mini.cmd);
+		mini.cmd = NULL;
 		free(mini.input);
 		mini.input = NULL;
 	}
