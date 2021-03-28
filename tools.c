@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/27 16:46:24 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/28 11:54:05 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char	**remove_dust(char **str)
 		i = -1;
 		j = 0;
 		while (str[t][++i] != '\0')
-			if (str[t][i] > 0)
+			if (str[t][i] > 1)
 				cpy[t][j++] = str[t][i];
 		cpy[t][j] = '\0';
 	}

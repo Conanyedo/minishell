@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 11:56:25 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/27 18:24:54 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/28 17:10:05 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int		redir_right_open(t_mini *mini, int i)
 {
+	if (mini->redir.fd[1])
+		close(mini->redir.fd[1]);
 	mini->redir.tmpfile[mini->redir.len] = '\0';
 	stat(mini->redir.tmpfile, &mini->stt);
 	// if (!(mini->stt.st_mode & X_OK))
@@ -33,7 +35,6 @@ int		redir_right_open(t_mini *mini, int i)
 		mini->redir.len = -1;
 		error_file(mini, mini->redir.tmpfile, "");
 		mini->redir.err = 1;
-		return (i);
 	}
 	return (i);
 }
@@ -48,10 +49,8 @@ void	redir_left_open(t_mini *mini)
 	}
 }
 
-int		redir_right(t_mini *mini, int i)
+int		redir_right(t_mini *mini, int i, char t)
 {
-	if (mini->redir.fd[1])
-		close(mini->redir.fd[1]);
 	if (mini->redir.str[i + 1] == '>')
 		mini->redir.opn = 1;
 	while (mini->redir.str[i] == '>')
@@ -62,11 +61,13 @@ int		redir_right(t_mini *mini, int i)
 		i++;
 	while (ft_isprint(mini->redir.str[i]) || mini->redir.str[i] < 0)
 	{
-		if (mini->redir.str[i] < 0)
+		if (mini->redir.str[i] < 0 && mini->redir.str[i] != -92)
 		{
-			i++;
-			while (mini->redir.str[i] && mini->redir.str[i] > 0)
-				mini->redir.tmpfile[mini->redir.len++] = mini->redir.str[i++];
+			t = mini->redir.str[i];
+			while (mini->redir.str[++i] && mini->redir.str[i] != t)
+				if (mini->redir.str[i] > 1)
+					mini->redir.tmpfile[mini->redir.len++] =\
+						mini->redir.str[i];
 			i++;
 		}
 		if (mini->redir.str[i] == '>' || mini->redir.str[i] == '<' ||
@@ -77,7 +78,7 @@ int		redir_right(t_mini *mini, int i)
 	return (redir_right_open(mini, i));
 }
 
-int		redir_left(t_mini *mini, int i)
+int		redir_left(t_mini *mini, int i, char t)
 {
 	if (mini->redir.fd[0])
 		close(mini->redir.fd[0]);
@@ -88,11 +89,12 @@ int		redir_left(t_mini *mini, int i)
 		i++;
 	while (ft_isprint(mini->redir.str[i]) || mini->redir.str[i] < 0)
 	{
-		if (mini->redir.str[i] < 0)
+		if (mini->redir.str[i] < 0 && mini->redir.str[i] != -92)
 		{
-			i++;
-			while (mini->redir.str[i] && mini->redir.str[i] > 0)
-				mini->redir.file[mini->redir.len++] = mini->redir.str[i++];
+			t = mini->redir.str[i];
+			while (mini->redir.str[++i] && mini->redir.str[i] != t)
+				if (mini->redir.str[i] > 1)
+					mini->redir.file[mini->redir.len++] = mini->redir.str[i];
 			i++;
 		}
 		if (mini->redir.str[i] == '>' || mini->redir.str[i] == '<'

@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/27 18:10:22 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/28 16:55:42 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,33 +84,31 @@ int		loop_check(t_mini *mini, int i)
 	return (i);
 }
 
-void	checker(t_mini *mini)
+void	checker(t_mini *mini, int i)
 {
-	int		i;
-
-	i = 0;
 	mini->check = (t_checkers) {0};
-	while (mini->input[i])
+	while (mini->input[i] && !mini->status)
 	{
-		if (mini->status)
-			break ;
 		if (!ft_isalnum(mini->input[i]))
 			i = loop_check(mini, i);
-		else if (ft_isalnum(mini->input[i]) && mini->input[i] != ';'\
-			&& mini->input[i] != ' ')
-		{
-			mini->check.left = 0;
-			mini->check.right = 0;
-			mini->check.pipe = 0;
-			mini->check.symbols = 0;
-		}
 		else
 			check_all(mini, 0, i);
-		if (mini->input[i] != ';' && mini->input[i] != ' ')
+		if (mini->input[i] != ';' && mini->input[i] != ' ' && mini->input[i])
+		{
 			mini->check.point = 0;
+			mini->check.pipe = 0;
+		}
+		else if (ft_isprint(mini->input[i]) && mini->input[i] != '>'
+			&& mini->input[i] != '<')
+		{
+			mini->check.symbols = 0;
+			mini->check.left = 0;
+			mini->check.right = 0;
+		}
 		i++;
 	}
-	(mini->status == 0) ? check_all(mini, 1, i) : (void)0;
+	if (mini->status == 0)
+		check_all(mini, 1, i);
 }
 
 void	parse(t_mini *mini)
@@ -124,7 +122,7 @@ void	parse(t_mini *mini)
 		ft_error_end(";;", mini);
 	else if (mini->input[i] == ';')
 		ft_error_end(";", mini);
-	checker(mini);
+	checker(mini, 0);
 	if (mini->status)
 		return ;
 	mini->input = ft_strtrim(mini->input, " \t");

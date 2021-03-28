@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:59:58 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/27 18:38:59 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/28 16:47:29 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,16 @@ char	check_slash(t_mini *mini, int i)
 		return (mini->input[0]);
 	}
 	if (!mini->input[i + 1])
-	{
 		error_newline(mini, i);
-		return (0);
-	}
 	else if (mini->input[i + 1] && mini->input[i + 1] == '\\')
 		return ('\\' * -1);
 	else if (mini->input[i + 1] && mini->input[i + 1] == '$')
 		return (1);
 	else if (mini->check.dbl_quota)
-	{
 		if (mini->input[i + 1] == '"')
 			return (mini->input[i] * -1);
 		else
 			return (mini->input[i]);
-	}
 	else if (mini->check.quota)
 	{
 		if (mini->input[i + 1] == '"')
