@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:11:31 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/28 12:04:28 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/29 11:20:42 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int		loop_redir(t_mini *mini, int i, int *idx, char t)
 {
 	while (mini->redir.str[i] && !mini->redir.err)
 	{
-		mini->redir.opn = 0;
 		if (mini->redir.str[i] < 0 && mini->redir.str[i] != -92)
 		{
 			t = mini->redir.str[i];
@@ -31,7 +30,8 @@ int		loop_redir(t_mini *mini, int i, int *idx, char t)
 		else if ((mini->redir.str[i] == '<' && !i) || (mini->redir.str[i] == '<'
 			&& mini->redir.str[i - 1] > 0))
 			i = redir_left(mini, i, 0);
-		else if (mini->redir.str[i] == '1' && mini->redir.str[i + 1] == '>')
+		else if (mini->redir.str[i] == '1' && mini->redir.str[i - 1] == ' '\
+			&& mini->redir.str[i + 1] == '>')
 			i++;
 		else if (mini->redir.str[i] && mini->redir.str[i] > 1)
 			mini->redir.tmpstr[(*idx)++] = mini->redir.str[i++];

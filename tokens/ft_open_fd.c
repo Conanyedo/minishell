@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 11:56:25 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/28 17:10:05 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/29 11:20:49 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int		redir_right_open(t_mini *mini, int i)
 		error_file(mini, mini->redir.tmpfile, "");
 		mini->redir.err = 1;
 	}
+	mini->redir.opn = 0;
 	return (i);
 }
 

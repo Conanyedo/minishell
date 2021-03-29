@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 17:15:17 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/28 16:40:12 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/29 19:01:52 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,16 @@ void	check_symbols(t_mini *mini, int i)
 {
 	if (mini->status || mini->check.quota || mini->check.dbl_quota)
 		return ;
-	else if (mini->check.symbols == 0)
+	if (mini->check.symbols == 0)
 		mini->check.symbols = mini->input[i];
-	else if (mini->check.symbols == '>' && mini->input[i] == '<')
+	else if (mini->check.symbols != mini->input[i])
 		error_symbols(mini, i);
-	else if (mini->check.symbols == '<' && mini->input[i] == '>' &&\
-		mini->input[i + 1] && mini->input[i + 1] != '>'
-			&& mini->input[i + 1] != '<')
+	else if (mini->input[i - 1] == ' ' && (mini->check.left || mini->check.right))
 		error_symbols(mini, i);
-	else if (mini->input[i - 1] && mini->input[i - 1] == ' ' &&\
-		(mini->check.left || mini->check.right))
+	if ((mini->check.left > 2 || mini->check.right > 1) && !mini->status)
 		error_symbols(mini, i);
 	if (mini->input[i] == '>')
 		mini->check.right++;
-	else if (mini->input[i] == '<')
+	else
 		mini->check.left++;
-	if ((mini->check.left > 3 || mini->check.right > 2) && !mini->status)
-		error_symbols(mini, i);
 }

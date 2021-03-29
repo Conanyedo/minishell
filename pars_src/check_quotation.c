@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:59:58 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/28 16:47:29 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/29 18:42:35 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,17 @@ void	check_one_quot(t_mini *mini, int i)
 
 char	check_slash(t_mini *mini, int i)
 {
-	if (mini->input[0] == '\\' && !mini->input[1])
-	{
-		ft_error_end("\\", mini);
-		return (mini->input[0]);
-	}
 	if (!mini->input[i + 1])
-		error_newline(mini, i);
-	else if (mini->input[i + 1] && mini->input[i + 1] == '\\')
+		error_symbols(mini, i);
+	else if (mini->input[i + 1] == '\\')
 		return ('\\' * -1);
-	else if (mini->input[i + 1] && mini->input[i + 1] == '$')
+	else if (mini->input[i + 1] == '$')
 		return (1);
-	else if (mini->check.dbl_quota)
-		if (mini->input[i + 1] == '"')
-			return (mini->input[i] * -1);
-		else
-			return (mini->input[i]);
+	else if (mini->check.dbl_quota && mini->input[i + 1] != '"')
+		return (mini->input[i]);
 	else if (mini->check.quota)
-	{
 		if (mini->input[i + 1] == '"')
 			return (mini->input[i]);
-		else if (mini->input[i + 1] == '\'')
-			return (mini->input[i] * -1);
-	}
 	return (mini->input[i] * -1);
 }
 
@@ -67,9 +55,9 @@ void	check_all(t_mini *mini, int i, int idx)
 	if (i == 1)
 	{
 		if (mini->check.dbl_quota)
-			ft_error_end("\"", mini);
+			error_symbols(mini, idx);
 		else if (mini->check.quota)
-			ft_error_end("'", mini);
+			error_symbols(mini, idx);
 		if (mini->check.right || mini->check.left)
 			error_symbols(mini, idx);
 	}

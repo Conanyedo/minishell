@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/28 16:55:42 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/29 19:10:24 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		loop_check(t_mini *mini, int i)
 	if (mini->input[i] == '\\' && mini->check.quota == 0)
 	{
 		mini->input[i] = check_slash(mini, i);
-		++i;
+		i++;
 	}
 	else if (mini->input[i] == ';')
 		check_point(mini, i);
@@ -93,13 +93,12 @@ void	checker(t_mini *mini, int i)
 			i = loop_check(mini, i);
 		else
 			check_all(mini, 0, i);
-		if (mini->input[i] != ';' && mini->input[i] != ' ' && mini->input[i])
+		if (!ft_isexist("; ", mini->input[i]) && mini->input[i])
 		{
 			mini->check.point = 0;
 			mini->check.pipe = 0;
 		}
-		else if (ft_isprint(mini->input[i]) && mini->input[i] != '>'
-			&& mini->input[i] != '<')
+		if (!ft_isexist("|><; ", mini->input[i]) && mini->input[i])
 		{
 			mini->check.symbols = 0;
 			mini->check.left = 0;
@@ -118,10 +117,8 @@ void	parse(t_mini *mini)
 	i = 0;
 	while (mini->input[i] == ' ')
 		i++;
-	if (mini->input[i] == ';' && mini->input[i + 1] == ';')
-		ft_error_end(";;", mini);
-	else if (mini->input[i] == ';')
-		ft_error_end(";", mini);
+	if (ft_isexist(";|", mini->input[i]))
+		error_symbols(mini, i);
 	checker(mini, 0);
 	if (mini->status)
 		return ;

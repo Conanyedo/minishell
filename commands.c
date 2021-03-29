@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/27 18:14:35 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/29 15:25:38 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	not_exist(t_mini *mini)
 	{
 		if (*mini->tab[0] == '/')
 			return (is_directory(mini));
-		else if (*mini->tab[0] == '=' || !ft_strchr(mini->tab[0], '='))
+		else if (*mini->tab[0] && (*mini->tab[0] == '=' || !ft_strchr(mini->tab[0], '=')))
 			return (cmd_not_found(mini));
 		return ;
 	}
@@ -67,6 +67,10 @@ void	if_isdirect(t_mini *mini, char *s)
 	int		point;
 
 	i = 0;
+	if (stat(s, &mini->stt) && s[0] == '/')
+		return (error_file(mini, s, ""));
+	if (mini->stt.st_mode & S_IFMT & S_IFDIR && s[0] == '/')
+		return (is_directory(mini));
 	while (s[i] == '.')
 		i++;
 	if (i == 1 && !s[i])
@@ -85,7 +89,7 @@ void	if_isdirect(t_mini *mini, char *s)
 		}
 		i++;
 	}
-	if (!s[i])
+	if (!s[i] && i)
 		return (is_directory(mini));
 	mini->check.point = 0;
 }
