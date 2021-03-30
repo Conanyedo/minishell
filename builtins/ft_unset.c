@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:03:21 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/19 17:43:48 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/27 16:21:16 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,12 @@ void	ft_unset(t_mini *mini)
 	{
 		list = NULL;
 		list = mini->myenv;
-		if (list && !ft_strncmp(mini->tab[i], list->key,
-			ft_strlen(mini->tab[i])))
+		while (list)
 		{
-			free(list->key);
-			free(list->symbol);
-			free(list->value);
-			mini->myenv = list->next;
+			if (!(ft_strncmp(list->key, mini->tab[i], ft_strlen(mini->tab[i]))))
+				list->print = 1;
+			list = list->next;
 		}
-		else
-			if_nothead(mini, &list, i);
 		i++;
 	}
 	mini->cmd_status = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/29 19:54:50 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/30 19:05:20 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,34 @@
 void	execution(t_mini *mini)
 {
 	t_cmd	*cmd;
-	t_pipe	*pipe;
+	t_pipe	*pip;
 
 	cmd = NULL;
-	pipe = NULL;
+	pip = NULL;
+	mini->p = 0;
+	mini->ret = 0;
+	mini->oldinput = dup(0);
+	mini->oldoutput = dup(1);
 	cmd = mini->cmd;
 	while (cmd)
 	{
-		pipe = cmd->pipe;
-		while (pipe)
+		pip = cmd->pipe;
+		while (pip)
 		{
-			expansions(mini, pipe);
-			redir(mini, &pipe, 0);
-			mini->tab = ft_strsplit(pipe->content, " ", 1);
+			expansions(mini, pip);
+			redir(mini, &pip, 0);
+			mini->tab = ft_strsplit(pip->content, " ", 1);
 			tilde(mini);
 			mini->tab = remove_dust(mini->tab);
-			commands(mini);
+			commands(mini, pip);
 			ft_free(mini->tab);
 			mini->tab = NULL;
-			pipe = pipe->next;
+			pip = pip->next;
 		}
 		cmd = cmd->next;
 	}
+	close(mini->oldinput);
+	close(mini->oldoutput);
 }
 
 void	handle_sigint(int sig)
@@ -57,7 +63,6 @@ void	handle_sigquit(int sig)
 	if (!g_mini->r && !g_mini->input)
 	{
 		ft_putstr_fd("\033[2D\033[K", 1);
-		// printf("input : |%s|\n", g_mini->input);
 		return ;
 	}
 	while (!g_mini->r && g_mini->input)
@@ -115,8 +120,6 @@ int		main(int ac, char **av, char **env)
 		parse(&mini);
 		if (!mini.status)
 			execution(&mini);
-		free(mini.cmd);
-		mini.cmd = NULL;
 		free(mini.input);
 		mini.input = NULL;
 	}

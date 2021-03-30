@@ -6,7 +6,7 @@
 #    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/19 11:31:31 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/03/28 14:03:22 by ybouddou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,33 +51,19 @@ SRC = ft_memset.c\
 	  ft_putnbr_fd.c\
 	  get_next_line.c\
 
-SRCb = ft_lstnew_bonus.c\
-	   ft_lstadd_front_bonus.c\
-	   ft_lstadd_back_bonus.c\
-	   ft_lstsize_bonus.c\
-	   ft_lstlast_bonus.c\
-	   ft_lstclear_bonus.c\
-	   ft_lstdelone_bonus.c\
-	   ft_lstiter_bonus.c\
-	   ft_lstmap_bonus.c
-
 OBJ = $(SRC:.c=.o)
 
-OBJb = $(SRCb:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	@ar rcs $(NAME) $(OBJ)
 
-bonus: all $(OBJb)
-	ar rcs $(NAME) $(OBJb)
-
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $^ -o $@
 
 clean:
-	@rm -rf $(OBJ) $(OBJb)
+	@rm -rf $(OBJ)
 
 fclean: clean
 	@rm -rf $(NAME)

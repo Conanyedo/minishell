@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/29 19:12:34 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/30 19:05:41 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 #include <signal.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <errno.h>
+#include <termios.h>
+#include <string.h>
 
 typedef struct		s_pipe
 {
@@ -35,6 +38,7 @@ typedef struct		s_env
 	char			*key;
 	char			*value;
 	char			*symbol;
+	int				print;
 	struct s_env	*next;
 }					t_env;
 
@@ -47,8 +51,6 @@ typedef	struct		s_redir
 	int				fd[2];
 	int				len;
 	int				err;
-	int				oldinput;
-	int				oldoutput;
 	int				opn;
 }					t_redir;
 
@@ -77,6 +79,12 @@ typedef struct		s_mini
 	t_cmd			*cmd;
 	struct stat		stt;
 	t_redir			redir;
+	int				pipe[2];
+	int				err_pipe[2];
+	int				p;
+	int				oldinput;
+	int				oldoutput;
+	int				ret;
 	char			*cmd_exist;
 	char			**env_array;
 	char			**tab;
@@ -88,6 +96,7 @@ typedef struct		s_mini
 	char			*path_value;
 	int				pid;
 	int				r;
+	int				print;
 	int				plus;
 	int				fd[2];
 	int				fdtst;
@@ -106,20 +115,22 @@ void				do_builtins(t_mini *mini);
 int					checksymbol(char *tab, int i);
 int					checkquotes(char *tab, int i, char *q);
 void				trimming(t_mini *mini);
-void				dollar(t_mini *mini, t_pipe *pipe, int i, char **tmp);
+void				dollar(t_mini *mini, char *tab, int i, char **tmp);
 void				tilde(t_mini *mini);
 void				expansions(t_mini *mini, t_pipe *pipe);
 int					ifexist(t_mini *mini, int i);
 void				if_isdirect(t_mini *mini, char *s);
 void				not_exist(t_mini *mini);
-void				commands(t_mini *mini);
+void				commands(t_mini *mini, t_pipe *pip);
 
 //linkedlist
 void				init_env(char **env, t_env **myenv);
-char				*ft_lstsearch(t_env	*env, char *key);
+char				*ft_lstsearch(t_env	*env, char *key, int *print);
 void				ft_lsttoarray(t_env *env, char ***tab);
 int					ft_listsize(t_env *env);
-
+void				sortlinkedlist(t_env **sorted, t_env *list);
+void				dup_list(t_mini *mini, t_env **dup);
+void				insertionsort(t_mini *mini, t_env **sorted);
 
 
 // parssing
@@ -150,8 +161,8 @@ void				ft_export(t_mini *mini);
 void				ft_pwd(t_mini *mini);
 void				ft_unset(t_mini *mini);
 void				add_env(t_mini *mini, char **splitted);
-void				edit_env(t_mini *mini, char **splitted);
-void				edit(t_mini *mini, t_env **list, char ***splitted);
+void				edit_env(t_mini *mini, char **splitted, int print);
+void				edit(t_mini *mini, t_env **list, char ***splitted, int print);
 void				print_export(t_mini *mini);
 void				sortarray(t_mini *mini, char ***tab);
 void				underscore(t_mini *mini);
@@ -162,5 +173,5 @@ void				cmd_not_found(t_mini *mini);
 void				error_file(t_mini *mini, char *file, char *cmd);
 void				error_env(t_mini *mini, char *env, char *cmd);
 void				is_directory(t_mini *mini);
-void				permission(t_mini *mini);
+void				permission(t_mini *mini, char *file);
 void				error_arg(t_mini *mini);

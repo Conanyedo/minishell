@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:03:14 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/27 16:47:49 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/30 19:03:17 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	add_env(t_mini *mini, char **splitted)
 	list->key = ft_strdup(splitted[0]);
 	list->symbol = ft_strdup(splitted[1]);
 	list->value = ft_strdup(splitted[2]);
+	list->print = 0;
 	list->next = NULL;
 }
 
@@ -104,8 +105,8 @@ void	ft_export(t_mini *mini)
 		splitted = split_env(mini, mini->tab[i]);
 		if (!splitted)
 			return ;
-		if (ft_lstsearch(mini->myenv, splitted[0]))
-			edit_env(mini, splitted);
+		if (ft_lstsearch(mini->myenv, splitted[0], &mini->print))
+			edit_env(mini, splitted, 0);
 		else
 			add_env(mini, splitted);
 		ft_free(splitted);

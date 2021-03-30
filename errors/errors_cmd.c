@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 12:36:19 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/28 15:32:51 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/30 19:03:33 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	is_directory(t_mini *mini)
 	ft_putstr_fd(": is a directory\n", 2);
 }
 
-void	permission(t_mini *mini)
+void	permission(t_mini *mini, char *file)
 {
 	mini->cmd_status = 126;
 	ft_putstr_fd("minishell: ", 2);
