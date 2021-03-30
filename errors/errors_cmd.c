@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 12:36:19 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/30 19:03:33 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/30 19:09:11 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	permission(t_mini *mini, char *file)
 {
 	mini->cmd_status = 126;
 	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(mini->tab[0], 2);
+	ft_putstr_fd(file, 2);
 	ft_putstr_fd(": Permission denied\n", 2);
 }
 
