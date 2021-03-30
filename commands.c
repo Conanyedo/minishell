@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/30 17:01:24 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/30 19:07:42 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		ifexist(t_mini *mini, int i)
 
 	i = 0;
 	mini->paths = NULL;
-	if ((mini->path_value = ft_lstsearch(mini->myenv, "PATH")))
+	if ((mini->path_value = ft_lstsearch(mini->myenv, "PATH", &mini->print)))
 		mini->paths = ft_split(mini->path_value, ':');
 	slashcmd = ft_strjoin("/", mini->tab[0]);
 	while (mini->paths[i])
