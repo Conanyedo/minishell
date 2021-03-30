@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplittools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 11:29:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/22 18:03:47 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/27 18:09:44 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int		exist(t_var *var)
 
 	i = 0;
 	var->pr = var->s[var->i - 1];
+	if (var->pr != '\\' * -1)
+		var->pr = 1;
 	while (var->token[i])
 	{
 		if (var->token[i] == var->s[var->i] && var->pr > 0)

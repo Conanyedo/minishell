@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/27 11:02:53 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/29 19:10:24 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		loop_check(t_mini *mini, int i)
 	if (mini->input[i] == '\\' && mini->check.quota == 0)
 	{
 		mini->input[i] = check_slash(mini, i);
-		++i;
+		i++;
 	}
 	else if (mini->input[i] == ';')
 		check_point(mini, i);
@@ -84,37 +84,42 @@ int		loop_check(t_mini *mini, int i)
 	return (i);
 }
 
-void	checker(t_mini *mini)
+void	checker(t_mini *mini, int i)
 {
-	int		i;
-
-	i = 0;
 	mini->check = (t_checkers) {0};
-	while (mini->input[i])
+	while (mini->input[i] && !mini->status)
 	{
-		if (mini->status)
-			break ;
 		if (!ft_isalnum(mini->input[i]))
 			i = loop_check(mini, i);
-		else if (ft_isalnum(mini->input[i]) && mini->input[i] != ';'\
-			&& mini->input[i] != ' ')
-		{
-			mini->check.point = 0;
-			mini->check.left = 0;
-			mini->check.right = 0;
-			mini->check.pipe = 0;
-			mini->check.symbols = 0;
-		}
 		else
 			check_all(mini, 0, i);
+		if (!ft_isexist("; ", mini->input[i]) && mini->input[i])
+		{
+			mini->check.point = 0;
+			mini->check.pipe = 0;
+		}
+		if (!ft_isexist("|><; ", mini->input[i]) && mini->input[i])
+		{
+			mini->check.symbols = 0;
+			mini->check.left = 0;
+			mini->check.right = 0;
+		}
 		i++;
 	}
-	(mini->status == 0) ? check_all(mini, 1, i) : (void)0;
+	if (mini->status == 0)
+		check_all(mini, 1, i);
 }
 
 void	parse(t_mini *mini)
 {
-	checker(mini);
+	int		i;
+
+	i = 0;
+	while (mini->input[i] == ' ')
+		i++;
+	if (ft_isexist(";|", mini->input[i]))
+		error_symbols(mini, i);
+	checker(mini, 0);
 	if (mini->status)
 		return ;
 	mini->input = ft_strtrim(mini->input, " \t");

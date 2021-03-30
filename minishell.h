@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/30 14:39:28 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/29 19:12:34 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ int					checkquotes(char *tab, int i, char *q);
 void				trimming(t_mini *mini);
 void				dollar(t_mini *mini, char *tab, int i, char **tmp);
 void				tilde(t_mini *mini);
-void				expansions(t_mini *mini, t_pipe *pip);
-int					ifexist(t_mini *mini);
+void				expansions(t_mini *mini, t_pipe *pipe);
+int					ifexist(t_mini *mini, int i);
 void				if_isdirect(t_mini *mini, char *s);
 void				not_exist(t_mini *mini);
 void				commands(t_mini *mini, t_pipe *pip);
@@ -135,17 +135,13 @@ void				insertionsort(t_mini *mini, t_env **sorted);
 
 // parssing
 void				parse(t_mini *mini);
-void				ft_error_end(char *s, t_mini *mini);
-void				ft_check_err(t_mini	*mini);
 void				check_point(t_mini *mini, int i);
 void				exec_cmd(t_mini *mini);
 void				check_bdl_quot(t_mini *mini, int i);
 void				check_one_quot(t_mini *mini, int i);
 void				check_symbols(t_mini *mini, int i);
-void				error_newline(t_mini *mini, int i);
 void				error_symbols(t_mini *mini, int nb);
 void				check_pipes(t_mini *mini, int i);
-void				error_pips(t_mini *mini, int res);
 char				check_slash(t_mini *mini, int i);
 void				check_all(t_mini *mini, int i, int idx);
 void				redir(t_mini *mini, t_pipe **pipe, int i);

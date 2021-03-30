@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:03:14 by ybouddou          #+#    #+#             */
 /*   Updated: 2021/03/27 12:49:24 by ybouddou         ###   ########.fr       */
@@ -36,7 +36,9 @@ char	**filling(t_mini *mini, char ***tmp, char *tab, int i)
 		return (export_errors(mini, tmp, tab));
 	else
 	{
-		mini->plus = (tab[i] == '+') ? 2 : 1;
+		mini->plus = 1;
+		if (tab[i] == '+')
+			mini->plus = 2;
 		(*tmp)[0] = ft_strdup(ft_substr(tab, 0, i));
 		(*tmp)[1] = ft_strdup("=");
 		(*tmp)[2] = ft_strdup(tab + i + mini->plus);

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
 /*   Updated: 2021/03/30 16:14:27 by ybouddou         ###   ########.fr       */

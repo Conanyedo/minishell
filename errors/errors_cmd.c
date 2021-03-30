@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   errors_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 12:36:19 by cabouelw          #+#    #+#             */
 /*   Updated: 2021/03/30 11:01:51 by ybouddou         ###   ########.fr       */

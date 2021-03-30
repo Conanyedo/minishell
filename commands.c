@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
 /*   Updated: 2021/03/30 17:01:24 by ybouddou         ###   ########.fr       */
@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-int		ifexist(t_mini *mini)
+int		ifexist(t_mini *mini, int i)
 {
-	int		i;
 	char	*slashcmd;
 
 	i = 0;
-	mini->path_value = ft_lstsearch(mini->myenv, "PATH", &mini->print);
-	mini->paths = (mini->path_value) ? ft_split(mini->path_value, ':') : NULL;
+	mini->paths = NULL;
+	if ((mini->path_value = ft_lstsearch(mini->myenv, "PATH")))
+		mini->paths = ft_split(mini->path_value, ':');
 	slashcmd = ft_strjoin("/", mini->tab[0]);
 	while (mini->paths[i])
 	{
@@ -56,7 +56,7 @@ void	not_exist(t_mini *mini)
 	{
 		if (*mini->tab[0] == '/')
 			return (is_directory(mini));
-		else if (*mini->tab[0] == '=' || !ft_strchr(mini->tab[0], '='))
+		else if (*mini->tab[0] && (*mini->tab[0] == '=' || !ft_strchr(mini->tab[0], '=')))
 			return (cmd_not_found(mini));
 		return ;
 	}
@@ -68,6 +68,10 @@ void	if_isdirect(t_mini *mini, char *s)
 	int		point;
 
 	i = 0;
+	if (stat(s, &mini->stt) && s[0] == '/')
+		return (error_file(mini, s, ""));
+	if (mini->stt.st_mode & S_IFMT & S_IFDIR && s[0] == '/')
+		return (is_directory(mini));
 	while (s[i] == '.')
 		i++;
 	if (i == 1 && !s[i])
@@ -86,7 +90,7 @@ void	if_isdirect(t_mini *mini, char *s)
 		}
 		i++;
 	}
-	if (!s[i])
+	if (!s[i] && i)
 		return (is_directory(mini));
 	mini->check.point = 0;
 }

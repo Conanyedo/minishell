@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
 /*   Updated: 2021/03/30 16:31:22 by ybouddou         ###   ########.fr       */
@@ -88,8 +88,12 @@ void	exec_cmd(t_mini *mini)
 	if_isdirect(mini, mini->tab[0]);
 	if (mini->check.point)
 		return ;
-	if (!ifexist(mini))
-		return (not_exist(mini));
+	if (!ifexist(mini, 0))
+	{
+		not_exist(mini);
+		if (mini->cmd_status)
+			return ;
+	}
 	else
 	{
 		stat(mini->tab[0], &mini->stt);

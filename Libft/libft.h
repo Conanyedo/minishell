@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 22:28:11 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/28 14:02:42 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/29 13:13:23 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int					ft_isascii(int c);
 int					ft_isalnum(int c);
 int					ft_isdigit(int c);
 int					ft_isalpha(int c);
+int					ft_isexist(char *s, char c);
 int					ft_atoi(const char *s);
 void				*ft_memset(void *s, int c, size_t len);
 void				ft_bzero(void *s, size_t len);
