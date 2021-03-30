@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:59:58 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/30 17:01:45 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/30 18:08:00 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	check_all(t_mini *mini, int i, int idx)
 	if (i == 1)
 	{
 		if (mini->check.dbl_quota || mini->check.quota ||
-			mini->check.right || mini->check.left)
+			mini->check.right || mini->check.left || mini->check.pipe)
 			error_symbols(mini, idx);
 	}
 	else
