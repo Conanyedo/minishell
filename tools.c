@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/27 11:00:10 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/29 19:49:41 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,12 @@ void	exec_cmd(t_mini *mini)
 	if_isdirect(mini, mini->tab[0]);
 	if (mini->check.point)
 		return ;
-	if (!ifexist(mini))
-		return (not_exist(mini));
+	if (!ifexist(mini, 0))
+	{
+		not_exist(mini);
+		if (mini->cmd_status)
+			return ;
+	}
 	else
 	{
 		stat(mini->tab[0], &mini->stt);
@@ -127,7 +131,7 @@ char	**remove_dust(char **str)
 		i = -1;
 		j = 0;
 		while (str[t][++i] != '\0')
-			if (str[t][i] > 0)
+			if (str[t][i] > 1)
 				cpy[t][j++] = str[t][i];
 		cpy[t][j] = '\0';
 	}

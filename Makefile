@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
+#    By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/25 12:49:59 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/03/27 12:07:17 by cabouelw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC = main.c\
 	builtins/utils.c\
 	builtins.c\
 	tokens/ft_redirecting.c\
+	tokens/ft_open_fd.c\
 	pars_src/check_point.c\
 	pars_src/check_quotation.c\
 	pars_src/parsing.c\
