@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/25 17:49:58 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/30 17:01:24 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		ifexist(t_mini *mini)
 	char	*slashcmd;
 
 	i = 0;
-	mini->path_value = ft_lstsearch(mini->myenv, "PATH");
+	mini->path_value = ft_lstsearch(mini->myenv, "PATH", &mini->print);
 	mini->paths = (mini->path_value) ? ft_split(mini->path_value, ':') : NULL;
 	slashcmd = ft_strjoin("/", mini->tab[0]);
 	while (mini->paths[i])
@@ -50,7 +50,7 @@ void	not_exist(t_mini *mini)
 		if (mini->stt.st_mode & S_IFMT & S_IFDIR)
 			return (is_directory(mini));
 		if (!(mini->stt.st_mode & X_OK))
-			return (permission(mini));
+			return (permission(mini, mini->tab[0]));
 	}
 	else
 	{
@@ -91,29 +91,40 @@ void	if_isdirect(t_mini *mini, char *s)
 	mini->check.point = 0;
 }
 
-void	commands(t_mini *mini)
+void	commands(t_mini *mini, t_pipe *pip)
 {
 	if (mini->redir.err)
 		return ;
+	if (!mini->ret && pip->next)
+	{
+		mini->ret = (!pipe(mini->pipe)) ? 1 : 0;
+		if (!mini->fd[1])
+			dup2(mini->pipe[1], 1);
+		close(mini->pipe[1]);
+	}
+	else if (mini->ret)
+	{
+		if (!mini->fd[0] || (!mini->tab[1] && !mini->fd[0]))
+			dup2(mini->pipe[0], 0);
+		close(mini->pipe[0]);
+		mini->ret = 0;
+		if (pip->next)
+		{
+			mini->ret = (!pipe(mini->pipe)) ? 1 : 0;
+			if (!mini->fd[1])
+				dup2(mini->pipe[1], 1);
+			close(mini->pipe[1]);
+		}
+	}
 	if (is_builtins(mini))
 		do_builtins(mini);
 	else
 		exec_cmd(mini);
+	dup2(mini->oldinput, 0);
+	dup2(mini->oldoutput, 1);
 	if (mini->fd[1])
-    {
         close(mini->fd[1]);
-        mini->fd[1] = 0;
-        dup2(mini->redir.oldoutput, 1);
-        close(mini->redir.oldoutput);
-        mini->redir.oldoutput = 0;
-    }
     if (mini->fd[0])
-    {
         close(mini->fd[0]);
-        mini->fd[0] = 0;
-        dup2(mini->redir.oldinput, 0);
-        close(mini->redir.oldinput);
-        mini->redir.oldinput = 0;
-    }
 	underscore(mini);
 }
