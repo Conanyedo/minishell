@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:59:58 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/29 18:42:35 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/30 17:01:45 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_bdl_quot(t_mini *mini, int i)
 		return ;
 	if (mini->check.dbl_quota == 1)
 		mini->check.dbl_quota = 0;
-	else if (mini->check.dbl_quota == 0)
+	else
 		mini->check.dbl_quota = 1;
 	mini->input[i] *= -1;
 }
@@ -29,7 +29,7 @@ void	check_one_quot(t_mini *mini, int i)
 		return ;
 	if (mini->check.quota == 1)
 		mini->check.quota = 0;
-	else if (mini->check.quota == 0)
+	else
 		mini->check.quota = 1;
 	mini->input[i] *= -1;
 }
@@ -54,16 +54,11 @@ void	check_all(t_mini *mini, int i, int idx)
 {
 	if (i == 1)
 	{
-		if (mini->check.dbl_quota)
-			error_symbols(mini, idx);
-		else if (mini->check.quota)
-			error_symbols(mini, idx);
-		if (mini->check.right || mini->check.left)
+		if (mini->check.dbl_quota || mini->check.quota ||
+			mini->check.right || mini->check.left)
 			error_symbols(mini, idx);
 	}
 	else
-	{
 		if (mini->check.left > 3 || mini->check.right > 2)
 			error_symbols(mini, idx);
-	}
 }

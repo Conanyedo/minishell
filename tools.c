@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/29 15:25:46 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/29 19:49:41 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,11 @@ void	exec_cmd(t_mini *mini)
 	if (mini->check.point)
 		return ;
 	if (!ifexist(mini, 0))
-		return (not_exist(mini));
+	{
+		not_exist(mini);
+		if (mini->cmd_status)
+			return ;
+	}
 	else
 	{
 		stat(mini->tab[0], &mini->stt);

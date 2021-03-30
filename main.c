@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/29 15:20:57 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/29 19:54:50 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ void	execution(t_mini *mini)
 			mini->tab = remove_dust(mini->tab);
 			commands(mini);
 			ft_free(mini->tab);
-			ft_free(mini->env_array);
 			mini->tab = NULL;
-			mini->env_array = NULL;
 			pipe = pipe->next;
 		}
 		cmd = cmd->next;
