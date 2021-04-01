@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:50:08 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/28 16:20:43 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/01 17:32:16 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		checksymbol(char *tab, int i)
 {
 	if (tab[i] == '?')
 		return (++i);
-	if (ft_isdigit(tab[i]) && tab[i - 1] == '$')
+	if (tab[i - 1] == '$' && (ft_isdigit(tab[i]) || (tab[i] < 0 && tab[i] != -92)))
 		return (++i);
 	while (tab[i] && (ft_isalnum(tab[i]) || tab[i] == '_'))
 		i++;
