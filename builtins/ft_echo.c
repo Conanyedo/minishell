@@ -6,11 +6,26 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:49:02 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/19 12:34:32 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/30 10:47:09 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int		option(char *tab, int *newline)
+{
+	int		i;
+
+	i = 1;
+	if (!tab[i])
+		return (0);
+	while (tab[i] && tab[i] == 'n')
+		i++;
+	if (tab[i])
+		return (0);
+	*newline = 0;
+	return (1);
+}
 
 void	ft_echo(t_mini *mini)
 {
@@ -18,16 +33,13 @@ void	ft_echo(t_mini *mini)
 	int		newline;
 
 	i = 1;
+	newline = 1;
 	if (!mini->tab[i] || !*mini->tab[i])
 	{
 		mini->cmd_status = 0;
 		return (ft_putstr_fd("\n", 1));
 	}
-	newline = ft_strncmp(mini->tab[i], "-n", ft_strlen(mini->tab[i]));
-	if (!newline)
-		i++;
-	while (mini->tab[i] && !ft_strncmp(mini->tab[i], "-n",
-		ft_strlen(mini->tab[i])))
+	while (*mini->tab[i] == '-' && option(mini->tab[i], &newline))
 		i++;
 	while (mini->tab[i])
 	{

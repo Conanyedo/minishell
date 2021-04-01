@@ -6,13 +6,13 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 17:02:23 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/25 15:40:26 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/28 13:03:00 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	edit(t_mini *mini, t_env **list, char ***splitted)
+void	edit(t_mini *mini, t_env **list, char ***splitted, int print)
 {
 	char	*tmp;
 
@@ -32,12 +32,13 @@ void	edit(t_mini *mini, t_env **list, char ***splitted)
 		}
 		else
 			free((*list)->value);
+		(*list)->print = print;
 		(*list)->value = ft_strdup((*splitted)[2]);
 	}
 	free(tmp);
 }
 
-void	edit_env(t_mini *mini, char **splitted)
+void	edit_env(t_mini *mini, char **splitted, int print)
 {
 	t_env	*list;
 
@@ -48,7 +49,7 @@ void	edit_env(t_mini *mini, char **splitted)
 	while (list)
 	{
 		if (!(ft_strncmp(list->key, splitted[0], ft_strlen(splitted[0]))))
-			edit(mini, &list, &splitted);
+			edit(mini, &list, &splitted, print);
 		list = list->next;
 	}
 }
@@ -88,27 +89,25 @@ void	print_value(char *value)
 
 void	print_export(t_mini *mini)
 {
-	t_env	*list;
+	t_env	*sorted;
 
-	ft_lsttoarray(mini->myenv, &mini->env_array);
-	sortarray(mini, &mini->env_array);
-	init_env(mini->env_array, &list);
-	while (list)
+	insertionsort(mini, &sorted);
+	while (sorted)
 	{
-		if (ft_strncmp(list->key, "_", 1))
+		if (ft_strncmp(sorted->key, "_", 1) && !sorted->print)
 		{
 			ft_putstr_fd("declare -x ", 1);
-			ft_putstr_fd(list->key, 1);
-			if (*list->symbol)
+			ft_putstr_fd(sorted->key, 1);
+			if (*sorted->symbol)
 			{
 				ft_putstr_fd("=\"", 1);
-				print_value(list->value);
+				print_value(sorted->value);
 				ft_putstr_fd("\"", 1);
 			}
 			ft_putstr_fd("\n", 1);
 		}
-		print_underscore(mini, list);
-		list = list->next;
+		print_underscore(mini, sorted);
+		sorted = sorted->next;
 	}
 	mini->cmd_status = 0;
 	return ;

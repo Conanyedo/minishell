@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/29 19:49:41 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/31 11:37:28 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	prompt(t_mini *mini)
 	else
 		ft_putstr_fd("\033[1;31m➜  \033[1;34m", 1);
 	if (tmp == NULL)
-		tmp = ft_strdup(ft_strrchr(ft_lstsearch(mini->myenv, "PWD"), '/') + 1);
+		tmp = ft_strdup(ft_strrchr(ft_lstsearch(mini->myenv, "PWD",
+			&mini->print), '/') + 1);
 	else
 	{
 		if (!ft_strncmp(tmp, "/", ft_strlen(tmp)))
@@ -99,18 +100,37 @@ void	exec_cmd(t_mini *mini)
 		if (mini->stt.st_mode & S_IFMT & S_IFDIR)
 			return (is_directory(mini));
 		if (!(mini->stt.st_mode & X_OK))
-			return (permission(mini));
+			return (permission(mini, mini->tab[0]));
 	}
 	mini->cmd_status = 0;
 	ft_lsttoarray(mini->myenv, &mini->env_array);
+	pipe(mini->err_pipe);
 	mini->pid = fork();
 	if (mini->pid > 0)
 	{
 		wait(NULL);
 		mini->pid = 0;
+		ft_free(mini->env_array);
+		mini->env_array = NULL;
+		close(mini->err_pipe[1]);
+		get_next_line(mini->err_pipe[0], &mini->tmp);
+		close(mini->err_pipe[0]);
+		if (*mini->tmp)
+		{
+			ft_putstr_fd(mini->tmp, 2);
+			ft_putstr_fd("\n", 2);
+			mini->cmd_status = 1;
+		}
+		free(mini->tmp);
+		mini->tmp = NULL;
 	}
 	else
+	{
+		close(mini->err_pipe[0]);
+		dup2(mini->err_pipe[1], 2);
+		close(mini->err_pipe[1]);
 		execve(mini->tab[0], mini->tab, mini->env_array);
+	}
 }
 
 char	**remove_dust(char **str)

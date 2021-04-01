@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 09:36:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/27 11:04:29 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/31 12:51:52 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ int		is_builtins(t_mini *mini)
 
 void	do_builtins(t_mini *mini)
 {
-	if (!*mini->tab[0])
-		return ;
 	if (!(ft_strncmp(mini->tab[0], "echo", ft_strlen("echo"))))
 		ft_echo(mini);
 	else if (!(ft_strncmp(mini->tab[0], "env", ft_strlen("env"))))
