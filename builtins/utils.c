@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:50:10 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/28 13:03:14 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/31 12:46:30 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ void	underscore(t_mini *mini)
 	tmp[0] = ft_strdup("_");
 	tmp[1] = ft_strdup("=");
 	tmp[3] = NULL;
+	if (!mini->tab[i])
+		return ;
 	while (mini->tab[i])
 		i++;
 	i--;

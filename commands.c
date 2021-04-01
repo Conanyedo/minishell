@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/30 19:08:50 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/31 12:54:37 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	not_exist(t_mini *mini)
 	{
 		if (*mini->tab[0] == '/')
 			return (is_directory(mini));
+		else if (!*mini->tab[0])
+			return (cmd_not_found(mini));
 		else if (*mini->tab[0] && (*mini->tab[0] == '=' || !ft_strchr(mini->tab[0], '=')))
 			return (cmd_not_found(mini));
 		return ;
@@ -120,15 +122,21 @@ void	commands(t_mini *mini, t_pipe *pip)
 			close(mini->pipe[1]);
 		}
 	}
-	if (is_builtins(mini))
+	if (mini->tab[0] && is_builtins(mini))
 		do_builtins(mini);
-	else
+	else if (mini->tab[0])
 		exec_cmd(mini);
-	dup2(mini->oldinput, 0);
 	dup2(mini->oldoutput, 1);
+	dup2(mini->oldinput, 0);
 	if (mini->fd[1])
+	{
         close(mini->fd[1]);
-    if (mini->fd[0])
+		mini->fd[1] = 0;
+	}
+	if (mini->fd[0])
+	{
         close(mini->fd[0]);
+		mini->fd[0] = 0;
+	}
 	underscore(mini);
 }

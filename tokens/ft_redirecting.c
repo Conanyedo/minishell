@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:11:31 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/30 19:09:50 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/03/31 12:57:55 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int		loop_redir(t_mini *mini, int i, int *idx, char t)
 		if (mini->redir.str[i] < 0 && mini->redir.str[i] != -92)
 		{
 			t = mini->redir.str[i];
-			i++;
+			mini->redir.tmpstr[(*idx)++] = mini->redir.str[i++];
 			while (mini->redir.str[i] && mini->redir.str[i] != t)
 				mini->redir.tmpstr[(*idx)++] = mini->redir.str[i++];
-			i++;
+			mini->redir.tmpstr[(*idx)++] = mini->redir.str[i++];
 		}
 		else if ((mini->redir.str[i] == '>' && !i) || (mini->redir.str[i] == '>'
 			&& mini->redir.str[i - 1] > 0))
@@ -48,7 +48,10 @@ void	dup_in_out(t_mini *mini)
 	else
 		mini->fd[0] = 0;
 	if (mini->redir.fd[1])
-		mini->fd[1] = mini->redir.fd[1];
+	{
+		mini->fd[1] = dup(mini->redir.fd[1]);
+		close(mini->redir.fd[1]);
+	}
 	else
 		mini->fd[1] = 0;
 	if (mini->fd[0])

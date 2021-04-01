@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/30 18:55:15 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/01 09:57:22 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	checker(t_mini *mini, int i)
 			i = loop_check(mini, i);
 		else
 			check_all(mini, 0, i);
-		if (!ft_isexist("; ", mini->input[i]) && mini->input[i])
+		if (!ft_isexist("; |", mini->input[i]) && mini->input[i])
 		{
 			mini->check.point = 0;
 			mini->check.pipe = 0;
