@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/16 22:07:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/29 13:13:04 by cabouelw         ###   ########.fr       */
+/*   Created: 2019/10/17 02:34:30 by ybouddou          #+#    #+#             */
+/*   Updated: 2019/11/08 22:55:01 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_isalpha(int c)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
-		return (1);
-	return (0);
-}
-
-int		ft_isexist(char *s, char c)
-{
-	int i;
+	size_t			i;
+	unsigned char	*s1;
+	unsigned char	*s2;
 
 	i = 0;
-	while (s[i])
+	s1 = (unsigned char *)dst;
+	s2 = (unsigned char *)src;
+	if (!dst && !src)
+		return (0);
+	if (dst == src)
+		return (dst);
+	while (i < n)
 	{
-		if (s[i] == c)
-			return (1);
+		s1[i] = s2[i];
 		i++;
 	}
-	return (0);
+	return (dst);
 }

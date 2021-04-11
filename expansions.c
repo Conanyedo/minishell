@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:50:08 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/05 16:36:38 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/11 15:00:23 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ void	tilde(t_mini *mini)
 
 	i = 0;
 	mini->tmp = NULL;
-	while (mini->tab[i])
+	while (mini->tabu[i])
 	{
-		if (mini->tab[i][0] == '~' && (mini->tab[i][1] == '/'
-			|| !mini->tab[i][1]))
+		if (mini->tabu[i][0] == '~' && (mini->tabu[i][1] == '/'
+			|| !mini->tabu[i][1]))
 		{
 			mini->tmp = ft_strjoin(ft_lstsearch(mini->myenv, "HOME",
-				&mini->print), mini->tab[i] + 1);
-			free(mini->tab[i]);
-			mini->tab[i] = ft_strdup(mini->tmp);
+				&mini->print), mini->tabu[i] + 1);
+			free(mini->tabu[i]);
+			mini->tabu[i] = ft_strdup(mini->tmp);
 			free(mini->tmp);
 			mini->tmp = NULL;
 		}
@@ -34,31 +34,33 @@ void	tilde(t_mini *mini)
 	}
 }
 
-int		checksymbol(char *tab, int i)
+int		checksymbol(char *tabu, int i)
 {
-	if (tab[i] == '?')
+	if (tabu[i] == '?')
 		return (++i);
-	if (tab[i - 1] == '$' && (ft_isdigit(tab[i]) || (tab[i] < 0 && tab[i] != -92)))
+	if ((ft_isdigit(tabu[i]) && tabu[i - 1] == '$') || (tabu[i] < 0 && tabu[i] != -92))
 		return (++i);
-	while (tab[i] && (ft_isalnum(tab[i]) || tab[i] == '_'))
+	while (tabu[i] && (ft_isalnum(tabu[i]) || tabu[i] == '_'))
 		i++;
 	return (i);
 }
 
-void	dollar(t_mini *mini, char *tab, int i, char **tmp)
+void	dollar(t_mini *mini, char *tabu, int i, char **tmp)
 {
 	char	*value;
 	char	join[2];
 	char	*temp;
 
-	value = ft_substr(tab, i,\
-		checksymbol(tab, i + 1) - i);
+	value = ft_substr(tabu, i,\
+		checksymbol(tabu, i + 1) - i);
 	if (!ft_strncmp(value, "$", ft_strlen(value)))
 	{
 		*tmp = ft_strdup("$");
 		return ;
 	}
+	temp = value;
 	value = ft_strchr(value, '$') + 1;
+	free(temp);
 	if (!ft_strncmp(value, "?", ft_strlen(value)))
 		*tmp = ft_strdup(ft_itoa(mini->cmd_status));
 	else if (ft_lstsearch(mini->myenv, value, &mini->print) && mini->print != 1)
@@ -77,6 +79,7 @@ void	expansions(t_mini *mini, t_pipe *pip)
 {
 	int		i;
 	char	s;
+	char	*temp;
 	char	*tmp;
 
 	i = 0;
@@ -95,7 +98,9 @@ void	expansions(t_mini *mini, t_pipe *pip)
 		else
 			tmp = ft_substr(mini->tmp, i, checksymbol(mini->tmp, i + 1) - i);
 		i = checksymbol(mini->tmp, i + 1);
+		temp = mini->temp;
 		mini->temp = ft_strjoin(mini->temp, tmp);
+		free(temp);
 		free(tmp);
 	}
 	free(mini->tmp);

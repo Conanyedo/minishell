@@ -6,49 +6,49 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:49:02 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/30 10:47:09 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/01 15:09:26 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		option(char *tab, int *newline)
+int		option(char *tabu, int *nl)
 {
 	int		i;
 
 	i = 1;
-	if (!tab[i])
+	if (!tabu[i])
 		return (0);
-	while (tab[i] && tab[i] == 'n')
+	while (tabu[i] && tabu[i] == 'n')
 		i++;
-	if (tab[i])
+	if (tabu[i])
 		return (0);
-	*newline = 0;
+	*nl = 0;
 	return (1);
 }
 
 void	ft_echo(t_mini *mini)
 {
 	int		i;
-	int		newline;
+	int		nl;
 
 	i = 1;
-	newline = 1;
-	if (!mini->tab[i] || !*mini->tab[i])
+	nl = 1;
+	if (!mini->tabu[i] || !*mini->tabu[i])
 	{
 		mini->cmd_status = 0;
 		return (ft_putstr_fd("\n", 1));
 	}
-	while (*mini->tab[i] == '-' && option(mini->tab[i], &newline))
+	while (*mini->tabu[i] == '-' && option(mini->tabu[i], &nl))
 		i++;
-	while (mini->tab[i])
+	while (mini->tabu[i])
 	{
-		ft_putstr_fd(mini->tab[i], 1);
-		if (mini->tab[i + 1] != NULL)
+		ft_putstr_fd(mini->tabu[i], 1);
+		if (mini->tabu[i + 1] != NULL)
 			ft_putstr_fd(" ", 1);
 		i++;
 	}
-	if (newline)
+	if (nl)
 		ft_putstr_fd("\n", 1);
 	mini->cmd_status = 0;
 }

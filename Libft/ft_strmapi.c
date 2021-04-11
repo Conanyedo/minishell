@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/16 22:07:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/29 13:13:04 by cabouelw         ###   ########.fr       */
+/*   Created: 2019/10/20 15:22:59 by ybouddou          #+#    #+#             */
+/*   Updated: 2019/10/26 21:50:29 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_isalpha(int c)
+char	*ft_strmapi(char const *s, char (*f) (unsigned int, char))
 {
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
-		return (1);
-	return (0);
-}
-
-int		ft_isexist(char *s, char c)
-{
-	int i;
+	char	*s1;
+	int		i;
 
 	i = 0;
+	if (!f || !s)
+		return (NULL);
+	s1 = (char *)malloc(ft_strlen(s) + 1);
+	if (!s1)
+		return (NULL);
 	while (s[i])
 	{
-		if (s[i] == c)
-			return (1);
+		s1[i] = f(i, s[i]);
 		i++;
 	}
-	return (0);
+	s1[i] = '\0';
+	return (s1);
 }

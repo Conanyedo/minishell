@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 18:24:43 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/27 16:17:35 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/11 15:36:55 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	init_env(char **env, t_env **myenv)
 			list->symbol = ft_strdup("=");
 			list->value = ft_strdup(splitted[1]);
 		}
-		ft_free(splitted);
+		ft_free(&splitted);
 		if (!env[i + 1])
 			break ;
 		list->next = (t_env*)malloc(sizeof(t_env));
@@ -57,7 +57,7 @@ int		ft_listsize(t_env *env)
 	return (i);
 }
 
-void	ft_lsttoarray(t_env *env, char ***tab)
+void	ft_lsttoarray(t_env *env, char ***tabu)
 {
 	t_env	*list;
 	char	*join;
@@ -66,20 +66,20 @@ void	ft_lsttoarray(t_env *env, char ***tab)
 
 	i = 0;
 	list = NULL;
-	(*tab) = NULL;
-	(*tab) = (char **)malloc(sizeof(char*) * (ft_listsize(env) + 1));
+	(*tabu) = NULL;
+	(*tabu) = (char **)malloc(sizeof(char*) * (ft_listsize(env) + 1));
 	list = env;
 	while (list)
 	{
 		joined = ft_strjoin("=", list->value);
 		join = ft_strjoin(list->key, joined);
 		free(joined);
-		(*tab)[i] = ft_strdup(join);
+		(*tabu)[i] = ft_strdup(join);
 		free(join);
 		i++;
 		list = list->next;
 	}
-	(*tab)[i] = NULL;
+	(*tabu)[i] = NULL;
 }
 
 char	*ft_lstsearch(t_env *env, char *key, int *print)

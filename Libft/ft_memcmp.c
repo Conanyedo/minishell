@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/16 22:07:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/29 13:13:04 by cabouelw         ###   ########.fr       */
+/*   Created: 2019/10/17 23:58:25 by ybouddou          #+#    #+#             */
+/*   Updated: 2019/10/30 08:57:10 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_isalpha(int c)
+int		ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
-		return (1);
-	return (0);
-}
-
-int		ft_isexist(char *s, char c)
-{
-	int i;
+	unsigned char	*c1;
+	unsigned char	*c2;
+	size_t			i;
 
 	i = 0;
-	while (s[i])
-	{
-		if (s[i] == c)
-			return (1);
+	c1 = (unsigned char *)s1;
+	c2 = (unsigned char *)s2;
+	if (n == 0)
+		return (0);
+	while (c1[i] == c2[i] && i < n - 1)
 		i++;
-	}
-	return (0);
+	return (c1[i] - c2[i]);
 }

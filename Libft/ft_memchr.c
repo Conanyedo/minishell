@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/16 22:07:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/29 13:13:04 by cabouelw         ###   ########.fr       */
+/*   Created: 2019/10/17 23:32:19 by ybouddou          #+#    #+#             */
+/*   Updated: 2019/11/03 17:20:47 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_isalpha(int c)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
-		return (1);
-	return (0);
-}
-
-int		ft_isexist(char *s, char c)
-{
-	int i;
+	unsigned char	*s1;
+	size_t			i;
 
 	i = 0;
-	while (s[i])
+	s1 = (unsigned char *)s;
+	while (i < n)
 	{
-		if (s[i] == c)
-			return (1);
+		if (s1[i] == (unsigned char)c)
+			return ((unsigned char *)s + i);
 		i++;
 	}
-	return (0);
+	return (NULL);
 }

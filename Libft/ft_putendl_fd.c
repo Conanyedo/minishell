@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/16 22:07:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/29 13:13:04 by cabouelw         ###   ########.fr       */
+/*   Created: 2019/10/18 16:31:20 by ybouddou          #+#    #+#             */
+/*   Updated: 2019/10/30 15:27:45 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_isalpha(int c)
+void	ft_putendl_fd(char *s, int fd)
 {
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
-		return (1);
-	return (0);
-}
+	int		i;
 
-int		ft_isexist(char *s, char c)
-{
-	int i;
-
-	i = 0;
-	while (s[i])
+	if (s)
 	{
-		if (s[i] == c)
-			return (1);
-		i++;
+		i = 0;
+		while (s[i])
+		{
+			ft_putchar_fd(s[i], fd);
+			i++;
+		}
+		ft_putchar_fd('\n', fd);
 	}
-	return (0);
 }

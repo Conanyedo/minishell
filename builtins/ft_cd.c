@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:50:39 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/28 14:08:44 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/11 17:22:20 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,14 @@ void	changeenv(t_mini *mini, char *path)
 	init_splitted(&oldpwd, &pwd);
 	tmp = ft_strdup(ft_lstsearch(mini->myenv, "PWD", &print));
 	if (chdir(path) < 0)
+	{
+		pwd[2] = ft_strdup("");
+		ft_free(&pwd);
+		oldpwd[2] = ft_strdup("");
+		ft_free(&oldpwd);
+		free(tmp);
 		return (error_file(mini, path, "cd"));
+	}
 	oldpwd[2] = ft_strdup(tmp);
 	free(tmp);
 	if (ft_lstsearch(mini->myenv, "OLDPWD", &mini->print)
@@ -52,6 +59,8 @@ void	changeenv(t_mini *mini, char *path)
 	else
 		edit_env(mini, pwd, 0);
 	mini->cmd_status = 0;
+	ft_free(&pwd);
+	ft_free(&oldpwd);
 }
 
 void	cd_home(t_mini *mini)
@@ -59,14 +68,14 @@ void	cd_home(t_mini *mini)
 	int		i;
 
 	i = 1;
-	if (!mini->tab[i])
+	if (!mini->tabu[i])
 	{
 		if (!ft_lstsearch(mini->myenv, "HOME", &mini->print) || mini->print)
 			return (error_env(mini, "HOME", "cd"));
 		else
 			changeenv(mini, ft_lstsearch(mini->myenv, "HOME", &mini->print));
 	}
-	else if (!ft_strncmp(mini->tab[i], "-", 1))
+	else if (!ft_strncmp(mini->tabu[i], "-", 1))
 	{
 		if (!ft_lstsearch(mini->myenv, "OLDPWD", &mini->print) ||
 			mini->print == 1)
@@ -85,21 +94,24 @@ void	cd_home(t_mini *mini)
 void	ft_cd(t_mini *mini)
 {
 	DIR		*dir;
+	char	*join;
 	int		i;
 
 	i = 1;
-	if (!mini->tab[i] || !ft_strncmp(mini->tab[i], "-", 1))
+	if (!mini->tabu[i] || !ft_strncmp(mini->tabu[i], "-", 1))
 		return (cd_home(mini));
 	else
 	{
-		dir = opendir(ft_strjoin(mini->tab[i], "/"));
+		join = ft_strjoin(mini->tabu[i], "/");
+		dir = opendir(join);
+		free(join);
 		if (dir)
 		{
 			closedir(dir);
-			changeenv(mini, mini->tab[i]);
+			changeenv(mini, mini->tabu[i]);
 		}
 		else
-			return (error_file(mini, mini->tab[i], "cd"));
+			return (error_file(mini, mini->tabu[i], "cd"));
 	}
 	mini->cmd_status = 0;
 }

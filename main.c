@@ -3,14 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/05 16:36:41 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/11 17:28:25 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_cmd(t_cmd	**cmd)
+{
+	t_cmd *prev;
+	
+	prev = (*cmd);
+	(*cmd) = (*cmd)->next;
+	if (prev->content)
+		free(prev->content);
+	free(prev);
+}
+
+void	free_pipe(t_pipe **pip)
+{
+	t_pipe *prev;
+	
+	prev = (*pip);
+	(*pip) = (*pip)->next;
+	if (prev->content)
+		free(prev->content);
+	free(prev);
+}
 
 void	execution(t_mini *mini)
 {
@@ -19,7 +41,6 @@ void	execution(t_mini *mini)
 
 	cmd = NULL;
 	pip = NULL;
-	mini->p = 0;
 	mini->ret = 0;
 	mini->oldinput = dup(0);
 	mini->oldoutput = dup(1);
@@ -31,93 +52,48 @@ void	execution(t_mini *mini)
 		{
 			expansions(mini, pip);
 			redir(mini, &pip, 0);
-			mini->tab = ft_strsplit(pip->content, " ", 1);
+			mini->tabu = ft_strsplit(pip->content, " ", 1);
 			tilde(mini);
-			mini->tab = remove_dust(mini->tab);
+			mini->tabu = remove_dust(&mini->tabu);
 			commands(mini, pip);
-			ft_free(mini->tab);
-			mini->tab = NULL;
-			pip = pip->next;
+			ft_free(&mini->tabu);
+			mini->tabu = NULL;
+			// pip = pip->next;
+			free_pipe(&pip);
 		}
-		cmd = cmd->next;
+		// cmd = cmd->next;
+		free_cmd(&cmd);
 	}
 	close(mini->oldinput);
 	close(mini->oldoutput);
 }
 
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	ft_putstr_fd("\033[2D\033[K\n", 1);
-	g_mini->cmd_status = 1;
-	prompt(g_mini);
-}
-
-void	handle_sigquit(int sig)
-{
-	(void)sig;
-	if (g_mini->pid)
-		return (ft_putstr_fd("Quit: 3\n", 1));
-	if (!g_mini->r && !g_mini->input)
-	{
-		ft_putstr_fd("\033[2D\033[K", 1);
-		return ;
-	}
-	g_mini->tmp = NULL;
-	while (!g_mini->r && g_mini->input)
-	{
-		ft_putstr_fd("\033[2D\033[K", 1);
-		g_mini->temp = ft_strdup(g_mini->input);
-		free(g_mini->input);
-		g_mini->r = get_next_line(0, &g_mini->input);
-		g_mini->tmp = ft_strjoin(g_mini->temp, g_mini->input);
-		free(g_mini->input);
-		g_mini->input = ft_strdup(g_mini->tmp);
-	}
-}
-
-void	handle_ctrl_d(t_mini *mini)
-{
-	mini->tmp = NULL;
-	while (!mini->r && *mini->input)
-	{
-		ft_putstr_fd("\033[K", 1);
-		mini->temp = ft_strdup(mini->input);
-		free(mini->input);
-		mini->r = get_next_line(0, &mini->input);
-		mini->tmp = ft_strjoin(mini->temp, mini->input);
-		free(mini->input);
-		mini->input = ft_strdup(mini->tmp);
-	}
-	if (!mini->r && !*mini->input)
-	{
-		ft_putstr_fd("exit\n", 1);
-		exit(0);
-	}
-}
-
 int		main(int ac, char **av, char **env)
 {
-	t_mini	mini;
+	t_mini			mini;
+	struct termios	term;
 
 	(void)ac;
 	(void)av;
+	(void)env;
 	mini.myenv = (t_env *){0};
 	mini.check = (t_checkers){0};
-	mini.cmd = (t_cmd*){0};
+	mini.cmd = (t_cmd *){0};
 	mini = (t_mini){0};
 	g_mini = &mini;
 	init_env(env, &mini.myenv);
+	fill_hist(&mini.hist);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, handle_sigquit);
 	while (1)
 	{
 		prompt(&mini);
-		mini.r = get_next_line(0, &mini.input);
-		handle_ctrl_d(&mini);
+		mini.input = readline(&mini, &mini.hist, &term);
 		parse(&mini);
+		// tcgetattr(0, &term);
 		if (!mini.status)
 			execution(&mini);
+		// tcsetattr(0, TCSADRAIN, &term);
 		free(mini.input);
 		mini.input = NULL;
 	}

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/06 11:16:03 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/11 15:29:33 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ifexist(t_mini *mini, int i)
+int		ifexist(t_mini *mini, int i)
 {
 	char	*slashcmd;
 
@@ -20,16 +20,16 @@ int	ifexist(t_mini *mini, int i)
 	mini->paths = NULL;
 	if ((mini->path_value = ft_lstsearch(mini->myenv, "PATH", &mini->print)))
 		mini->paths = ft_split(mini->path_value, ':');
-	slashcmd = ft_strjoin("/", mini->tab[0]);
+	slashcmd = ft_strjoin("/", mini->tabu[0]);
 	while (mini->paths[i])
 	{
 		mini->cmd_exist = ft_strjoin(mini->paths[i], slashcmd);
 		if (!stat(mini->cmd_exist, &mini->stt) && S_ISREG(mini->stt.st_mode))
 		{
-			free(mini->tab[0]);
-			mini->tab[0] = ft_strdup(mini->cmd_exist);
+			free(mini->tabu[0]);
+			mini->tabu[0] = ft_strdup(mini->cmd_exist);
 			free(slashcmd);
-			ft_free(mini->paths);
+			ft_free(&mini->paths);
 			free(mini->cmd_exist);
 			return (1);
 		}
@@ -37,28 +37,30 @@ int	ifexist(t_mini *mini, int i)
 		i++;
 	}
 	free(slashcmd);
-	ft_free(mini->paths);
+	ft_free(&mini->paths);
 	return (0);
 }
 
 void	not_exist(t_mini *mini)
 {
-	if (*mini->tab[0] == '.' || *mini->tab[0] == '/')
+	if (*mini->tabu[0] == '.' || *mini->tabu[0] == '/')
 	{
-		if (stat(mini->tab[0], &mini->stt))
-			return (error_file(mini, mini->tab[0], ""));
+		if (stat(mini->tabu[0], &mini->stt))
+			return (error_file(mini, mini->tabu[0], ""));
 		if (mini->stt.st_mode & S_IFMT & S_IFDIR)
 			return (is_directory(mini));
 		if (!(mini->stt.st_mode & X_OK))
-			return (permission(mini, mini->tab[0]));
+			return (permission(mini, mini->tabu[0]));
 	}
 	else
 	{
-		if (*mini->tab[0] == '/')
+		if (*mini->tabu[0] == '/')
 			return (is_directory(mini));
-		else if (!*mini->tab[0] || (*mini->tab[0] && (*mini->tab[0] == '=' ||
-			!ft_strchr(mini->tab[0], '='))))
+		else if (!*mini->tabu[0])
 			return (cmd_not_found(mini));
+		else if (*mini->tabu[0] && (*mini->tabu[0] == '=' || !ft_strchr(mini->tabu[0], '=')))
+			return (cmd_not_found(mini));
+		return ;
 	}
 }
 
@@ -95,8 +97,10 @@ void	if_isdirect(t_mini *mini, char *s)
 	mini->check.point = 0;
 }
 
-void	pip_handler(t_mini *mini, t_pipe *pip)
+void	commands(t_mini *mini, t_pipe *pip)
 {
+	if (mini->redir.err)
+		return ;
 	if (!mini->ret && pip->next)
 	{
 		mini->ret = (!pipe(mini->pipe)) ? 1 : 0;
@@ -106,7 +110,7 @@ void	pip_handler(t_mini *mini, t_pipe *pip)
 	}
 	else if (mini->ret)
 	{
-		if (!mini->fd[0] || (!mini->tab[1] && !mini->fd[0]))
+		if (!mini->fd[0] || (!mini->tabu[1] && !mini->fd[0]))
 			dup2(mini->pipe[0], 0);
 		close(mini->pipe[0]);
 		mini->ret = 0;
@@ -118,19 +122,21 @@ void	pip_handler(t_mini *mini, t_pipe *pip)
 			close(mini->pipe[1]);
 		}
 	}
-}
-
-void	commands(t_mini *mini, t_pipe *pip)
-{
-	if (mini->redir.err)
-		return ;
-	pip_handler(mini, pip);
-	if (mini->tab[0] && is_builtins(mini))
+	if (mini->tabu[0] && is_builtins(mini))
 		do_builtins(mini);
-	else if (mini->tab[0])
+	else if (mini->tabu[0])
 		exec_cmd(mini);
 	dup2(mini->oldoutput, 1);
 	dup2(mini->oldinput, 0);
-	close_fd(mini);
+	if (mini->fd[1])
+	{
+        close(mini->fd[1]);
+		mini->fd[1] = 0;
+	}
+	if (mini->fd[0])
+	{
+        close(mini->fd[0]);
+		mini->fd[0] = 0;
+	}
 	underscore(mini);
 }

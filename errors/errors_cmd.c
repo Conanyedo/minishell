@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 12:36:19 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/30 19:09:11 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/01 15:08:37 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	is_directory(t_mini *mini)
 {
 	mini->cmd_status = 126;
 	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(mini->tab[0], 2);
+	ft_putstr_fd(mini->tabu[0], 2);
 	ft_putstr_fd(": is a directory\n", 2);
 }
 
@@ -32,7 +32,7 @@ void	cmd_not_found(t_mini *mini)
 {
 	mini->cmd_status = 127;
 	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(mini->tab[0], 2);
+	ft_putstr_fd(mini->tabu[0], 2);
 	ft_putstr_fd(": command not found\n", 2);
 }
 
