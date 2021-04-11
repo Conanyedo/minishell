@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   tools_plus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/16 22:07:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/03 12:59:55 by cabouelw         ###   ########.fr       */
+/*   Created: 2021/04/03 14:39:04 by cabouelw          #+#    #+#             */
+/*   Updated: 2021/04/03 14:40:41 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int		ft_isalpha(int c)
+void	close_fd(t_mini *mini)
 {
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
-		return (1);
-	return (0);
-}
-
-int		ft_isexist(char *s, char c)
-{
-	int i;
-
-	i = 0;
-	if (!s || !*s)
-		return (0);
-	while (s[i])
+	if (mini->fd[1])
 	{
-		if (s[i] == c)
-			return (1);
-		i++;
+		close(mini->fd[1]);
+		mini->fd[1] = 0;
 	}
-	return (0);
+	if (mini->fd[0])
+	{
+		close(mini->fd[0]);
+		mini->fd[0] = 0;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 17:02:23 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/28 13:03:00 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/03 17:50:33 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	edit(t_mini *mini, t_env **list, char ***splitted, int print)
 {
 	char	*tmp;
 
-	tmp = ft_strdup("");
+	tmp = NULL;
 	if (*(*list)->symbol == '=')
 		ft_strlcpy((*list)->symbol, "=", 2);
 	else
@@ -35,7 +35,8 @@ void	edit(t_mini *mini, t_env **list, char ***splitted, int print)
 		(*list)->print = print;
 		(*list)->value = ft_strdup((*splitted)[2]);
 	}
-	free(tmp);
+	if (tmp)
+		free(tmp);
 }
 
 void	edit_env(t_mini *mini, char **splitted, int print)

@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/16 22:07:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/03 12:59:55 by cabouelw         ###   ########.fr       */
+/*   Created: 2019/10/16 14:51:42 by ybouddou          #+#    #+#             */
+/*   Updated: 2021/03/13 18:52:48 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_isalpha(int c)
+char	*ft_strdup(const char *s1)
 {
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
-		return (1);
-	return (0);
-}
-
-int		ft_isexist(char *s, char c)
-{
-	int i;
+	unsigned int	i;
+	unsigned int	j;
+	char			*copy;
 
 	i = 0;
-	if (!s || !*s)
-		return (0);
-	while (s[i])
-	{
-		if (s[i] == c)
-			return (1);
+	j = 0;
+	if (!s1)
+		return (NULL);
+	while (s1[i])
 		i++;
+	if (!(copy = (char *)malloc(sizeof(char) * i + 1)))
+		return (NULL);
+	while (j < i)
+	{
+		copy[j] = s1[j];
+		j++;
 	}
-	return (0);
+	copy[j] = '\0';
+	return (copy);
 }

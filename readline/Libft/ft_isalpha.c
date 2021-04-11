@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 22:07:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/03 12:59:55 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/03/29 13:13:04 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int		ft_isexist(char *s, char c)
 	int i;
 
 	i = 0;
-	if (!s || !*s)
-		return (0);
 	while (s[i])
 	{
 		if (s[i] == c)

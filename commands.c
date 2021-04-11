@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/31 12:54:37 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/06 11:16:03 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ifexist(t_mini *mini, int i)
+int	ifexist(t_mini *mini, int i)
 {
 	char	*slashcmd;
 
@@ -56,11 +56,9 @@ void	not_exist(t_mini *mini)
 	{
 		if (*mini->tab[0] == '/')
 			return (is_directory(mini));
-		else if (!*mini->tab[0])
+		else if (!*mini->tab[0] || (*mini->tab[0] && (*mini->tab[0] == '=' ||
+			!ft_strchr(mini->tab[0], '='))))
 			return (cmd_not_found(mini));
-		else if (*mini->tab[0] && (*mini->tab[0] == '=' || !ft_strchr(mini->tab[0], '=')))
-			return (cmd_not_found(mini));
-		return ;
 	}
 }
 
@@ -97,10 +95,8 @@ void	if_isdirect(t_mini *mini, char *s)
 	mini->check.point = 0;
 }
 
-void	commands(t_mini *mini, t_pipe *pip)
+void	pip_handler(t_mini *mini, t_pipe *pip)
 {
-	if (mini->redir.err)
-		return ;
 	if (!mini->ret && pip->next)
 	{
 		mini->ret = (!pipe(mini->pipe)) ? 1 : 0;
@@ -122,21 +118,19 @@ void	commands(t_mini *mini, t_pipe *pip)
 			close(mini->pipe[1]);
 		}
 	}
+}
+
+void	commands(t_mini *mini, t_pipe *pip)
+{
+	if (mini->redir.err)
+		return ;
+	pip_handler(mini, pip);
 	if (mini->tab[0] && is_builtins(mini))
 		do_builtins(mini);
 	else if (mini->tab[0])
 		exec_cmd(mini);
 	dup2(mini->oldoutput, 1);
 	dup2(mini->oldinput, 0);
-	if (mini->fd[1])
-	{
-        close(mini->fd[1]);
-		mini->fd[1] = 0;
-	}
-	if (mini->fd[0])
-	{
-        close(mini->fd[0]);
-		mini->fd[0] = 0;
-	}
+	close_fd(mini);
 	underscore(mini);
 }

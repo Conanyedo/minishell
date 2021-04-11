@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/31 12:45:36 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/05 16:36:41 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ void	handle_sigint(int sig)
 void	handle_sigquit(int sig)
 {
 	(void)sig;
-	g_mini->tmp = NULL;
-	g_mini->temp = ft_strdup("");
 	if (g_mini->pid)
 		return (ft_putstr_fd("Quit: 3\n", 1));
 	if (!g_mini->r && !g_mini->input)
@@ -65,6 +63,7 @@ void	handle_sigquit(int sig)
 		ft_putstr_fd("\033[2D\033[K", 1);
 		return ;
 	}
+	g_mini->tmp = NULL;
 	while (!g_mini->r && g_mini->input)
 	{
 		ft_putstr_fd("\033[2D\033[K", 1);
@@ -80,7 +79,6 @@ void	handle_sigquit(int sig)
 void	handle_ctrl_d(t_mini *mini)
 {
 	mini->tmp = NULL;
-	mini->temp = ft_strdup("");
 	while (!mini->r && *mini->input)
 	{
 		ft_putstr_fd("\033[K", 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/30 19:10:14 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/03 14:39:53 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int					ifexist(t_mini *mini, int i);
 void				if_isdirect(t_mini *mini, char *s);
 void				not_exist(t_mini *mini);
 void				commands(t_mini *mini, t_pipe *pip);
+void				close_fd(t_mini *mini);
 
 //linkedlist
 void				init_env(char **env, t_env **myenv);

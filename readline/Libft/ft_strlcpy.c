@@ -1,36 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/16 22:07:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/03 12:59:55 by cabouelw         ###   ########.fr       */
+/*   Created: 2019/10/18 01:32:49 by ybouddou          #+#    #+#             */
+/*   Updated: 2019/10/30 15:29:00 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_isalpha(int c)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
-		return (1);
-	return (0);
-}
+	size_t	i;
+	size_t	j;
 
-int		ft_isexist(char *s, char c)
-{
-	int i;
-
-	i = 0;
-	if (!s || !*s)
+	if (!dst && !src)
 		return (0);
-	while (s[i])
+	i = ft_strlen(src);
+	j = 0;
+	if (size == 0)
+		return (i);
+	while (src[j] && j < size - 1)
 	{
-		if (s[i] == c)
-			return (1);
-		i++;
+		dst[j] = src[j];
+		j++;
 	}
-	return (0);
+	dst[j] = '\0';
+	return (i);
 }
