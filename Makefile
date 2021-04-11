@@ -6,7 +6,7 @@
 #    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/03/30 19:10:09 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/04/11 10:11:02 by ybouddou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ LIB_PATH = Libft
 LIB = libft.a
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
+NCURSES= -lncurses
 SRC = main.c\
 	tools.c\
 	expansions.c\
@@ -40,6 +41,11 @@ SRC = main.c\
 	pars_src/check_symbols.c\
 	pars_src/check_pipes.c\
 	errors/errors_cmd.c\
+	readline/history.c\
+	readline/keys.c\
+	readline/readline.c\
+	readline/utils.c\
+	readline/signals.c\
 
 OBJ = $(SRC:.c=.o)
 
@@ -47,20 +53,20 @@ all: $(NAME)
 
 $(NAME): $(OBJ) $(LIB)
 	@ar rcs $(NAME) $(OBJ)
-	@gcc $(NAME) $(LIB_PATH)/$(LIB) -o minishell
+	@gcc $(NAME) $(LIB_PATH)/$(LIB) $(NCURSES) -o minishell
 
 $(LIB):
 	@make -C $(LIB_PATH)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -c $^ -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@make clean -C $(LIB_PATH)/
 	@rm -rf $(OBJ)
 
 fclean: clean
-#	@make fclean -C
+	@make fclean -C $(LIB_PATH)
 	@rm -rf $(NAME)
 
 re: fclean all

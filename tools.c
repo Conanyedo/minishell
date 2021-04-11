@@ -6,27 +6,27 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/31 11:37:28 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/11 15:35:05 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free(char **arr)
+void	ft_free(char ***arr)
 {
 	int		i;
 
 	i = 0;
-	while (arr && arr[i])
+	while ((*arr) && (*arr)[i])
 	{
-		if (arr[i])
-			free(arr[i]);
-		arr[i] = NULL;
+		if ((*arr)[i])
+			free((*arr)[i]);
+		(*arr)[i] = NULL;
 		i++;
 	}
-	if (arr)
-		free(arr);
-	arr = NULL;
+	if ((*arr))
+		free((*arr));
+	(*arr) = NULL;
 }
 
 void	git(char *tmp)
@@ -85,7 +85,7 @@ void	prompt(t_mini *mini)
 void	exec_cmd(t_mini *mini)
 {
 	mini->check.point = 1;
-	if_isdirect(mini, mini->tab[0]);
+	if_isdirect(mini, mini->tabu[0]);
 	if (mini->check.point)
 		return ;
 	if (!ifexist(mini, 0))
@@ -96,44 +96,28 @@ void	exec_cmd(t_mini *mini)
 	}
 	else
 	{
-		stat(mini->tab[0], &mini->stt);
+		stat(mini->tabu[0], &mini->stt);
 		if (mini->stt.st_mode & S_IFMT & S_IFDIR)
 			return (is_directory(mini));
 		if (!(mini->stt.st_mode & X_OK))
-			return (permission(mini, mini->tab[0]));
+			return (permission(mini, mini->tabu[0]));
 	}
 	mini->cmd_status = 0;
 	ft_lsttoarray(mini->myenv, &mini->env_array);
-	pipe(mini->err_pipe);
 	mini->pid = fork();
 	if (mini->pid > 0)
 	{
-		wait(NULL);
+		waitpid(mini->pid, &mini->r, 0);
+		if (WEXITSTATUS(mini->r))
+			mini->cmd_status = WEXITSTATUS(mini->r);
 		mini->pid = 0;
-		ft_free(mini->env_array);
-		mini->env_array = NULL;
-		close(mini->err_pipe[1]);
-		get_next_line(mini->err_pipe[0], &mini->tmp);
-		close(mini->err_pipe[0]);
-		if (*mini->tmp)
-		{
-			ft_putstr_fd(mini->tmp, 2);
-			ft_putstr_fd("\n", 2);
-			mini->cmd_status = 1;
-		}
-		free(mini->tmp);
-		mini->tmp = NULL;
+		ft_free(&mini->env_array);
 	}
 	else
-	{
-		close(mini->err_pipe[0]);
-		dup2(mini->err_pipe[1], 2);
-		close(mini->err_pipe[1]);
-		execve(mini->tab[0], mini->tab, mini->env_array);
-	}
+		execve(mini->tabu[0], mini->tabu, mini->env_array);
 }
 
-char	**remove_dust(char **str)
+char	**remove_dust(char ***str)
 {
 	int		i;
 	int		j;
@@ -141,20 +125,21 @@ char	**remove_dust(char **str)
 	char	**cpy;
 
 	t = 0;
-	while (str[t])
+	while ((*str)[t])
 		t++;
 	cpy = (char**)malloc(sizeof(char*) * t + 1);
 	t = -1;
-	while (str[++t])
+	while ((*str)[++t])
 	{
-		cpy[t] = (char*)malloc(sizeof(char) * ft_strlen(str[t]) + 1);
+		cpy[t] = (char*)malloc(sizeof(char) * ft_strlen((*str)[t]) + 1);
 		i = -1;
 		j = 0;
-		while (str[t][++i] != '\0')
-			if (str[t][i] > 1)
-				cpy[t][j++] = str[t][i];
+		while ((*str)[t][++i] != '\0')
+			if ((*str)[t][i] > 1)
+				cpy[t][j++] = (*str)[t][i];
 		cpy[t][j] = '\0';
 	}
 	cpy[t] = NULL;
+	ft_free(str);
 	return (cpy);
 }

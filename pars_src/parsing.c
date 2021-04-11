@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/04/01 09:57:22 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/11 16:42:55 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,24 @@ void	split_pipe(t_mini *mini, t_cmd **cmd, int i)
 
 	pipe = NULL;
 	(*cmd)->content = ft_strtrim(mini->cmds[i], " \t");
-	mini->tab = ft_strsplit((*cmd)->content, "|", 1);
+	mini->tabu = ft_strsplit((*cmd)->content, "|", 1);
 	(*cmd)->pipe = NULL;
 	(*cmd)->pipe = (t_pipe*)malloc(sizeof(t_pipe));
 	(*cmd)->pipe->next = NULL;
+	(*cmd)->pipe->content = NULL;
 	pipe = (*cmd)->pipe;
 	j = -1;
-	while (mini->tab[++j])
+	while (mini->tabu[++j])
 	{
-		pipe->content = ft_strtrim(mini->tab[j], " \t");
-		if (!mini->tab[j + 1])
+		pipe->content = ft_strtrim(mini->tabu[j], " \t");
+		if (!mini->tabu[j + 1])
 			break ;
 		pipe->next = (t_pipe*)malloc(sizeof(t_pipe));
 		pipe = pipe->next;
 	}
 	pipe->next = NULL;
-	ft_free(mini->tab);
-	mini->tab = NULL;
+	ft_free(&mini->tabu);
+	mini->tabu = NULL;
 }
 
 void	splitting(t_mini *mini)
@@ -44,11 +45,12 @@ void	splitting(t_mini *mini)
 	t_cmd	*cmd;
 
 	i = -1;
-	mini->tab = NULL;
+	mini->tabu = NULL;
 	cmd = NULL;
 	mini->cmd = NULL;
 	mini->cmd = (t_cmd*)malloc(sizeof(t_cmd));
 	mini->cmd->next = NULL;
+	mini->cmd->content = NULL;
 	mini->cmd->pipe = NULL;
 	cmd = mini->cmd;
 	while (mini->cmds[++i])
@@ -60,7 +62,7 @@ void	splitting(t_mini *mini)
 		cmd = cmd->next;
 	}
 	cmd->next = NULL;
-	ft_free(mini->cmds);
+	ft_free(&mini->cmds);
 	mini->cmds = NULL;
 }
 
@@ -113,6 +115,7 @@ void	checker(t_mini *mini, int i)
 void	parse(t_mini *mini)
 {
 	int		i;
+	char	*tmp;
 
 	i = 0;
 	while (mini->input[i] == ' ')
@@ -122,7 +125,9 @@ void	parse(t_mini *mini)
 	checker(mini, 0);
 	if (mini->status)
 		return ;
+	tmp = mini->input;
 	mini->input = ft_strtrim(mini->input, " \t");
+	free(tmp);
 	mini->cmds = ft_strsplit(mini->input, ";", 1);
 	splitting(mini);
 }

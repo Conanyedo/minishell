@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:11:31 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/31 12:57:55 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/11 17:13:03 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,9 @@ void	redir(t_mini *mini, t_pipe **pipe, int i)
 	mini->redir.tmpstr[idx] = '\0';
 	(*pipe)->content = ft_strtrim(mini->redir.tmpstr, " \t");
 	free(mini->redir.tmpstr);
+	free(mini->redir.str);
+	free(mini->redir.tmpfile);
+	free(mini->redir.file);
 	if (mini->redir.err)
 		return ;
 	dup_in_out(mini);

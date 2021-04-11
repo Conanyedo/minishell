@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:50:10 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/31 12:46:30 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/11 16:56:48 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,10 @@ void	edit_underscore(t_mini *mini, int i)
 	tmp[0] = ft_strdup("_");
 	tmp[1] = ft_strdup("=");
 	tmp[3] = NULL;
-	if ((ft_strrchr(mini->tab[i], '/')))
-		tmp[2] = ft_strdup(ft_strrchr(mini->tab[i], '/') + 1);
+	if ((ft_strrchr(mini->tabu[i], '/')))
+		tmp[2] = ft_strdup(ft_strrchr(mini->tabu[i], '/') + 1);
 	else
-		tmp[2] = ft_strdup(mini->tab[i]);
+		tmp[2] = ft_strdup(mini->tabu[i]);
 	list = mini->myenv;
 	while (list)
 	{
@@ -101,7 +101,7 @@ void	edit_underscore(t_mini *mini, int i)
 			edit(mini, &list, &tmp, 0);
 		list = list->next;
 	}
-	ft_free(tmp);
+	ft_free(&tmp);
 }
 
 void	underscore(t_mini *mini)
@@ -110,21 +110,25 @@ void	underscore(t_mini *mini)
 	char	**tmp;
 
 	i = 0;
+	tmp = NULL;
+	if (!mini->tabu[i])
+		return ;
 	tmp = (char **)malloc(sizeof(char *) * 4);
 	tmp[0] = ft_strdup("_");
 	tmp[1] = ft_strdup("=");
+	tmp[2] = ft_strdup("");
 	tmp[3] = NULL;
-	if (!mini->tab[i])
-		return ;
-	while (mini->tab[i])
+	while (mini->tabu[i])
 		i++;
 	i--;
 	if (!ft_lstsearch(mini->myenv, "_", &mini->print))
 	{
+		free(tmp[2]);
 		tmp[2] = ft_strdup("_");
 		add_env(mini, tmp);
-		ft_free(tmp);
+		ft_free(&tmp);
 		return ;
 	}
+	ft_free(&tmp);
 	edit_underscore(mini, i);
 }
