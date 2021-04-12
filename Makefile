@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
+#    By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/04/11 10:11:02 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/04/12 15:25:46 by cabouelw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC = main.c\
 	tools.c\
 	expansions.c\
 	commands.c\
+	tools_plus.c\
 	linkedlist.c\
 	builtins/ft_env.c\
 	builtins/ft_echo.c\

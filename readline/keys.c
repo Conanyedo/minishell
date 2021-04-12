@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   keys.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 16:29:15 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/11 10:52:54 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/12 13:42:52 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#include "../minishell.h"
 
 void	delchar(t_history **list)
 {
@@ -76,7 +76,7 @@ void	delete_char(t_read *s_read, t_history **list)
 	div = (float)((float)(*list)->cursor / (float)(s_read->win.col));
 	if (div >= floor(div))
 		diff = floor(div);
-	if (diff) 
+	if (diff)
 		diff--;
 	if (!(((*list)->cursor - diff) % s_read->win.col))
 	{
@@ -95,7 +95,7 @@ void	printing(t_read *s_read, t_history **list, int c)
 	float	div;
 	int		sub;
 	int		row;
-	
+
 	ft_putchar_fd(c, 1);
 	diff = 0;
 	div = (float)((float)(*list)->cursor / (float)(s_read->win.col));

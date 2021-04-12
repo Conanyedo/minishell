@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 17:02:23 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/11 17:06:38 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/12 15:50:40 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,13 @@ void	edit(t_mini *mini, t_env **list, char ***splitted, int print)
 			free((*list)->value);
 			free((*splitted)[2]);
 			(*splitted)[2] = ft_strdup(tmp);
+			free(tmp);
 		}
 		else
 			free((*list)->value);
 		(*list)->print = print;
 		(*list)->value = ft_strdup((*splitted)[2]);
 	}
-	if (tmp)
-		free(tmp);
 }
 
 void	edit_env(t_mini *mini, char **splitted, int print)
@@ -90,7 +89,7 @@ void	print_value(char *value)
 void	print_export(t_mini *mini)
 {
 	t_env	*sorted;
-	// t_env	*prev;
+	t_env	*prev;
 
 	insertionsort(mini, &sorted);
 	while (sorted)
@@ -108,14 +107,10 @@ void	print_export(t_mini *mini)
 			ft_putstr_fd("\n", 1);
 		}
 		print_underscore(sorted);
-		// prev = sorted;
+		prev = sorted;
 		sorted = sorted->next;
-		// free(prev->key);
-		// free(prev->symbol);
-		// if (prev->value)
-		// 	free(prev->value);
-		// free(prev);
+		if (prev)
+			free(prev);
 	}
 	mini->cmd_status = 0;
-	return ;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 22:28:11 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/31 11:54:41 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/12 14:54:07 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int					ft_memcmp(const void *s1, const void *s2, size_t n);
 void				*ft_calloc(size_t count, size_t size);
 char				*ft_strdup(const char *s1);
 
-typedef struct		s_var
+typedef struct s_var
 {
 	int				i;
 	char			*s;

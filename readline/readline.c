@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 12:00:53 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/11 16:22:03 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/12 13:44:48 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#include "../minishell.h"
 
 void	free_str(t_char	**node)
 {
@@ -18,7 +18,7 @@ void	free_str(t_char	**node)
 	t_char	*prev;
 
 	list = *node;
-	while(list)
+	while (list)
 	{
 		prev = list;
 		list = list->next;
@@ -112,11 +112,11 @@ void	keys(t_mini *mini, t_read *s_read, t_history **list)
 			delete_char(s_read, list);
 		else if (s_read->key == 12)
 			clear_term(mini, s_read, list);
-		else if (s_read->key == 3)// ctrl-C
+		else if (s_read->key == 3) // ctrl-C
 			ctrl_c(mini, s_read, list);
 		// else if (s_read->key == 28)// ctrl-\\*
 		// 	clear_term(s_read);
-		else if (s_read->key == 4)// ctrl-d*
+		else if (s_read->key == 4) // ctrl-d*
 			ctrl_d(list);
 		else if (s_read->key == 10)
 			break ;

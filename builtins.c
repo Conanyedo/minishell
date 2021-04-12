@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 09:36:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/01 15:08:37 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/12 12:58:57 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		is_builtins(t_mini *mini)
+int	is_builtins(t_mini *mini)
 {
 	if (!(ft_strncmp(mini->tabu[0], "env", ft_strlen("env"))))
 		return (1);
