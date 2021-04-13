@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/13 12:29:50 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/13 12:51:07 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ typedef struct s_mini
 	t_history		*hist;
 	struct stat		stt;
 	t_redir			redir;
+	char			**pwd;
+	char			**oldpwd;
 	char			*prompt;
 	char			*home;
 	int				pipe[2];
@@ -245,27 +247,29 @@ void				permission(t_mini *mini, char *file);
 void				error_arg(t_mini *mini);
 
 //readline
-char		*readline(t_mini *mini, t_history **hist, struct termios *term);
-void		keys(t_mini *mini, t_read *s_read, t_history **hist);
-void		add_char(t_read *s_read, t_history **list, int c);
-void		delchar(t_history **list);
-void		delete_char(t_read *s_read, t_history **list);
-void		delete_node(t_history **hist);
-void		free_str(t_char	**node);
-void		up(t_read *s_read, t_history **list);
-void		down(t_read *s_read, t_history **list);
-void		left(t_read *s_read, t_history **list);
-void		right(t_read *s_read, t_history **list);
-void		fill_input(t_read *s_read, t_history **list, t_history **hist);
-void		get_cursor(t_read *s_read, t_history **list);
-void		termsize(t_read *s_read);
-void		init_term(t_read *s_read, struct termios *term);
-void		cursor_home_clean(t_read *s_read, t_history **list);
-void		set_cursor_home(t_read *s_read);
-void		home_end(t_read *s_read, t_history **list);
-void		clear_term(t_mini *mini, t_read *s_read, t_history **list);
-void		printing(t_read *s_read, t_history **list, int c);
-void		dup_str(t_char *node, t_char **dup);
+char				*readline(t_mini *mini, t_history **hist,
+						struct termios *term);
+void				keys(t_mini *mini, t_read *s_read, t_history **hist);
+void				add_char(t_read *s_read, t_history **list, int c);
+void				delchar(t_history **list);
+void				delete_char(t_read *s_read, t_history **list);
+void				delete_node(t_history **hist);
+void				free_str(t_char	**node);
+void				up(t_read *s_read, t_history **list);
+void				down(t_read *s_read, t_history **list);
+void				left(t_read *s_read, t_history **list);
+void				right(t_read *s_read, t_history **list);
+void				fill_input(t_read *s_read, t_history **list,
+						t_history **hist);
+void				get_cursor(t_read *s_read, t_history **list);
+void				termsize(t_read *s_read);
+void				init_term(t_read *s_read, struct termios *term);
+void				cursor_home_clean(t_read *s_read, t_history **list);
+void				set_cursor_home(t_read *s_read);
+void				home_end(t_read *s_read, t_history **list);
+void				clear_term(t_mini *mini, t_read *s_read, t_history **list);
+void				printing(t_read *s_read, t_history **list, int c);
+void				dup_str(t_char *node, t_char **dup);
 
 //signals
 void				ctrl_c(t_mini *mini, t_read *s_read, t_history **list);
@@ -274,11 +278,11 @@ void				handle_sigint(int sig);
 void				handle_sigquit(int sig);
 
 //history
-t_history	*add_node(t_history **hist, t_history *node);
-void		create_node(t_history **node, int rank);
-void		create_chars(t_history *node, t_char **str, char *line);
-void		fill_hist(t_history **hist);
-void		fill_file(t_history **hist, int fd);
-void		history(t_read *s_read, t_history **hist);
+t_history			*add_node(t_history **hist, t_history *node);
+void				create_node(t_history **node, int rank);
+void				create_chars(t_history *node, t_char **str, char *line);
+void				fill_hist(t_history **hist);
+void				fill_file(t_history **hist, int fd);
+void				history(t_read *s_read, t_history **hist);
 
 #endif

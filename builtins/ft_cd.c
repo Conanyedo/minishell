@@ -3,64 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:50:39 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/12 16:02:30 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/13 12:49:11 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	init_splitted(char ***oldpwd, char ***pwd)
+void	init_splitted(t_mini *mini)
 {
-	*pwd = (char **)malloc(sizeof(char *) * 4);
-	*oldpwd = (char **)malloc(sizeof(char *) * 4);
-	(*oldpwd)[0] = ft_strdup("OLDPWD");
-	(*oldpwd)[1] = ft_strdup("=");
-	(*oldpwd)[3] = NULL;
-	(*pwd)[0] = ft_strdup("PWD");
-	(*pwd)[1] = ft_strdup("=");
-	(*pwd)[3] = NULL;
+	mini->pwd = NULL;
+	mini->oldpwd = NULL;
+	mini->pwd = (char **)malloc(sizeof(char *) * 4);
+	mini->oldpwd = (char **)malloc(sizeof(char *) * 4);
+	mini->oldpwd[0] = ft_strdup("OLDPWD");
+	mini->oldpwd[1] = ft_strdup("=");
+	mini->oldpwd[3] = NULL;
+	mini->pwd[0] = ft_strdup("PWD");
+	mini->pwd[1] = ft_strdup("=");
+	mini->pwd[3] = NULL;
+}
+
+void	change_var(t_mini *mini, int print)
+{
+	char	cwd[1028];
+
+	mini->oldpwd[2] = ft_strdup(mini->tmp);
+	free(mini->tmp);
+	if (ft_lstsearch(mini->myenv, "OLDPWD", &mini->print)
+		&& mini->print && !print)
+		edit_env(mini, mini->oldpwd, 2);
+	else if (print == 1)
+		edit_env(mini, mini->oldpwd, 1);
+	else
+		edit_env(mini, mini->oldpwd, 0);
+	getcwd(cwd, 1028);
+	mini->pwd[2] = ft_strdup(cwd);
+	if (ft_lstsearch(mini->myenv, "PWD", &mini->print) && mini->print)
+		edit_env(mini, mini->pwd, 2);
+	else
+		edit_env(mini, mini->pwd, 0);
 }
 
 void	changeenv(t_mini *mini, char *path)
 {
-	char	cwd[1028];
-	char	**pwd;
-	char	**oldpwd;
-	char	*tmp;
 	int		print;
 
-	init_splitted(&oldpwd, &pwd);
-	tmp = ft_strdup(ft_lstsearch(mini->myenv, "PWD", &print));
+	init_splitted(mini);
+	mini->tmp = ft_strdup(ft_lstsearch(mini->myenv, "PWD", &print));
 	if (chdir(path) < 0)
 	{
-		pwd[2] = ft_strdup("");
-		ft_free(&pwd);
-		oldpwd[2] = ft_strdup("");
-		ft_free(&oldpwd);
-		free(tmp);
+		mini->pwd[2] = ft_strdup("");
+		ft_free(&mini->pwd);
+		mini->oldpwd[2] = ft_strdup("");
+		ft_free(&mini->oldpwd);
+		free(mini->tmp);
 		return (error_file(mini, path, "cd"));
 	}
-	oldpwd[2] = ft_strdup(tmp);
-	free(tmp);
-	if (ft_lstsearch(mini->myenv, "OLDPWD", &mini->print)
-		&& mini->print && !print)
-		edit_env(mini, oldpwd, 2);
-	else if (print == 1)
-		edit_env(mini, oldpwd, 1);
-	else
-		edit_env(mini, oldpwd, 0);
-	getcwd(cwd, 1028);
-	pwd[2] = ft_strdup(cwd);
-	if (ft_lstsearch(mini->myenv, "PWD", &mini->print) && mini->print)
-		edit_env(mini, pwd, 2);
-	else
-		edit_env(mini, pwd, 0);
+	change_var(mini, print);
 	mini->cmd_status = 0;
-	ft_free(&pwd);
-	ft_free(&oldpwd);
+	ft_free(&mini->pwd);
+	ft_free(&mini->oldpwd);
 }
 
 void	cd_home(t_mini *mini)
