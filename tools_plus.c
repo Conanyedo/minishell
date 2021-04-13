@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_plus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 14:39:04 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/04/13 12:11:18 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/13 12:56:59 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	isredirect_loop(t_mini *mini, char *s, int i)
 	return (i);
 }
 
-void	commands_tools(t_mini *mini, t_pipe *pip)
+void	pipe_handler(t_mini *mini, t_pipe *pip)
 {
 	if (!mini->ret && pip->next)
 	{

@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/13 12:27:02 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/13 12:57:38 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	commands(t_mini *mini, t_pipe *pip)
 {
 	if (mini->redir.err)
 		return ;
-	commands_tools(mini, pip);
+	pipe_handler(mini, pip);
 	if (mini->tabu[0] && is_builtins(mini))
 		do_builtins(mini);
 	else if (mini->tabu[0])

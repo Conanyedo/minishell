@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/13 12:51:07 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/13 12:57:12 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ void				edit(t_mini *mini, t_env **list, char ***splitted,
 void				print_export(t_mini *mini);
 void				sortarray(t_mini *mini, char ***tabu);
 void				underscore(t_mini *mini);
-void				commands_tools(t_mini *mini, t_pipe *pip);
+void				pipe_handler(t_mini *mini, t_pipe *pip);
 int					isredirect_loop(t_mini *mini, char *s, int i);
 void				close_fd(t_mini *mini);
 void				ft_dup(t_mini *mini);
