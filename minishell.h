@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/11 15:30:06 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/13 12:07:56 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ typedef struct s_history
 {
 	int					len;
 	int					cursor;
+	int					rank;
 	struct s_char		*str;
+	struct s_char		*tmp;
 	struct s_history	*prev;
 	struct s_history	*next;
 }						t_history;
@@ -97,7 +99,7 @@ typedef struct		s_env
 	struct s_env	*next;
 }					t_env;
 
-typedef	struct		s_redir
+typedef	struct s_redir
 {
 	char			*tmpfile;
 	char			*tmpstr;
@@ -135,6 +137,7 @@ typedef struct		s_mini
 	struct stat		stt;
 	t_redir			redir;
 	char			*prompt;
+	char			*home;
 	int				pipe[2];
 	int				err_pipe[2];
 	int				p;
@@ -239,11 +242,11 @@ void				error_arg(t_mini *mini);
 //readline
 char		*readline(t_mini *mini, t_history **hist, struct termios *term);
 void		keys(t_mini *mini, t_read *s_read, t_history **hist);
-void		addchar(t_history **list, int c);
 void		add_char(t_read *s_read, t_history **list, int c);
 void		delchar(t_history **list);
 void		delete_char(t_read *s_read, t_history **list);
 void		delete_node(t_history **hist);
+void		free_str(t_char	**node);
 void		up(t_read *s_read, t_history **list);
 void		down(t_read *s_read, t_history **list);
 void		left(t_read *s_read, t_history **list);
@@ -254,7 +257,7 @@ void		termsize(t_read *s_read);
 void		init_term(t_read *s_read, struct termios *term);
 void		cursor_home_clean(t_read *s_read, t_history **list);
 void		set_cursor_home(t_read *s_read);
-void		set_cursor_end(t_read *s_read, t_history **list);
+void		home_end(t_read *s_read, t_history **list);
 void		clear_term(t_mini *mini, t_read *s_read, t_history **list);
 void		printing(t_read *s_read, t_history **list, int c);
 
@@ -266,8 +269,8 @@ void		handle_sigquit(int sig);
 
 //history
 t_history	*add_node(t_history **hist, t_history *node);
-void		create_node(t_history **node);
-void		create_chars(t_history **node, char *line);
+void		create_node(t_history **node, int rank);
+void		create_chars(t_history *node, t_char **str, char *line);
 void		fill_hist(t_history **hist);
 void		fill_file(t_history **hist, int fd);
 void		history(t_read *s_read, t_history **hist);

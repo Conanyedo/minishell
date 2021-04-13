@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/11 15:29:33 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/13 10:41:31 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,12 @@ void	not_exist(t_mini *mini)
 			return (is_directory(mini));
 		else if (!*mini->tabu[0])
 			return (cmd_not_found(mini));
+		else if (!stat(mini->tabu[0], &mini->stt) && (mini->stt.st_mode & X_OK))
+			mini->cmd_status = 0;
 		else if (*mini->tabu[0] && (*mini->tabu[0] == '=' || !ft_strchr(mini->tabu[0], '=')))
 			return (cmd_not_found(mini));
-		return ;
 	}
+	mini->cmd_status = 0;
 }
 
 void	if_isdirect(t_mini *mini, char *s)
@@ -97,10 +99,8 @@ void	if_isdirect(t_mini *mini, char *s)
 	mini->check.point = 0;
 }
 
-void	commands(t_mini *mini, t_pipe *pip)
+void	pip_handler(t_mini *mini, t_pipe *pip)
 {
-	if (mini->redir.err)
-		return ;
 	if (!mini->ret && pip->next)
 	{
 		mini->ret = (!pipe(mini->pipe)) ? 1 : 0;
@@ -122,6 +122,13 @@ void	commands(t_mini *mini, t_pipe *pip)
 			close(mini->pipe[1]);
 		}
 	}
+}
+
+void	commands(t_mini *mini, t_pipe *pip)
+{
+	if (mini->redir.err)
+		return ;
+	pip_handler(mini, pip);
 	if (mini->tabu[0] && is_builtins(mini))
 		do_builtins(mini);
 	else if (mini->tabu[0])

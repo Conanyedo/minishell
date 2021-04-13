@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/11 17:28:25 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/13 09:48:26 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,8 @@ void	execution(t_mini *mini)
 			commands(mini, pip);
 			ft_free(&mini->tabu);
 			mini->tabu = NULL;
-			// pip = pip->next;
 			free_pipe(&pip);
 		}
-		// cmd = cmd->next;
 		free_cmd(&cmd);
 	}
 	close(mini->oldinput);
