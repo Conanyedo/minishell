@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/12 15:45:37 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/13 12:04:04 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ void				redir(t_mini *mini, t_pipe **pipe, int i);
 int					redir_right(t_mini *mini, int i, char t);
 int					redir_left(t_mini *mini, int i, char t);
 int					check_redir(char *str);
+int					cutfilename(t_mini *mini, int i, char t, char **file);
 char				**remove_dust(char ***str);
 
 // Builtins

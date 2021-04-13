@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/12 15:23:03 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/13 10:43:59 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,13 @@ void	not_exist(t_mini *mini)
 			return (is_directory(mini));
 		else if (!*mini->tabu[0])
 			return (cmd_not_found(mini));
+		else if (!stat(mini->tabu[0], &mini->stt) && (mini->stt.st_mode & X_OK))
+			mini->cmd_status = 0;
 		else if (*mini->tabu[0] && (*mini->tabu[0] == '='
 				|| !ft_strchr(mini->tabu[0], '=')))
 			return (cmd_not_found(mini));
 	}
+	mini->cmd_status = 0;
 }
 
 void	if_isdirect(t_mini *mini, char *s)

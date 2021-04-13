@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/04/12 13:41:32 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/13 11:51:50 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ int	loop_check(t_mini *mini, int i)
 {
 	if (mini->input[i] == '\\' && mini->check.quota == 0)
 	{
+		mini->check.symbols = 0;
+		mini->check.left = 0;
+		mini->check.right = 0;
 		mini->input[i] = check_slash(mini, i);
 		i++;
 	}

@@ -6,11 +6,35 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:11:31 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/04/12 16:04:15 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/13 12:11:24 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	cutfilename(t_mini *mini, int i, char t, char **file)
+{
+	while (ft_isprint(mini->redir.str[i]) || mini->redir.str[i] < 0)
+	{
+		if (mini->redir.str[i] < 0 && mini->redir.str[i] != -92)
+		{
+			t = mini->redir.str[i];
+			while (mini->redir.str[++i] && mini->redir.str[i] != t)
+				if (mini->redir.str[i] > 1)
+					(*file)[mini->redir.len++] =\
+						mini->redir.str[i];
+			i++;
+		}
+		if (mini->redir.str[i] == '>' || mini->redir.str[i] == '<' || \
+			mini->redir.str[i] == ' ')
+			break ;
+		if (mini->redir.str[i] > 1)
+			(*file)[mini->redir.len++] = mini->redir.str[i];
+		i++;
+	}
+	(*file)[mini->redir.len] = '\0';
+	return (i);
+}
 
 int	loop_redir(t_mini *mini, int i, int *idx, char t)
 {
