@@ -6,7 +6,7 @@
 #    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/04/13 11:46:00 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/04/13 12:13:16 by ybouddou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRC = main.c\
 	readline/utils.c\
 	readline/signals.c\
 	readline/term.c\
+	readline/deleting.c\
 
 OBJ = $(SRC:.c=.o)
 
