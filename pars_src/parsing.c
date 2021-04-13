@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/04/11 16:42:55 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/13 11:51:50 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	split_pipe(t_mini *mini, t_cmd **cmd, int i)
 	(*cmd)->content = ft_strtrim(mini->cmds[i], " \t");
 	mini->tabu = ft_strsplit((*cmd)->content, "|", 1);
 	(*cmd)->pipe = NULL;
-	(*cmd)->pipe = (t_pipe*)malloc(sizeof(t_pipe));
+	(*cmd)->pipe = (t_pipe *)malloc(sizeof(t_pipe));
 	(*cmd)->pipe->next = NULL;
 	(*cmd)->pipe->content = NULL;
 	pipe = (*cmd)->pipe;
@@ -31,7 +31,7 @@ void	split_pipe(t_mini *mini, t_cmd **cmd, int i)
 		pipe->content = ft_strtrim(mini->tabu[j], " \t");
 		if (!mini->tabu[j + 1])
 			break ;
-		pipe->next = (t_pipe*)malloc(sizeof(t_pipe));
+		pipe->next = (t_pipe *)malloc(sizeof(t_pipe));
 		pipe = pipe->next;
 	}
 	pipe->next = NULL;
@@ -48,7 +48,7 @@ void	splitting(t_mini *mini)
 	mini->tabu = NULL;
 	cmd = NULL;
 	mini->cmd = NULL;
-	mini->cmd = (t_cmd*)malloc(sizeof(t_cmd));
+	mini->cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	mini->cmd->next = NULL;
 	mini->cmd->content = NULL;
 	mini->cmd->pipe = NULL;
@@ -58,7 +58,7 @@ void	splitting(t_mini *mini)
 		split_pipe(mini, &cmd, i);
 		if (!mini->cmds[i + 1])
 			break ;
-		cmd->next = (t_cmd*)malloc(sizeof(t_cmd));
+		cmd->next = (t_cmd *)malloc(sizeof(t_cmd));
 		cmd = cmd->next;
 	}
 	cmd->next = NULL;
@@ -66,10 +66,13 @@ void	splitting(t_mini *mini)
 	mini->cmds = NULL;
 }
 
-int		loop_check(t_mini *mini, int i)
+int	loop_check(t_mini *mini, int i)
 {
 	if (mini->input[i] == '\\' && mini->check.quota == 0)
 	{
+		mini->check.symbols = 0;
+		mini->check.left = 0;
+		mini->check.right = 0;
 		mini->input[i] = check_slash(mini, i);
 		i++;
 	}
@@ -88,7 +91,7 @@ int		loop_check(t_mini *mini, int i)
 
 void	checker(t_mini *mini, int i)
 {
-	mini->check = (t_checkers) {0};
+	mini->check = (t_checkers){0};
 	while (mini->input[i] && !mini->status)
 	{
 		if (!ft_isalnum(mini->input[i]))

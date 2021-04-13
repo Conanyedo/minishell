@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:50:08 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/11 15:00:23 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/12 15:28:13 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	tilde(t_mini *mini)
 		if (mini->tabu[i][0] == '~' && (mini->tabu[i][1] == '/'
 			|| !mini->tabu[i][1]))
 		{
-			mini->tmp = ft_strjoin(ft_lstsearch(mini->myenv, "HOME",
+			mini->tmp = ft_strjoin(ft_lstsearch(mini->myenv, "HOME", \
 				&mini->print), mini->tabu[i] + 1);
 			free(mini->tabu[i]);
 			mini->tabu[i] = ft_strdup(mini->tmp);
@@ -34,11 +34,12 @@ void	tilde(t_mini *mini)
 	}
 }
 
-int		checksymbol(char *tabu, int i)
+int	checksymbol(char *tabu, int i)
 {
 	if (tabu[i] == '?')
 		return (++i);
-	if ((ft_isdigit(tabu[i]) && tabu[i - 1] == '$') || (tabu[i] < 0 && tabu[i] != -92))
+	if ((ft_isdigit(tabu[i]) && tabu[i - 1] == '$') || \
+		(tabu[i] < 0 && tabu[i] != -92))
 		return (++i);
 	while (tabu[i] && (ft_isalnum(tabu[i]) || tabu[i] == '_'))
 		i++;
@@ -51,8 +52,7 @@ void	dollar(t_mini *mini, char *tabu, int i, char **tmp)
 	char	join[2];
 	char	*temp;
 
-	value = ft_substr(tabu, i,\
-		checksymbol(tabu, i + 1) - i);
+	value = ft_substr(tabu, i, checksymbol(tabu, i + 1) - i);
 	if (!ft_strncmp(value, "$", ft_strlen(value)))
 	{
 		*tmp = ft_strdup("$");
@@ -75,15 +75,11 @@ void	dollar(t_mini *mini, char *tabu, int i, char **tmp)
 	free(temp);
 }
 
-void	expansions(t_mini *mini, t_pipe *pip)
+void	expansions(t_mini *mini, t_pipe *pip, int i, int s)
 {
-	int		i;
-	char	s;
 	char	*temp;
 	char	*tmp;
 
-	i = 0;
-	s = 0;
 	mini->tmp = ft_strdup(pip->content);
 	free(pip->content);
 	mini->temp = ft_strdup("");

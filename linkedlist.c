@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linkedlist.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 18:24:43 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/11 15:36:55 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/12 13:08:06 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	init_env(char **env, t_env **myenv)
 	char	**splitted;
 	int		i;
 
-	*myenv = (t_env*)malloc(sizeof(t_env));
+	*myenv = (t_env *)malloc(sizeof(t_env));
 	(*myenv)->next = NULL;
 	list = *myenv;
 	i = -1;
@@ -35,13 +35,13 @@ void	init_env(char **env, t_env **myenv)
 		ft_free(&splitted);
 		if (!env[i + 1])
 			break ;
-		list->next = (t_env*)malloc(sizeof(t_env));
+		list->next = (t_env *)malloc(sizeof(t_env));
 		list = list->next;
 	}
 	list->next = NULL;
 }
 
-int		ft_listsize(t_env *env)
+int	ft_listsize(t_env *env)
 {
 	t_env	*list;
 	int		i;
@@ -67,7 +67,7 @@ void	ft_lsttoarray(t_env *env, char ***tabu)
 	i = 0;
 	list = NULL;
 	(*tabu) = NULL;
-	(*tabu) = (char **)malloc(sizeof(char*) * (ft_listsize(env) + 1));
+	(*tabu) = (char **)malloc(sizeof(char *) * (ft_listsize(env) + 1));
 	list = env;
 	while (list)
 	{

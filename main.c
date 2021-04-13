@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 15:58:40 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/13 09:48:26 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/13 12:23:51 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	free_cmd(t_cmd	**cmd)
 {
-	t_cmd *prev;
-	
+	t_cmd	*prev;
+
 	prev = (*cmd);
 	(*cmd) = (*cmd)->next;
 	if (prev->content)
@@ -25,8 +25,8 @@ void	free_cmd(t_cmd	**cmd)
 
 void	free_pipe(t_pipe **pip)
 {
-	t_pipe *prev;
-	
+	t_pipe	*prev;
+
 	prev = (*pip);
 	(*pip) = (*pip)->next;
 	if (prev->content)
@@ -39,18 +39,15 @@ void	execution(t_mini *mini)
 	t_cmd	*cmd;
 	t_pipe	*pip;
 
-	cmd = NULL;
-	pip = NULL;
 	mini->ret = 0;
-	mini->oldinput = dup(0);
-	mini->oldoutput = dup(1);
+	ft_dup(mini);
 	cmd = mini->cmd;
 	while (cmd)
 	{
 		pip = cmd->pipe;
 		while (pip)
 		{
-			expansions(mini, pip);
+			expansions(mini, pip, 0, 0);
 			redir(mini, &pip, 0);
 			mini->tabu = ft_strsplit(pip->content, " ", 1);
 			tilde(mini);
@@ -66,7 +63,7 @@ void	execution(t_mini *mini)
 	close(mini->oldoutput);
 }
 
-int		main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
 	t_mini			mini;
 	struct termios	term;
@@ -88,10 +85,8 @@ int		main(int ac, char **av, char **env)
 		prompt(&mini);
 		mini.input = readline(&mini, &mini.hist, &term);
 		parse(&mini);
-		// tcgetattr(0, &term);
 		if (!mini.status)
 			execution(&mini);
-		// tcsetattr(0, TCSADRAIN, &term);
 		free(mini.input);
 		mini.input = NULL;
 	}

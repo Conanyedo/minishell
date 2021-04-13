@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:50:10 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/12 11:52:17 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/13 12:27:14 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	dup_list(t_mini *mini, t_env **dup)
 	current = NULL;
 	*dup = NULL;
 	list = mini->myenv;
-	(*dup) = (t_env*)malloc(sizeof(t_env));
+	(*dup) = (t_env *)malloc(sizeof(t_env));
 	(*dup)->next = NULL;
 	current = *dup;
 	while (list)
@@ -58,7 +58,7 @@ void	dup_list(t_mini *mini, t_env **dup)
 		list = list->next;
 		if (!list)
 			break ;
-		current->next = (t_env*)malloc(sizeof(t_env));
+		current->next = (t_env *)malloc(sizeof(t_env));
 		current = current->next;
 	}
 	current->next = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:50:39 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/11 17:22:20 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/12 16:02:30 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	cd_home(t_mini *mini)
 	}
 	else if (!ft_strncmp(mini->tabu[i], "-", 1))
 	{
-		if (!ft_lstsearch(mini->myenv, "OLDPWD", &mini->print) ||
+		if (!ft_lstsearch(mini->myenv, "OLDPWD", &mini->print) || \
 			mini->print == 1)
 			return (error_env(mini, "OLDPWD", "cd"));
 		else

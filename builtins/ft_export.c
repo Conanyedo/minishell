@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:03:14 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/11 17:00:03 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/12 13:12:52 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,11 @@
 
 char	**export_errors(t_mini *mini, char ***tmp, char *tabu)
 {
-	(*tmp)[0] = NULL;
-	(*tmp)[1] = NULL;
-	(*tmp)[2] = NULL;
-	(*tmp)[3] = NULL;
+	ft_free(tmp);
 	ft_putstr_fd("export: `", 1);
 	ft_putstr_fd(tabu, 1);
 	ft_putstr_fd("\': not a valid identifier\n", 1);
 	mini->cmd_status = 1;
-	if (*tmp)
-		ft_free(&*tmp);
 	(*tmp) = NULL;
 	return (NULL);
 }
@@ -32,7 +27,7 @@ char	**filling(t_mini *mini, char ***tmp, char *tabu, int i)
 {
 	if (tabu[0] == '=' || tabu[0] == '+')
 		return (export_errors(mini, tmp, tabu));
-	if (tabu[i] == '+' && tabu[i + 1] != '=')
+	else if (tabu[i] == '+' && tabu[i + 1] != '=')
 		return (export_errors(mini, tmp, tabu));
 	else
 	{
@@ -81,7 +76,7 @@ void	add_env(t_mini *mini, char **splitted)
 	list = mini->myenv;
 	while (list->next)
 		list = list->next;
-	list->next = (t_env*)malloc(sizeof(t_env));
+	list->next = (t_env *)malloc(sizeof(t_env));
 	list = list->next;
 	list->key = ft_strdup(splitted[0]);
 	list->symbol = ft_strdup(splitted[1]);

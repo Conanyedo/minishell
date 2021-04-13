@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/13 12:07:56 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/13 12:23:41 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,20 @@ typedef struct s_read
 	char			*clear;
 }					t_read;
 
-typedef struct		s_pipe
+typedef struct s_pipe
 {
 	char			*content;
 	struct s_pipe	*next;
 }					t_pipe;
 
-typedef struct		s_cmd
+typedef struct s_cmd
 {
 	void			*content;
 	struct s_pipe	*pipe;
 	struct s_cmd	*next;
 }					t_cmd;
 
-typedef struct		s_env
+typedef struct s_env
 {
 	char			*key;
 	char			*value;
@@ -99,7 +99,7 @@ typedef struct		s_env
 	struct s_env	*next;
 }					t_env;
 
-typedef	struct s_redir
+typedef struct s_redir
 {
 	char			*tmpfile;
 	char			*tmpstr;
@@ -111,7 +111,7 @@ typedef	struct s_redir
 	int				opn;
 }					t_redir;
 
-typedef struct	s_checkers
+typedef struct s_checkers
 {
 	int			point;
 	int			pipe;
@@ -128,7 +128,7 @@ typedef struct	s_checkers
 	char		*value;
 }				t_checkers;
 
-typedef struct		s_mini
+typedef struct s_mini
 {
 	t_checkers		check;
 	t_env			*myenv;
@@ -180,7 +180,7 @@ int					checkquotes(char *tabu, int i, char *q);
 void				trimming(t_mini *mini);
 void				dollar(t_mini *mini, char *tabu, int i, char **tmp);
 void				tilde(t_mini *mini);
-void				expansions(t_mini *mini, t_pipe *pipe);
+void				expansions(t_mini *mini, t_pipe *pipe, int i, int s);
 int					ifexist(t_mini *mini, int i);
 void				if_isdirect(t_mini *mini, char *s);
 void				not_exist(t_mini *mini);
@@ -194,7 +194,6 @@ int					ft_listsize(t_env *env);
 void				sortlinkedlist(t_env **sorted, t_env *list);
 void				dup_list(t_mini *mini, t_env **dup);
 void				insertionsort(t_mini *mini, t_env **sorted);
-
 
 // parssing
 void				parse(t_mini *mini);
@@ -211,6 +210,7 @@ void				redir(t_mini *mini, t_pipe **pipe, int i);
 int					redir_right(t_mini *mini, int i, char t);
 int					redir_left(t_mini *mini, int i, char t);
 int					check_redir(char *str);
+int					cutfilename(t_mini *mini, int i, char t, char **file);
 char				**remove_dust(char ***str);
 
 // Builtins
@@ -225,11 +225,16 @@ void				ft_pwd(t_mini *mini);
 void				ft_unset(t_mini *mini);
 void				add_env(t_mini *mini, char **splitted);
 void				edit_env(t_mini *mini, char **splitted, int print);
-void				edit(t_mini *mini, t_env **list, char ***splitted, int print);
+void				edit(t_mini *mini, t_env **list, char ***splitted,
+						int print);
 void				print_export(t_mini *mini);
 void				sortarray(t_mini *mini, char ***tabu);
 void				underscore(t_mini *mini);
-
+void				commands_tools(t_mini *mini, t_pipe *pip);
+int					isredirect_loop(t_mini *mini, char *s, int i);
+void				close_fd(t_mini *mini);
+void				ft_dup(t_mini *mini);
+void				exec_cmdplus(t_mini *mini);
 
 //errors cmd
 void				cmd_not_found(t_mini *mini);
@@ -262,10 +267,10 @@ void		clear_term(t_mini *mini, t_read *s_read, t_history **list);
 void		printing(t_read *s_read, t_history **list, int c);
 
 //signals
-void		ctrl_c(t_mini *mini, t_read *s_read, t_history **list);
-void		ctrl_d(t_history **list);
-void		handle_sigint(int sig);
-void		handle_sigquit(int sig);
+void				ctrl_c(t_mini *mini, t_read *s_read, t_history **list);
+void				ctrl_d(t_history **list);
+void				handle_sigint(int sig);
+void				handle_sigquit(int sig);
 
 //history
 t_history	*add_node(t_history **hist, t_history *node);
