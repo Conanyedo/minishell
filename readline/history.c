@@ -3,40 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/03 18:28:31 by $USER          #+#    #+#             */
-/*   Updated: 2021/04/12 10:49:12 by cabouelw         ###   ########.fr       */
+/*   Created: 2021/04/03 18:28:31 by ybouddou          #+#    #+#             */
+/*   Updated: 2021/04/13 12:22:53 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	create_node(t_history **node)
+void	create_node(t_history **node, int rank)
 {
 	(*node) = NULL;
 	(*node) = (t_history *)malloc(sizeof(t_history));
 	(*node)->next = NULL;
 	(*node)->prev = NULL;
 	(*node)->str = NULL;
+	(*node)->tmp = NULL;
+	(*node)->rank = rank;
 	(*node)->cursor = 0;
 	(*node)->len = 0;
 }
 
-void	create_chars(t_history **node, char *line)
+void	create_chars(t_history *node, t_char **str, char *line)
 {
 	t_char		*charlist;
+	int			len;
 
 	charlist = NULL;
-	(*node)->str = (t_char *)malloc(sizeof(t_char));
-	(*node)->str->next = NULL;
-	(*node)->str->prev = NULL;
-	charlist = (*node)->str;
-	while (line[(*node)->len])
+	len = node->len;
+	(*str) = (t_char *)malloc(sizeof(t_char));
+	(*str)->next = NULL;
+	(*str)->prev = NULL;
+	charlist = (*str);
+	while (line[len])
 	{
-		charlist->c = line[(*node)->len];
-		(*node)->len++;
-		if (!line[(*node)->len])
+		charlist->c = line[len];
+		len++;
+		if (!line[len])
 			break ;
 		charlist->next = (t_char *)malloc(sizeof(t_char));
 		charlist->next->prev = charlist;
@@ -50,13 +54,18 @@ void	fill_hist(t_history **hist)
 	t_history	*node;
 	int			fd;
 	char		*line;
+	char		*tmp;
 
 	*hist = NULL;
-	fd = open("./.minishell_history", O_RDWR | O_CREAT, 0666);
+	tmp = ft_strdup(ft_lstsearch(g_mini->myenv, "HOME", &g_mini->print));
+	g_mini->home = ft_strjoin(tmp, "/.minishell_history");
+	free(tmp);
+	fd = open(g_mini->home, O_RDWR | O_CREAT, 0666);
 	while (get_next_line(fd, &line) > 0)
 	{
-		create_node(&node);
-		create_chars(&node, line);
+		create_node(&node, 0);
+		create_chars(node, &node->str, line);
+		create_chars(node, &node->tmp, line);
 		free(line);
 		add_node(hist, node);
 	}
@@ -64,26 +73,18 @@ void	fill_hist(t_history **hist)
 	close(fd);
 }
 
-void	fill_file(t_history **hist, int fd)
+void	fill_file(t_history **node, int fd)
 {
 	t_char		*charlist;
-	t_history	*last;
 
-	last = NULL;
 	charlist = NULL;
-	last = NULL;
-	last = (*hist);
-	while (last)
+	charlist = (*node)->tmp;
+	while (charlist)
 	{
-		charlist = NULL;
-		charlist = last->str;
-		while (charlist)
-		{
-			write(fd, &charlist->c, 1);
-			charlist = charlist->next;
-		}
-		write(fd, "\n", 1);
-		last = last->next;
+		write(fd, &charlist->c, 1);
+		if (!charlist->next)
+			write(fd, "\n", 1);
+		charlist = charlist->next;
 	}
 }
 
@@ -95,12 +96,11 @@ void	history(t_read *s_read, t_history **hist)
 	node = NULL;
 	if (!s_read->len)
 		return ;
-	fd = open("./.minishell_history", O_RDWR | O_TRUNC);
-	close(fd);
-	fd = open("./.minishell_history", O_RDWR | O_APPEND);
-	create_node(&node);
-	create_chars(&node, s_read->input);
+	fd = open(g_mini->home, O_RDWR | O_APPEND);
+	create_node(&node, 0);
+	create_chars(node, &node->str, s_read->input);
+	create_chars(node, &node->tmp, s_read->input);
 	add_node(hist, node);
-	fill_file(hist, fd);
+	fill_file(&node, fd);
 	close(fd);
 }

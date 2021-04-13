@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+         #
+#    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/04/12 15:25:46 by cabouelw         ###   ########.fr        #
+#    Updated: 2021/04/13 12:27:58 by ybouddou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,8 @@ SRC = main.c\
 	readline/readline.c\
 	readline/utils.c\
 	readline/signals.c\
+	readline/term.c\
+	readline/deleting.c\
 
 OBJ = $(SRC:.c=.o)
 
