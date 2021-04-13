@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/11 15:35:05 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/13 10:43:33 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	prompt(t_mini *mini)
 	else
 		ft_putstr_fd("\033[1;31m➜  \033[1;34m", 1);
 	if (tmp == NULL)
-		tmp = ft_strdup(ft_strrchr(ft_lstsearch(mini->myenv, "PWD",
+		tmp = ft_strdup(ft_strrchr(ft_lstsearch(mini->myenv, "PWD", \
 			&mini->print), '/') + 1);
 	else
 	{
@@ -102,19 +102,7 @@ void	exec_cmd(t_mini *mini)
 		if (!(mini->stt.st_mode & X_OK))
 			return (permission(mini, mini->tabu[0]));
 	}
-	mini->cmd_status = 0;
-	ft_lsttoarray(mini->myenv, &mini->env_array);
-	mini->pid = fork();
-	if (mini->pid > 0)
-	{
-		waitpid(mini->pid, &mini->r, 0);
-		if (WEXITSTATUS(mini->r))
-			mini->cmd_status = WEXITSTATUS(mini->r);
-		mini->pid = 0;
-		ft_free(&mini->env_array);
-	}
-	else
-		execve(mini->tabu[0], mini->tabu, mini->env_array);
+	exec_cmdplus(mini);
 }
 
 char	**remove_dust(char ***str)
@@ -127,11 +115,11 @@ char	**remove_dust(char ***str)
 	t = 0;
 	while ((*str)[t])
 		t++;
-	cpy = (char**)malloc(sizeof(char*) * t + 1);
+	cpy = (char **)malloc(sizeof(char *) * t + 1);
 	t = -1;
 	while ((*str)[++t])
 	{
-		cpy[t] = (char*)malloc(sizeof(char) * ft_strlen((*str)[t]) + 1);
+		cpy[t] = (char *)malloc(sizeof(char) * ft_strlen((*str)[t]) + 1);
 		i = -1;
 		j = 0;
 		while ((*str)[t][++i] != '\0')

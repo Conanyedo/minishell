@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 17:25:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/11 13:43:00 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/12 13:45:38 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#include "../minishell.h"
 
 void	clear_term(t_mini *mini, t_read *s_read, t_history **list)
 {

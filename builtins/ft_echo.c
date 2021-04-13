@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:49:02 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/01 15:09:26 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/12 13:12:17 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		option(char *tabu, int *nl)
+int	option(char *tabu, int *nl)
 {
 	int		i;
 

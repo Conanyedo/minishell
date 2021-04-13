@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:50:10 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/11 16:56:48 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/12 15:56:02 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	dup_list(t_mini *mini, t_env **dup)
 	current = NULL;
 	*dup = NULL;
 	list = mini->myenv;
-	(*dup) = (t_env*)malloc(sizeof(t_env));
+	(*dup) = (t_env *)malloc(sizeof(t_env));
 	(*dup)->next = NULL;
 	current = *dup;
 	while (list)
@@ -58,7 +58,7 @@ void	dup_list(t_mini *mini, t_env **dup)
 		list = list->next;
 		if (!list)
 			break ;
-		current->next = (t_env*)malloc(sizeof(t_env));
+		current->next = (t_env *)malloc(sizeof(t_env));
 		current = current->next;
 	}
 	current->next = NULL;
@@ -116,15 +116,13 @@ void	underscore(t_mini *mini)
 	tmp = (char **)malloc(sizeof(char *) * 4);
 	tmp[0] = ft_strdup("_");
 	tmp[1] = ft_strdup("=");
-	tmp[2] = ft_strdup("");
+	tmp[2] = ft_strdup("_");
 	tmp[3] = NULL;
 	while (mini->tabu[i])
 		i++;
 	i--;
 	if (!ft_lstsearch(mini->myenv, "_", &mini->print))
 	{
-		free(tmp[2]);
-		tmp[2] = ft_strdup("_");
 		add_env(mini, tmp);
 		ft_free(&tmp);
 		return ;

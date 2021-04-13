@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/03 18:28:31 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/10 12:14:28 by ybouddou         ###   ########.fr       */
+/*   Created: 2021/04/03 18:28:31 by $USER          #+#    #+#             */
+/*   Updated: 2021/04/12 10:49:12 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#include "../minishell.h"
 
 void	create_node(t_history **node)
 {
@@ -52,7 +52,7 @@ void	fill_hist(t_history **hist)
 	char		*line;
 
 	*hist = NULL;
-	fd = open("/Users/ybouddou/.minishell_history", O_RDWR | O_CREAT, 0666);
+	fd = open("./.minishell_history", O_RDWR | O_CREAT, 0666);
 	while (get_next_line(fd, &line) > 0)
 	{
 		create_node(&node);
@@ -95,9 +95,9 @@ void	history(t_read *s_read, t_history **hist)
 	node = NULL;
 	if (!s_read->len)
 		return ;
-	fd = open("/Users/ybouddou/.minishell_history", O_RDWR | O_TRUNC);
+	fd = open("./.minishell_history", O_RDWR | O_TRUNC);
 	close(fd);
-	fd = open("/Users/ybouddou/.minishell_history", O_RDWR | O_APPEND);
+	fd = open("./.minishell_history", O_RDWR | O_APPEND);
 	create_node(&node);
 	create_chars(&node, s_read->input);
 	add_node(hist, node);

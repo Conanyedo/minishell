@@ -6,13 +6,13 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 20:43:44 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/09 16:25:55 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/12 13:24:41 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		count_words(char const *s, char c)
+static int	count_words(char const *s, char c)
 {
 	int		i;
 	int		words;
@@ -28,10 +28,10 @@ static int		count_words(char const *s, char c)
 	return (words);
 }
 
-static int		words_len(char const *s, char c)
+static int	words_len(char const *s, char c)
 {
-	int		i;
-	int		len;
+	int	i;
+	int	len;
 
 	i = 0;
 	len = 0;
@@ -43,7 +43,7 @@ static int		words_len(char const *s, char c)
 	return (len);
 }
 
-static void		*leak(char **splitted, int words)
+static void	*leak(char **splitted, int words)
 {
 	int	i;
 
@@ -57,11 +57,11 @@ static void		*leak(char **splitted, int words)
 	return (NULL);
 }
 
-static char		**fill(char const *s, int words, char c, char **splitted)
+static char	**fill(char const *s, int words, char c, char **splitted)
 {
-	int		i;
-	int		j;
-	int		len;
+	int	i;
+	int	j;
+	int	len;
 
 	i = -1;
 	while (++i < words)
@@ -69,7 +69,8 @@ static char		**fill(char const *s, int words, char c, char **splitted)
 		while (*s == c)
 			s++;
 		len = words_len(s, c);
-		if (!(splitted[i] = (char *)malloc(sizeof(char) * (len + 1))))
+		splitted[i] = (char *)malloc(sizeof(char) * (len + 1));
+		if (!splitted[i])
 			return (leak(splitted, i));
 		j = 0;
 		while (j < len)
@@ -80,7 +81,7 @@ static char		**fill(char const *s, int words, char c, char **splitted)
 	return (splitted);
 }
 
-char			**ft_split(char	const *s, char c)
+char	**ft_split(char	const *s, char c)
 {
 	char	**splitted;
 	int		words;
@@ -88,7 +89,8 @@ char			**ft_split(char	const *s, char c)
 	if (!s)
 		return (NULL);
 	words = count_words(s, c);
-	if (!(splitted = (char **)malloc(sizeof(char *) * (words + 1))))
+	splitted = (char **)malloc(sizeof(char *) * (words + 1));
+	if (!splitted)
 		return (NULL);
 	splitted = fill(s, words, c, splitted);
 	return (splitted);

@@ -6,13 +6,13 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 11:29:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/03/27 18:09:44 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/12 13:31:09 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		exist(t_var *var)
+int	exist(t_var *var)
 {
 	int		i;
 
@@ -65,6 +65,8 @@ void	skipping(t_var *var)
 		var->end = 1;
 		var->i--;
 	}
-	var->words = (var->end && !exist(var)) ? var->words + 1 : var->words;
-	var->i += (var->end) ? 1 : 0;
+	if (var->end && !exist(var))
+		var->words = var->words + 1;
+	if (var->end)
+		var->i += 1;
 }

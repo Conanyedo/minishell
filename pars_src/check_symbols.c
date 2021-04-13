@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 17:15:17 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/29 19:01:52 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/12 13:40:39 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	check_symbols(t_mini *mini, int i)
 		mini->check.symbols = mini->input[i];
 	else if (mini->check.symbols != mini->input[i])
 		error_symbols(mini, i);
-	else if (mini->input[i - 1] == ' ' && (mini->check.left || mini->check.right))
+	else if (mini->input[i - 1] == ' ' && \
+		(mini->check.left || mini->check.right))
 		error_symbols(mini, i);
 	if ((mini->check.left > 2 || mini->check.right > 1) && !mini->status)
 		error_symbols(mini, i);

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 17:52:41 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/11 10:40:20 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/12 13:45:26 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#include "../minishell.h"
 
 void	ctrl_c(t_mini *mini, t_read *s_read, t_history **list)
 {
-	t_history *node;
+	t_history	*node;
 
 	ft_putstr_fd("\n", 1);
 	mini->cmd_status = 1;
