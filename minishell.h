@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/13 12:23:41 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/13 12:29:50 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,7 @@ void		set_cursor_home(t_read *s_read);
 void		home_end(t_read *s_read, t_history **list);
 void		clear_term(t_mini *mini, t_read *s_read, t_history **list);
 void		printing(t_read *s_read, t_history **list, int c);
+void		dup_str(t_char *node, t_char **dup);
 
 //signals
 void				ctrl_c(t_mini *mini, t_read *s_read, t_history **list);
