@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 11:56:25 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/04/13 12:10:08 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/15 16:27:21 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	redir_right_open(t_mini *mini, int i)
 {
 	if (mini->redir.fd[1])
 		close(mini->redir.fd[1]);
-	stat(mini->redir.tmpfile, &mini->stt);
 	if (mini->redir.opn)
 		mini->redir.fd[1] = open(mini->redir.tmpfile, \
 			O_CREAT | O_RDWR | O_APPEND, 0666);
@@ -25,8 +24,16 @@ int	redir_right_open(t_mini *mini, int i)
 			O_CREAT | O_RDWR | O_TRUNC, 0666);
 	if (mini->redir.fd[1] < 0)
 	{
+		stat(mini->redir.tmpfile, &mini->stt);
 		mini->redir.len = -1;
-		error_file(mini, mini->redir.tmpfile, "");
+		if (!mini->redir.tmpfile[0])
+			ambiguous(mini, mini->check.tmp);
+		else if (mini->stt.st_mode & S_IFMT & S_IFDIR)
+			is_directory(mini, mini->redir.tmpfile);
+		else if (!(mini->stt.st_mode & W_OK))
+			permission(mini, mini->redir.tmpfile);
+		else if (mini->redir.fd[1] == 0)
+			error_file(mini, mini->redir.tmpfile, "");
 		mini->redir.err = 1;
 	}
 	mini->redir.opn = 0;
@@ -39,7 +46,11 @@ void	redir_left_open(t_mini *mini)
 	if (mini->redir.fd[0] < 0)
 	{
 		mini->redir.len = -1;
-		error_file(mini, mini->redir.file, "");
+		stat(mini->redir.file, &mini->stt);
+		if (!(mini->stt.st_mode & R_OK))
+			permission(mini, mini->redir.file);
+		else
+			error_file(mini, mini->redir.file, "");
 		mini->redir.err = 1;
 	}
 }
@@ -93,5 +104,7 @@ int	check_redir(char *str)
 			return (1);
 		i++;
 	}
+	free(g_mini->check.tmp);
+	g_mini->check.tmp = NULL;
 	return (0);
 }

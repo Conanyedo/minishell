@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/13 12:57:38 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/15 16:24:05 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ void	not_exist(t_mini *mini)
 		if (stat(mini->tabu[0], &mini->stt))
 			return (error_file(mini, mini->tabu[0], ""));
 		if (mini->stt.st_mode & S_IFMT & S_IFDIR)
-			return (is_directory(mini));
+			return (is_directory(mini, mini->tabu[0]));
 		if (!(mini->stt.st_mode & X_OK))
 			return (permission(mini, mini->tabu[0]));
 	}
 	else
 	{
 		if (*mini->tabu[0] == '/')
-			return (is_directory(mini));
+			return (is_directory(mini, mini->tabu[0]));
 		else if (!*mini->tabu[0])
 			return (cmd_not_found(mini));
 		else if (!stat(mini->tabu[0], &mini->stt) && (mini->stt.st_mode & X_OK))
@@ -75,7 +75,7 @@ void	if_isdirect(t_mini *mini, char *s)
 	if (stat(s, &mini->stt) && s[0] == '/')
 		return (error_file(mini, s, ""));
 	if (mini->stt.st_mode & S_IFMT & S_IFDIR && s[0] == '/')
-		return (is_directory(mini));
+		return (is_directory(mini, mini->tabu[0]));
 	while (s[i] == '.')
 		i++;
 	if (i == 1 && !s[i])
@@ -86,7 +86,7 @@ void	if_isdirect(t_mini *mini, char *s)
 	if (i == -1)
 		return ;
 	if (!s[i] && i)
-		return (is_directory(mini));
+		return (is_directory(mini, mini->tabu[0]));
 	mini->check.point = 0;
 }
 
@@ -99,8 +99,8 @@ void	commands(t_mini *mini, t_pipe *pip)
 		do_builtins(mini);
 	else if (mini->tabu[0])
 		exec_cmd(mini);
+	close_fd(mini);
 	dup2(mini->oldoutput, 1);
 	dup2(mini->oldinput, 0);
-	close_fd(mini);
 	underscore(mini);
 }

@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/06 16:19:05 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/12 14:51:20 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/13 14:36:00 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,15 @@ int	get_next_line(int fd, char **line)
 		return (-1);
 	if (!str[fd])
 		str[fd] = ft_strdup("");
-	r = read(fd, buffer, BUFFER_SIZE);
-	while (!ft_strchr(str[fd], '\n') && r > 0)
+	while (!ft_strchr(str[fd], '\n'))
 	{
+		r = read(fd, buffer, BUFFER_SIZE);
+		if (r <= 0)
+			break ;
 		buffer[r] = '\0';
 		temp = ft_strjoin(str[fd], buffer);
 		free(str[fd]);
 		str[fd] = temp;
-		r = read(fd, buffer, BUFFER_SIZE);
 	}
 	free(buffer);
 	return (result(fd, line, str, r));

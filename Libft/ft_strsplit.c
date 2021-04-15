@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 10:30:50 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/12 14:53:33 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/14 16:25:18 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ static int	words_len(t_var *var, int len)
 {
 	while (var->s[var->i])
 	{
-		if (var->s[var->i] < 0 && var->s[var->i] != -92)
+		if (var->s[var->i] < 0 && var->s[var->i] != -92 && var->skip)
+		{
 			var->q = var->s[var->i];
-		if (var->s[var->i] == var->q && var->skip)
-			if (var->dq == 0)
-				var->dq = 1;
-		if (exist(var) && !var->dq)
+			var->dq = 1 ^ var->dq;
+		}
+		else if (exist(var) && !var->dq)
 			return (len);
 		else if (var->s[var->i] && var->s[var->i] != var->q
 			&& var->dq && var->skip)

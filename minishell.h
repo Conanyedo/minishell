@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/13 12:57:12 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/15 16:24:10 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,9 +242,10 @@ void				exec_cmdplus(t_mini *mini);
 void				cmd_not_found(t_mini *mini);
 void				error_file(t_mini *mini, char *file, char *cmd);
 void				error_env(t_mini *mini, char *env, char *cmd);
-void				is_directory(t_mini *mini);
+void				is_directory(t_mini *mini, char *file);
 void				permission(t_mini *mini, char *file);
 void				error_arg(t_mini *mini);
+void				ambiguous(t_mini *mini, char *file);
 
 //readline
 char				*readline(t_mini *mini, t_history **hist,

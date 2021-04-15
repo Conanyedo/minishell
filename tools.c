@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/13 12:22:13 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/15 16:24:13 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	exec_cmd(t_mini *mini)
 	{
 		stat(mini->tabu[0], &mini->stt);
 		if (mini->stt.st_mode & S_IFMT & S_IFDIR)
-			return (is_directory(mini));
+			return (is_directory(mini, mini->tabu[0]));
 		if (!(mini->stt.st_mode & X_OK))
 			return (permission(mini, mini->tabu[0]));
 	}

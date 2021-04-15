@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:27:05 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/29 19:11:52 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/15 16:26:25 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,14 @@ void	error_arg(t_mini *mini)
 	mini->cmd_status = 2;
 	ft_putstr_fd("minishell: .: filename argument required\n", 2);
 	ft_putstr_fd(".: usage: . filename [arguments]\n", 2);
+}
+
+void	ambiguous(t_mini *mini, char *file)
+{
+	mini->cmd_status = 1;
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(file, 2);
+	ft_putstr_fd(": ambiguous redirect\n", 2);
+	free(mini->check.tmp);
+	mini->check.tmp = NULL;
 }
