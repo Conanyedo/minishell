@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_parsing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:27:05 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/03/29 19:11:52 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/17 14:10:16 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,31 @@ void	error_arg(t_mini *mini)
 	mini->cmd_status = 2;
 	ft_putstr_fd("minishell: .: filename argument required\n", 2);
 	ft_putstr_fd(".: usage: . filename [arguments]\n", 2);
+}
+
+void	error_term(char *err)
+{
+	ft_putstr_fd(err, 2);
+	exit (-1);
+}
+
+void	free_cmd(t_cmd	**cmd)
+{
+	t_cmd	*prev;
+
+	prev = (*cmd);
+	(*cmd) = (*cmd)->next;
+	if (prev->content)
+		free(prev->content);
+	free(prev);
+}
+
+void	ambiguous(t_mini *mini, char *file)
+{
+	mini->cmd_status = 1;
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(file, 2);
+	ft_putstr_fd(": ambiguous redirect\n", 2);
+	free(mini->check.tmp);
+	mini->check.tmp = NULL;
 }

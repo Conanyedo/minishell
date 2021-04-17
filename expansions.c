@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:50:08 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/12 15:28:13 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/17 14:11:01 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ int	checksymbol(char *tabu, int i)
 {
 	if (tabu[i] == '?')
 		return (++i);
-	if ((ft_isdigit(tabu[i]) && tabu[i - 1] == '$') || \
-		(tabu[i] < 0 && tabu[i] != -92))
+	if ((ft_isdigit(tabu[i]) && tabu[i - 1] == '$'))
 		return (++i);
 	while (tabu[i] && (ft_isalnum(tabu[i]) || tabu[i] == '_'))
 		i++;
@@ -49,7 +48,6 @@ int	checksymbol(char *tabu, int i)
 void	dollar(t_mini *mini, char *tabu, int i, char **tmp)
 {
 	char	*value;
-	char	join[2];
 	char	*temp;
 
 	value = ft_substr(tabu, i, checksymbol(tabu, i + 1) - i);
@@ -62,17 +60,14 @@ void	dollar(t_mini *mini, char *tabu, int i, char **tmp)
 	value = ft_strchr(value, '$') + 1;
 	free(temp);
 	if (!ft_strncmp(value, "?", ft_strlen(value)))
-		*tmp = ft_strdup(ft_itoa(mini->cmd_status));
+		*tmp = ft_itoa(mini->cmd_status);
 	else if (ft_lstsearch(mini->myenv, value, &mini->print) && mini->print != 1)
 		*tmp = ft_strdup(ft_lstsearch(mini->myenv, value, &mini->print));
 	else
+	{
 		*tmp = ft_strdup("");
-	join[0] = '"' * -1;
-	join[1] = '\0';
-	temp = ft_strjoin(join, *tmp);
-	free(*tmp);
-	*tmp = ft_strjoin(temp, join);
-	free(temp);
+		mini->check.tmp = ft_strjoin("$", value);
+	}
 }
 
 void	expansions(t_mini *mini, t_pipe *pip, int i, int s)

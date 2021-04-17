@@ -6,27 +6,25 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:18:49 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/13 12:22:13 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/17 14:09:32 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free(char ***arr)
+void	free_pipe(t_mini *mini, t_pipe **pip)
 {
-	int		i;
+	t_pipe	*prev;
 
-	i = 0;
-	while ((*arr) && (*arr)[i])
-	{
-		if ((*arr)[i])
-			free((*arr)[i]);
-		(*arr)[i] = NULL;
-		i++;
-	}
-	if ((*arr))
-		free((*arr));
-	(*arr) = NULL;
+	prev = (*pip);
+	(*pip) = (*pip)->next;
+	if (prev->content)
+		free(prev->content);
+	free(prev);
+	ft_free(&mini->tabu);
+	mini->tabu = NULL;
+	mini->index += 2;
+	mini->p++;
 }
 
 void	git(char *tmp)
@@ -82,7 +80,7 @@ void	prompt(t_mini *mini)
 	mini->status = 0;
 }
 
-void	exec_cmd(t_mini *mini)
+void	error_cmd(t_mini *mini)
 {
 	mini->check.point = 1;
 	if_isdirect(mini, mini->tabu[0]);
@@ -98,11 +96,11 @@ void	exec_cmd(t_mini *mini)
 	{
 		stat(mini->tabu[0], &mini->stt);
 		if (mini->stt.st_mode & S_IFMT & S_IFDIR)
-			return (is_directory(mini));
+			return (is_directory(mini, mini->tabu[0]));
 		if (!(mini->stt.st_mode & X_OK))
 			return (permission(mini, mini->tabu[0]));
 	}
-	exec_cmdplus(mini);
+	exec_cmd(mini);
 }
 
 char	**remove_dust(char ***str)
