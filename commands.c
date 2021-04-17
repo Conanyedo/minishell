@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/17 14:09:21 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/17 15:36:25 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,5 @@ void	exec_cmd(t_mini *mini)
 		ft_free(&mini->env_array);
 	}
 	else
-		execve(mini->tabu[0], mini->tabu, mini->env_array);
+		exit(execve(mini->tabu[0], mini->tabu, mini->env_array));
 }

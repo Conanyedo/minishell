@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:11:31 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/04/17 14:13:51 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/17 15:45:55 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,17 @@ int	cutfilename(t_mini *mini, int i, char t, char **file)
 {
 	while (ft_isprint(mini->redir.str[i]) || mini->redir.str[i] < 0)
 	{
+		if (ft_isexist(">< ", mini->redir.str[i]) \
+			&& mini->redir.str[i - 1] != -92)
+			break ;
 		if (mini->redir.str[i] < 0 && mini->redir.str[i] != -92)
 		{
 			t = mini->redir.str[i];
 			while (mini->redir.str[++i] && mini->redir.str[i] != t)
 				if (mini->redir.str[i] > 1)
 					(*file)[mini->redir.len++] = mini->redir.str[i];
-			i++;
 		}
-		if (ft_isexist(">< ", mini->redir.str[i]) \
-			&& mini->redir.str[i - 1] != -92)
-			break ;
-		if (mini->redir.str[i] > 1)
+		else if (mini->redir.str[i] > 1)
 			(*file)[mini->redir.len++] = mini->redir.str[i];
 		else if (mini->redir.str[i] == -92 && !mini->redir.str[i + 1])
 			(*file)[mini->redir.len++] = ' ';
