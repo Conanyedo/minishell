@@ -6,11 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/04/15 16:24:10 by cabouelw         ###   ########.fr       */
-=======
-/*   Updated: 2021/04/17 14:10:23 by ybouddou         ###   ########.fr       */
->>>>>>> 4fde53c4c9eb942ff1eeb369c99d1fc82eb38d9d
+/*   Updated: 2021/04/17 14:52:14 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,10 +254,7 @@ void				error_env(t_mini *mini, char *env, char *cmd);
 void				is_directory(t_mini *mini, char *file);
 void				permission(t_mini *mini, char *file);
 void				error_arg(t_mini *mini);
-<<<<<<< HEAD
-=======
 void				error_term(char *err);
->>>>>>> 4fde53c4c9eb942ff1eeb369c99d1fc82eb38d9d
 void				ambiguous(t_mini *mini, char *file);
 
 //readline

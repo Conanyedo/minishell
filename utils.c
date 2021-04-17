@@ -6,11 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 14:39:04 by cabouelw          #+#    #+#             */
-<<<<<<< HEAD:tools_plus.c
-/*   Updated: 2021/04/15 14:10:18 by cabouelw         ###   ########.fr       */
-=======
-/*   Updated: 2021/04/17 14:09:37 by ybouddou         ###   ########.fr       */
->>>>>>> 4fde53c4c9eb942ff1eeb369c99d1fc82eb38d9d:utils.c
+/*   Updated: 2021/04/17 14:52:25 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
