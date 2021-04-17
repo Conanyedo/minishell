@@ -1,16 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools_plus.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 14:39:04 by cabouelw          #+#    #+#             */
+<<<<<<< HEAD:tools_plus.c
 /*   Updated: 2021/04/15 14:10:18 by cabouelw         ###   ########.fr       */
+=======
+/*   Updated: 2021/04/17 14:09:37 by ybouddou         ###   ########.fr       */
+>>>>>>> 4fde53c4c9eb942ff1eeb369c99d1fc82eb38d9d:utils.c
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_free(char ***arr)
+{
+	int		i;
+
+	i = 0;
+	while ((*arr) && (*arr)[i])
+	{
+		if ((*arr)[i])
+			free((*arr)[i]);
+		(*arr)[i] = NULL;
+		i++;
+	}
+	if ((*arr))
+		free((*arr));
+	(*arr) = NULL;
+}
 
 void	close_fd(t_mini *mini)
 {
@@ -48,53 +69,31 @@ int	isredirect_loop(t_mini *mini, char *s, int i)
 	return (i);
 }
 
-void	pipe_handler(t_mini *mini, t_pipe *pip)
-{
-	if (!mini->ret && pip->next)
-	{
-		mini->ret = 1;
-		if (!pipe(mini->pipe))
-			mini->ret = 1;
-		if (!mini->fd[1])
-			dup2(mini->pipe[1], 1);
-		close(mini->pipe[1]);
-	}
-	else if (mini->ret)
-	{
-		if (!mini->fd[0] || (!mini->tabu[1] && !mini->fd[0]))
-			dup2(mini->pipe[0], 0);
-		close(mini->pipe[0]);
-		mini->ret = 0;
-		if (pip->next)
-		{
-			if (!pipe(mini->pipe))
-				mini->ret = 1;
-			if (!mini->fd[1])
-				dup2(mini->pipe[1], 1);
-			close(mini->pipe[1]);
-		}
-	}
-}
-
 void	ft_dup(t_mini *mini)
 {
 	mini->oldinput = dup(0);
 	mini->oldoutput = dup(1);
 }
 
-void	exec_cmdplus(t_mini *mini)
+void	if_isdirect(t_mini *mini, char *s)
 {
-	mini->cmd_status = 0;
-	ft_lsttoarray(mini->myenv, &mini->env_array);
-	mini->pid = fork();
-	if (mini->pid > 0)
-	{
-		waitpid(mini->pid, &mini->r, 0);
-		if (WEXITSTATUS(mini->r))
-			mini->cmd_status = WEXITSTATUS(mini->r);
-		mini->pid = 0;
-		ft_free(&mini->env_array);
-	}
-	else
-		execve(mini->tabu[0], mini->tabu, mini->env_array);
+	int		i;
+
+	i = 0;
+	if (stat(s, &mini->stt) && s[0] == '/')
+		return (error_file(mini, s, ""));
+	if (mini->stt.st_mode & S_IFMT & S_IFDIR && s[0] == '/')
+		return (is_directory(mini, mini->tabu[0]));
+	while (s[i] == '.')
+		i++;
+	if (i == 1 && !s[i])
+		return (error_arg(mini));
+	if (i && (!s[i] || s[i] != '/'))
+		return (cmd_not_found(mini));
+	i = isredirect_loop(mini, s, i);
+	if (i == -1)
+		return ;
+	if (!s[i] && i)
+		return (is_directory(mini, mini->tabu[0]));
+	mini->check.point = 0;
 }

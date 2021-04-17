@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 10:30:50 by ybouddou          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/04/14 16:25:18 by cabouelw         ###   ########.fr       */
+=======
+/*   Updated: 2021/04/14 16:27:58 by ybouddou         ###   ########.fr       */
+>>>>>>> 4fde53c4c9eb942ff1eeb369c99d1fc82eb38d9d
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +42,11 @@ static int	words_len(t_var *var, int len)
 			var->q = var->s[var->i];
 			var->dq = 1 ^ var->dq;
 		}
+<<<<<<< HEAD
 		else if (exist(var) && !var->dq)
+=======
+		if (exist(var) && !var->dq)
+>>>>>>> 4fde53c4c9eb942ff1eeb369c99d1fc82eb38d9d
 			return (len);
 		else if (var->s[var->i] && var->s[var->i] != var->q
 			&& var->dq && var->skip)

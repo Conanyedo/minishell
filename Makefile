@@ -6,7 +6,7 @@
 #    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/04/13 12:27:58 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/04/17 13:41:04 by ybouddou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC = main.c\
 	tools.c\
 	expansions.c\
 	commands.c\
-	tools_plus.c\
+	utils.c\
 	linkedlist.c\
 	builtins/ft_env.c\
 	builtins/ft_echo.c\

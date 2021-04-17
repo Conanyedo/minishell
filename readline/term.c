@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 11:44:28 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/13 11:51:30 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/17 13:33:17 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,26 @@ void	home_end(t_read *s_read, t_history **list)
 void	init_term(t_read *s_read, struct termios *term)
 {
 	struct termios	attr;
+	char			*env;
 	int				ret;
 
-	tcgetattr(0, term);
+	env = getenv("TERM");
+	if (!env)
+		error_term("\r\033[KTERM must be set\n");
+	if (tcgetattr(0, term) < 0)
+		error_term("\r\033[KError in tcgetattr\n");
 	attr = *term;
 	attr.c_lflag &= ~(ECHO);
 	attr.c_lflag &= ~(ISIG);
 	attr.c_lflag &= ~(ICANON);
-	ret = tgetent(NULL, getenv("TERM"));
+	ret = tgetent(NULL, env);
+	if (ret == 0)
+		error_term("\r\033[KCould not access to the termcap database..\n");
+	if (ret < 0)
+		error_term("\r\033[KTerminal type is not defined in termcap database.\n");
 	s_read->clear = tgetstr("cl", NULL);
-	tcsetattr(0, TCSANOW, &attr);
+	if (tcsetattr(0, TCSANOW, &attr) < 0)
+		error_term("\r\033[KError in tcsetattr\n");
 }
 
 void	get_cursor(t_read *s_read, t_history **list)

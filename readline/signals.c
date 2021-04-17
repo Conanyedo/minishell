@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 17:52:41 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/13 12:22:29 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/17 13:52:01 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ void	ctrl_d(t_history **list)
 {
 	if ((*list)->tmp)
 		return ;
-	printf("exit\n");
-	exit (0);
+	ft_putstr_fd("exit\n", 1);
+	delete_node(&g_mini->hist);
+	exit (g_mini->cmd_status);
 }
 
 void	handle_sigint(int sig)

@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   errors_parsing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:27:05 by cabouelw          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/04/15 16:26:25 by cabouelw         ###   ########.fr       */
+=======
+/*   Updated: 2021/04/17 14:10:16 by ybouddou         ###   ########.fr       */
+>>>>>>> 4fde53c4c9eb942ff1eeb369c99d1fc82eb38d9d
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +49,26 @@ void	error_arg(t_mini *mini)
 	ft_putstr_fd(".: usage: . filename [arguments]\n", 2);
 }
 
+<<<<<<< HEAD
+=======
+void	error_term(char *err)
+{
+	ft_putstr_fd(err, 2);
+	exit (-1);
+}
+
+void	free_cmd(t_cmd	**cmd)
+{
+	t_cmd	*prev;
+
+	prev = (*cmd);
+	(*cmd) = (*cmd)->next;
+	if (prev->content)
+		free(prev->content);
+	free(prev);
+}
+
+>>>>>>> 4fde53c4c9eb942ff1eeb369c99d1fc82eb38d9d
 void	ambiguous(t_mini *mini, char *file)
 {
 	mini->cmd_status = 1;

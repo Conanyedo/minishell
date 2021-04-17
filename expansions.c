@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:50:08 by ybouddou          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/04/15 16:26:05 by cabouelw         ###   ########.fr       */
+=======
+/*   Updated: 2021/04/17 14:11:01 by ybouddou         ###   ########.fr       */
+>>>>>>> 4fde53c4c9eb942ff1eeb369c99d1fc82eb38d9d
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +64,7 @@ void	dollar(t_mini *mini, char *tabu, int i, char **tmp)
 	value = ft_strchr(value, '$') + 1;
 	free(temp);
 	if (!ft_strncmp(value, "?", ft_strlen(value)))
-		*tmp = ft_strdup(ft_itoa(mini->cmd_status));
+		*tmp = ft_itoa(mini->cmd_status);
 	else if (ft_lstsearch(mini->myenv, value, &mini->print) && mini->print != 1)
 		*tmp = ft_strdup(ft_lstsearch(mini->myenv, value, &mini->print));
 	else

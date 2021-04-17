@@ -6,7 +6,11 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/04/15 16:24:10 by cabouelw         ###   ########.fr       */
+=======
+/*   Updated: 2021/04/17 14:10:23 by ybouddou         ###   ########.fr       */
+>>>>>>> 4fde53c4c9eb942ff1eeb369c99d1fc82eb38d9d
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +90,7 @@ typedef struct s_pipe
 typedef struct s_cmd
 {
 	void			*content;
+	int				pipes;
 	struct s_pipe	*pipe;
 	struct s_cmd	*next;
 }					t_cmd;
@@ -136,6 +141,9 @@ typedef struct s_mini
 	t_history		*hist;
 	struct stat		stt;
 	t_redir			redir;
+	int				*pidpipe;
+	int				index;
+	int				*pipefds;
 	char			**pwd;
 	char			**oldpwd;
 	char			*prompt;
@@ -175,6 +183,7 @@ t_mini	*g_mini;
 void				prompt(t_mini *mini);
 void				execution(t_mini *mini);
 void				ft_free(char ***arr);
+void				init(t_mini *mini, int ac, char **av);
 int					is_builtins(t_mini *mini);
 void				do_builtins(t_mini *mini);
 int					checksymbol(char *tabu, int i);
@@ -186,7 +195,9 @@ void				expansions(t_mini *mini, t_pipe *pipe, int i, int s);
 int					ifexist(t_mini *mini, int i);
 void				if_isdirect(t_mini *mini, char *s);
 void				not_exist(t_mini *mini);
-void				commands(t_mini *mini, t_pipe *pip);
+void				commands(t_mini *mini, t_cmd *cmd, t_pipe *pip);
+void				prepare_pipes(t_mini *mini, int pipes);
+void				close_pipes(t_mini *mini, int pipes);
 
 //linkedlist
 void				init_env(char **env, t_env **myenv);
@@ -196,11 +207,12 @@ int					ft_listsize(t_env *env);
 void				sortlinkedlist(t_env **sorted, t_env *list);
 void				dup_list(t_mini *mini, t_env **dup);
 void				insertionsort(t_mini *mini, t_env **sorted);
+void				free_pipe(t_mini *mini, t_pipe **pip);
+void				free_cmd(t_cmd	**cmd);
 
 // parssing
 void				parse(t_mini *mini);
 void				check_point(t_mini *mini, int i);
-void				exec_cmd(t_mini *mini);
 void				check_bdl_quot(t_mini *mini, int i);
 void				check_one_quot(t_mini *mini, int i);
 void				check_symbols(t_mini *mini, int i);
@@ -232,19 +244,24 @@ void				edit(t_mini *mini, t_env **list, char ***splitted,
 void				print_export(t_mini *mini);
 void				sortarray(t_mini *mini, char ***tabu);
 void				underscore(t_mini *mini);
-void				pipe_handler(t_mini *mini, t_pipe *pip);
+void				pipe_handler(t_mini *mini, t_pipe *pip, int pipes);
 int					isredirect_loop(t_mini *mini, char *s, int i);
 void				close_fd(t_mini *mini);
 void				ft_dup(t_mini *mini);
-void				exec_cmdplus(t_mini *mini);
+void				exec_cmd(t_mini *mini);
 
 //errors cmd
+void				error_cmd(t_mini *mini);
 void				cmd_not_found(t_mini *mini);
 void				error_file(t_mini *mini, char *file, char *cmd);
 void				error_env(t_mini *mini, char *env, char *cmd);
 void				is_directory(t_mini *mini, char *file);
 void				permission(t_mini *mini, char *file);
 void				error_arg(t_mini *mini);
+<<<<<<< HEAD
+=======
+void				error_term(char *err);
+>>>>>>> 4fde53c4c9eb942ff1eeb369c99d1fc82eb38d9d
 void				ambiguous(t_mini *mini, char *file);
 
 //readline

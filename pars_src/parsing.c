@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 16:55:23 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/04/13 11:51:50 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/16 14:05:18 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	split_pipe(t_mini *mini, t_cmd **cmd, int i)
 	j = -1;
 	while (mini->tabu[++j])
 	{
+		(*cmd)->pipes = 1;
 		pipe->content = ft_strtrim(mini->tabu[j], " \t");
 		if (!mini->tabu[j + 1])
 			break ;
@@ -35,6 +36,7 @@ void	split_pipe(t_mini *mini, t_cmd **cmd, int i)
 		pipe = pipe->next;
 	}
 	pipe->next = NULL;
+	(*cmd)->pipes = j;
 	ft_free(&mini->tabu);
 	mini->tabu = NULL;
 }
@@ -52,6 +54,7 @@ void	splitting(t_mini *mini)
 	mini->cmd->next = NULL;
 	mini->cmd->content = NULL;
 	mini->cmd->pipe = NULL;
+	mini->cmd->pipes = 0;
 	cmd = mini->cmd;
 	while (mini->cmds[++i])
 	{
@@ -60,6 +63,7 @@ void	splitting(t_mini *mini)
 			break ;
 		cmd->next = (t_cmd *)malloc(sizeof(t_cmd));
 		cmd = cmd->next;
+		cmd->content = NULL;
 	}
 	cmd->next = NULL;
 	ft_free(&mini->cmds);
