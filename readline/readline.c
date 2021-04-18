@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 12:00:53 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/13 12:22:38 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/18 15:11:17 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void	keys(t_mini *mini, t_read *s_read, t_history **list)
 			add_char(s_read, list, s_read->key);
 		else if (s_read->key == 127)
 			delete_char(s_read, list);
-		else if (s_read->key == 12)
-			clear_term(mini, s_read, list);
 		else if (s_read->key == 3)
 			ctrl_c(mini, s_read, list);
 		else if (s_read->key == 4)
@@ -76,7 +74,7 @@ char	*readline(t_mini *mini, t_history **hist, struct termios *term)
 	s_read = (t_read){0};
 	create_node(&node, 1);
 	list = add_node(hist, node);
-	init_term(&s_read, term);
+	init_term(term);
 	keys(mini, &s_read, &list);
 	fill_input(&s_read, &list, hist);
 	history(&s_read, hist);

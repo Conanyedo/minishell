@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:50:08 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/18 13:40:36 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/18 15:43:20 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	tilde(t_mini *mini)
 
 int	checksymbol(char *tabu, int i)
 {
-	if (tabu[i] == '?')
+	if (tabu[i] == '?' || tabu[i] < 0)
 		return (++i);
 	if ((ft_isdigit(tabu[i]) && tabu[i - 1] == '$'))
 		return (++i);
@@ -54,6 +54,7 @@ void	dollar(t_mini *mini, char *tabu, int i, char **tmp)
 	if (!ft_strncmp(value, "$", ft_strlen(value)))
 	{
 		*tmp = ft_strdup("$");
+		free(value);
 		return ;
 	}
 	temp = value;
@@ -66,9 +67,8 @@ void	dollar(t_mini *mini, char *tabu, int i, char **tmp)
 	else
 	{
 		*tmp = ft_strdup("");
-		if (mini->check.tmp)
-			free(mini->check.tmp);
-		mini->check.tmp = ft_strjoin("$", value);
+		if (!mini->check.tmp)
+			mini->check.tmp = ft_strjoin("$", value);
 	}
 }
 

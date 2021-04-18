@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 16:11:31 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/04/17 15:50:55 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/18 15:43:16 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	dup_in_out(t_mini *mini)
 
 void	free_var(t_mini *mini)
 {
+	free(g_mini->check.tmp);
+	g_mini->check.tmp = NULL;
 	free(mini->redir.tmpstr);
 	free(mini->redir.str);
 	free(mini->redir.tmpfile);
