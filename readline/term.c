@@ -6,28 +6,11 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 11:44:28 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/18 12:20:09 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/18 15:21:20 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	clear_term(t_mini *mini, t_read *s_read, t_history **list)
-{
-	t_char	*node;
-
-	node = NULL;
-	ft_putstr_fd(s_read->clear, 1);
-	prompt(mini);
-	get_cursor(s_read, list);
-	node = (*list)->str;
-	while (node)
-	{
-		(*list)->cursor++;
-		printing(s_read, list, node->c);
-		node = node->next;
-	}
-}
 
 void	home_end(t_read *s_read, t_history **list)
 {
@@ -50,13 +33,15 @@ void	home_end(t_read *s_read, t_history **list)
 	ft_putstr_fd(tgoto(tgetstr("cm", NULL), mod, s_read->pos.row + diff), 1);
 }
 
-void	init_term(t_read *s_read, struct termios *term)
+void	init_term(struct termios *term)
 {
 	struct termios	attr;
 	char			*env;
 	int				ret;
 
-	env = ft_lstsearch(g_mini->myenv, "TERM", &g_mini->print);
+	env = getenv("TERM");
+	if (!env)
+		env = ft_strdup("xterm-256color");
 	if (!env || g_mini->print)
 		error_term("\r\033[KTERM must be set\n");
 	if (tcgetattr(0, term) < 0)
@@ -66,11 +51,12 @@ void	init_term(t_read *s_read, struct termios *term)
 	attr.c_lflag &= ~(ISIG);
 	attr.c_lflag &= ~(ICANON);
 	ret = tgetent(NULL, env);
+	if (!getenv("TERM"))
+		free(env);
 	if (ret == 0)
 		error_term("\r\033[KCould not access to the termcap database..\n");
 	if (ret < 0)
 		error_term("\r\033[KTerminal type is not defined in termcap database.\n");
-	s_read->clear = tgetstr("cl", NULL);
 	if (tcsetattr(0, TCSANOW, &attr) < 0)
 		error_term("\r\033[KError in tcsetattr\n");
 }

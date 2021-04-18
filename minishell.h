@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/18 13:13:42 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/18 15:11:23 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct s_read
 	char			*input;
 	int				key;
 	int				len;
-	char			*clear;
 }					t_read;
 
 typedef struct s_pipe
@@ -245,11 +244,10 @@ void				fill_input(t_read *s_read, t_history **list,
 						t_history **hist);
 void				get_cursor(t_read *s_read, t_history **list);
 void				termsize(t_read *s_read);
-void				init_term(t_read *s_read, struct termios *term);
+void				init_term(struct termios *term);
 void				cursor_home_clean(t_read *s_read, t_history **list);
 void				set_cursor_home(t_read *s_read);
 void				home_end(t_read *s_read, t_history **list);
-void				clear_term(t_mini *mini, t_read *s_read, t_history **list);
 void				printing(t_read *s_read, t_history **list, int c);
 void				dup_str(t_char *node, t_char **dup);
 
