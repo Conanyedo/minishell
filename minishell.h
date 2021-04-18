@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 17:04:26 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/17 14:10:23 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/18 13:13:42 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <signal.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-# include <errno.h>
 # include <termios.h>
 # include <termcap.h>
 # include <curses.h>
@@ -27,7 +26,6 @@
 # include <math.h>
 
 # define KU 0x415B1B
-// # define KU2 0x414F1B
 # define KDW 0x425B1B
 # define KR 0x435B1B
 # define KL 0x445B1B
@@ -65,15 +63,9 @@ typedef struct s_read
 {
 	t_pos			pos;
 	t_pos			win;
-	char			*prompt;
 	char			*input;
 	int				key;
 	int				len;
-	int				cursor;
-	int				fd;
-	int				up;
-	char			*tmp;
-	int				old;
 	char			*clear;
 }					t_read;
 
@@ -116,17 +108,12 @@ typedef struct s_checkers
 {
 	int			point;
 	int			pipe;
-	int			and;
 	int			quota;
 	int			dbl_quota;
-	int			end;
-	int			error;
 	char		symbols;
 	int			left;
 	int			right;
-	char		quote;
 	char		*tmp;
-	char		*value;
 }				t_checkers;
 
 typedef struct s_mini
@@ -135,40 +122,31 @@ typedef struct s_mini
 	t_env			*myenv;
 	t_cmd			*cmd;
 	t_history		*hist;
-	struct stat		stt;
 	t_redir			redir;
+	struct stat		stt;
 	int				*pidpipe;
-	int				index;
 	int				*pipefds;
-	char			**pwd;
-	char			**oldpwd;
-	char			*prompt;
-	char			*home;
-	int				pipe[2];
-	int				err_pipe[2];
+	int				index;
 	int				p;
-	char			*cl;
-	char			*color;
-	char			*cm;
-	char			*sc;
+	int				r;
 	int				oldinput;
 	int				oldoutput;
-	int				ret;
+	int				status;
+	int				cmd_status;
+	int				pid;
+	int				fd[2];
+	int				print;
+	int				plus;
+	char			**pwd;
+	char			**oldpwd;
+	char			*home;
 	char			*cmd_exist;
 	char			**env_array;
 	char			**tabu;
 	char			**cmds;
-	int				status;
-	int				cmd_status;
 	char			*input;
 	char			**paths;
 	char			*path_value;
-	int				pid;
-	int				r;
-	int				print;
-	int				plus;
-	int				fd[2];
-	int				fdtst;
 	char			*tmp;
 	char			*temp;
 	char			buff[1028];
@@ -176,24 +154,23 @@ typedef struct s_mini
 
 t_mini	*g_mini;
 
+void				init(t_mini *mini, int ac, char **av);
 void				prompt(t_mini *mini);
 void				execution(t_mini *mini);
-void				ft_free(char ***arr);
-void				init(t_mini *mini, int ac, char **av);
-int					is_builtins(t_mini *mini);
-void				do_builtins(t_mini *mini);
+void				ft_dup(t_mini *mini);
+void				commands(t_mini *mini, t_cmd *cmd, t_pipe *pip);
+void				pipe_handler(t_mini *mini, t_pipe *pip, int pipes);
+void				exec_cmd(t_mini *mini);
 int					checksymbol(char *tabu, int i);
-int					checkquotes(char *tabu, int i, char *q);
-void				trimming(t_mini *mini);
 void				dollar(t_mini *mini, char *tabu, int i, char **tmp);
 void				tilde(t_mini *mini);
 void				expansions(t_mini *mini, t_pipe *pipe, int i, int s);
 int					ifexist(t_mini *mini, int i);
 void				if_isdirect(t_mini *mini, char *s);
 void				not_exist(t_mini *mini);
-void				commands(t_mini *mini, t_cmd *cmd, t_pipe *pip);
 void				prepare_pipes(t_mini *mini, int pipes);
 void				close_pipes(t_mini *mini, int pipes);
+void				ft_free(char ***arr);
 
 //linkedlist
 void				init_env(char **env, t_env **myenv);
@@ -212,7 +189,6 @@ void				check_point(t_mini *mini, int i);
 void				check_bdl_quot(t_mini *mini, int i);
 void				check_one_quot(t_mini *mini, int i);
 void				check_symbols(t_mini *mini, int i);
-void				error_symbols(t_mini *mini, int nb);
 void				check_pipes(t_mini *mini, int i);
 char				check_slash(t_mini *mini, int i);
 void				check_all(t_mini *mini, int i, int idx);
@@ -220,6 +196,8 @@ void				redir(t_mini *mini, t_pipe **pipe, int i);
 int					redir_right(t_mini *mini, int i, char t);
 int					redir_left(t_mini *mini, int i, char t);
 int					check_redir(char *str);
+int					isredirect_loop(t_mini *mini, char *s, int i);
+void				close_fd(t_mini *mini);
 int					cutfilename(t_mini *mini, int i, char t, char **file);
 char				**remove_dust(char ***str);
 
@@ -238,13 +216,7 @@ void				edit_env(t_mini *mini, char **splitted, int print);
 void				edit(t_mini *mini, t_env **list, char ***splitted,
 						int print);
 void				print_export(t_mini *mini);
-void				sortarray(t_mini *mini, char ***tabu);
 void				underscore(t_mini *mini);
-void				pipe_handler(t_mini *mini, t_pipe *pip, int pipes);
-int					isredirect_loop(t_mini *mini, char *s, int i);
-void				close_fd(t_mini *mini);
-void				ft_dup(t_mini *mini);
-void				exec_cmd(t_mini *mini);
 
 //errors cmd
 void				error_cmd(t_mini *mini);
@@ -256,6 +228,7 @@ void				permission(t_mini *mini, char *file);
 void				error_arg(t_mini *mini);
 void				error_term(char *err);
 void				ambiguous(t_mini *mini, char *file);
+void				error_symbols(t_mini *mini, int nb);
 
 //readline
 char				*readline(t_mini *mini, t_history **hist,
@@ -268,8 +241,6 @@ void				delete_node(t_history **hist);
 void				free_str(t_char	**node);
 void				up(t_read *s_read, t_history **list);
 void				down(t_read *s_read, t_history **list);
-void				left(t_read *s_read, t_history **list);
-void				right(t_read *s_read, t_history **list);
 void				fill_input(t_read *s_read, t_history **list,
 						t_history **hist);
 void				get_cursor(t_read *s_read, t_history **list);

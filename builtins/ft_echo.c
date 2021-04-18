@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 14:49:02 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/12 13:12:17 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/18 13:22:08 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_echo(t_mini *mini)
 		mini->cmd_status = 0;
 		return (ft_putstr_fd("\n", 1));
 	}
-	while (*mini->tabu[i] == '-' && option(mini->tabu[i], &nl))
+	while (mini->tabu[i] && *mini->tabu[i] == '-' && option(mini->tabu[i], &nl))
 		i++;
 	while (mini->tabu[i])
 	{

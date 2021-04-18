@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/01 23:09:09 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/12 13:31:56 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/18 12:22:08 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static	int	ft_end(char const *s1, int end, int start, char const *set)
 		e = end;
 		while (set[i])
 		{
-			while (set[i] == s1[end])
+			while (set[i] == s1[end] && s1[end - 1] != -92)
 				end--;
 			i++;
 		}

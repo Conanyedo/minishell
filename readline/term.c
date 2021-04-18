@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 11:44:28 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/17 13:33:17 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/18 12:20:09 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	init_term(t_read *s_read, struct termios *term)
 	char			*env;
 	int				ret;
 
-	env = getenv("TERM");
-	if (!env)
+	env = ft_lstsearch(g_mini->myenv, "TERM", &g_mini->print);
+	if (!env || g_mini->print)
 		error_term("\r\033[KTERM must be set\n");
 	if (tcgetattr(0, term) < 0)
 		error_term("\r\033[KError in tcgetattr\n");

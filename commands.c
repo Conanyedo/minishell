@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/17 15:36:25 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/17 17:08:47 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ifexist(t_mini *mini, int i)
 	if (mini->path_value)
 		mini->paths = ft_split(mini->path_value, ':');
 	slashcmd = ft_strjoin("/", mini->tabu[0]);
-	while (mini->paths[i])
+	while (mini->paths[i] && !mini->print)
 	{
 		mini->cmd_exist = ft_strjoin(mini->paths[i], slashcmd);
 		if (!stat(mini->cmd_exist, &mini->stt) && S_ISREG(mini->stt.st_mode))

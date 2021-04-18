@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/07 15:03:10 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/02 11:09:10 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/18 12:52:48 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 
 void	checkfirst(t_mini *mini, int *i)
 {
+	if (ft_atoi(mini->tabu[1]) < 0)
+	{
+		ft_putstr_fd("exit\nminishell: exit: ", 1);
+		ft_putstr_fd(mini->tabu[1], 1);
+		ft_putstr_fd(": numeric argument required\n", 1);
+		exit(255);
+	}
 	while (mini->tabu[1] && mini->tabu[1][*i])
 	{
 		if (!ft_isdigit(mini->tabu[1][*i]))
@@ -35,7 +42,7 @@ void	ft_exit(t_mini *mini)
 	if (!mini->tabu[1])
 	{
 		ft_putstr_fd("exit\n", 1);
-		exit(0);
+		exit(mini->cmd_status);
 	}
 	if (mini->tabu[1] && (mini->tabu[1][i] == '+' || mini->tabu[1][i] == '-'))
 		i++;
@@ -50,5 +57,5 @@ void	ft_exit(t_mini *mini)
 	if (mini->tabu[1] && mini->tabu[1][0] && ft_atoi(mini->tabu[1]))
 		exit(ft_atoi(mini->tabu[1]));
 	mini->cmd_status = 0;
-	exit(0);
+	exit(mini->cmd_status);
 }

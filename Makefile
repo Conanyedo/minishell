@@ -6,11 +6,11 @@
 #    By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/22 22:34:18 by ybouddou          #+#    #+#              #
-#    Updated: 2021/04/17 13:41:04 by ybouddou         ###   ########.fr        #
+#    Updated: 2021/04/18 13:37:14 by ybouddou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell.a
+NAME = minishell
 LIB_PATH = Libft
 LIB = libft.a
 CC = gcc
@@ -41,7 +41,6 @@ SRC = main.c\
 	errors/errors_cmd.c\
 	pars_src/check_symbols.c\
 	pars_src/check_pipes.c\
-	errors/errors_cmd.c\
 	readline/history.c\
 	readline/keys.c\
 	readline/readline.c\
@@ -55,14 +54,13 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIB)
-	@ar rcs $(NAME) $(OBJ)
-	@gcc $(NAME) $(LIB_PATH)/$(LIB) $(NCURSES) -o minishell
+	@gcc $(OBJ) $(LIB_PATH)/$(LIB) $(NCURSES) -o $(NAME)
 
 $(LIB):
 	@make -C $(LIB_PATH)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $^ -o $@
 
 clean:
 	@make clean -C $(LIB_PATH)/
