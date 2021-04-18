@@ -6,7 +6,7 @@
 /*   By: cabouelw <cabouelw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:50:08 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/17 14:52:31 by cabouelw         ###   ########.fr       */
+/*   Updated: 2021/04/18 13:40:36 by cabouelw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	dollar(t_mini *mini, char *tabu, int i, char **tmp)
 	else
 	{
 		*tmp = ft_strdup("");
+		if (mini->check.tmp)
+			free(mini->check.tmp);
 		mini->check.tmp = ft_strjoin("$", value);
 	}
 }
