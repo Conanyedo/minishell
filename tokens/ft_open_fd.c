@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 11:56:25 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/04/18 15:33:22 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/19 11:32:09 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	redir_right_open(t_mini *mini, int i)
 {
 	if (mini->redir.fd[1])
 		close(mini->redir.fd[1]);
-	stat(mini->redir.tmpfile, &mini->stt);
 	if (mini->redir.opn)
 		mini->redir.fd[1] = open(mini->redir.tmpfile, \
 			O_CREAT | O_RDWR | O_APPEND, 0666);
@@ -31,7 +30,8 @@ int	redir_right_open(t_mini *mini, int i)
 			ambiguous(mini, mini->check.tmp);
 		else if (mini->stt.st_mode & S_IFMT & S_IFDIR)
 			is_directory(mini, mini->redir.tmpfile);
-		else if (ft_strchr(mini->redir.tmpfile + 1, '/'))
+		else if (ft_strchr(mini->redir.tmpfile + 1, '/') || \
+			!*mini->redir.tmpfile)
 			error_file(mini, mini->redir.tmpfile, "");
 		else
 			permission(mini, mini->redir.tmpfile);

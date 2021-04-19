@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/11 12:36:19 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/04/17 14:09:57 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/19 11:34:33 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,11 @@ void	error_file(t_mini *mini, char *file, char *cmd)
 {
 	mini->cmd_status = 1;
 	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": ", 2);
+	if (cmd)
+	{
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": ", 2);
+	}
 	ft_putstr_fd(file, 2);
 	ft_putstr_fd(": No such file or directory\n", 2);
 }
