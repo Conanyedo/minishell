@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 14:50:08 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/18 15:28:44 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/19 12:21:30 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	tilde(t_mini *mini)
 
 int	checksymbol(char *tabu, int i)
 {
-	if (tabu[i] == '?' || tabu[i] < 0)
+	if (tabu[i] == '?')
 		return (++i);
 	if ((ft_isdigit(tabu[i]) && tabu[i - 1] == '$'))
 		return (++i);
@@ -51,7 +51,7 @@ void	dollar(t_mini *mini, char *tabu, int i, char **tmp)
 	char	*temp;
 
 	value = ft_substr(tabu, i, checksymbol(tabu, i + 1) - i);
-	if (!ft_strncmp(value, "$", ft_strlen(value)))
+	if (!ft_strncmp(value, "$", ft_strlen(value)) && tabu[i + 1] > 1)
 	{
 		*tmp = ft_strdup("$");
 		free(value);
@@ -60,9 +60,10 @@ void	dollar(t_mini *mini, char *tabu, int i, char **tmp)
 	temp = value;
 	value = ft_strchr(value, '$') + 1;
 	free(temp);
-	if (!ft_strncmp(value, "?", ft_strlen(value)))
+	if (!ft_strncmp(value, "?", 1))
 		*tmp = ft_itoa(mini->cmd_status);
-	else if (ft_lstsearch(mini->myenv, value, &mini->print) && mini->print != 1)
+	else if (ft_lstsearch(mini->myenv, value, &mini->print) && mini->print != 1 \
+		&& *value)
 		*tmp = ft_strdup(ft_lstsearch(mini->myenv, value, &mini->print));
 	else
 	{

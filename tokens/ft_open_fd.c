@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 11:56:25 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/04/19 11:32:09 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/19 11:57:32 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int	check_redir(char *str)
 	char	dq;
 
 	i = 0;
+	free(g_mini->check.tmp);
+	g_mini->check.tmp = NULL;
 	if ((str[0] == '>' || str[0] == '<'))
 		return (1);
 	while (str[i])

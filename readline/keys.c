@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 16:29:15 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/13 12:22:45 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/19 12:23:52 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	printing(t_read *s_read, t_history **list, int c)
 		if (sub > 0)
 		{
 			row = s_read->win.row;
-			printf("\n");
+			ft_putchar_fd('\n', 1);
 			if (sub)
 				s_read->pos.row--;
 		}
