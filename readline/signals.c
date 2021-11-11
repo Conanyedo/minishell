@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 17:52:41 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/17 13:52:01 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/05/07 16:15:29 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,5 @@ void	handle_sigquit(int sig)
 {
 	(void)sig;
 	g_mini->cmd_status = 131;
-	if (g_mini->pid)
-		ft_putstr_fd("Quit: 3\n", 1);
+	ft_putstr_fd("Quit: 3\n", 1);
 }

@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 11:44:28 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/18 15:21:20 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/05/07 16:15:21 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,26 @@
 
 void	home_end(t_read *s_read, t_history **list)
 {
+	int		cursor;
 	int		diff;
 	float	div;
 	int		mod;
 
 	diff = 0;
+	cursor = (*list)->len + s_read->pos.col;
 	if (s_read->key == K_HOME)
-		return (set_cursor_home(s_read));
-	div = (float)((float)(*list)->cursor / (float)(s_read->win.col));
+		return (set_cursor_home(s_read, list));
+	div = (float)((float)cursor / (float)(s_read->win.col));
 	if (div > floor(div))
 		diff = floor(div);
-	mod = ((*list)->cursor - diff) % s_read->win.col;
+	mod = (cursor - diff) % s_read->win.col;
 	if ((s_read->win.col - diff) <= mod)
 	{
 		diff--;
 		mod++;
 	}
 	ft_putstr_fd(tgoto(tgetstr("cm", NULL), mod, s_read->pos.row + diff), 1);
+	(*list)->cursor = cursor;
 }
 
 void	init_term(struct termios *term)

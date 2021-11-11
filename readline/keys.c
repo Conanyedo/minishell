@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 16:29:15 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/19 12:23:52 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/05/07 16:09:55 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,16 @@ void	printing(t_read *s_read, t_history **list, int c)
 	float	div;
 	int		sub;
 	int		row;
+	int		cursor;
 
 	ft_putchar_fd(c, 1);
 	diff = 0;
-	div = (float)((float)(*list)->cursor / (float)(s_read->win.col));
+	cursor = (*list)->len + s_read->pos.col;
+	div = (float)((float)cursor / (float)(s_read->win.col));
 	if (div >= floor(div))
 		diff = floor(div);
 	row = s_read->pos.row;
-	if (!(((*list)->cursor - diff) % s_read->win.col))
+	if (!((cursor - diff) % s_read->win.col))
 	{
 		sub = (diff + s_read->pos.row) - s_read->win.row;
 		row = s_read->pos.row + diff;

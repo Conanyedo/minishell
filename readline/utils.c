@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 17:25:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/13 12:22:26 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/05/07 15:52:21 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ void	dup_str(t_char *node, t_char **dup)
 	list->next = NULL;
 }
 
-void	set_cursor_home(t_read *s_read)
+void	set_cursor_home(t_read *s_read, t_history **list)
 {
+	(*list)->cursor = s_read->pos.col;
 	ft_putstr_fd(tgoto(tgetstr("cm", NULL), s_read->pos.col,
 			s_read->pos.row), 1);
 }
@@ -46,7 +47,7 @@ void	cursor_home_clean(t_read *s_read, t_history **list)
 {
 	(*list)->cursor = s_read->pos.col;
 	(*list)->len = 0;
-	set_cursor_home(s_read);
+	set_cursor_home(s_read, list);
 	ft_putstr_fd(tgetstr("cd", NULL), 1);
 }
 

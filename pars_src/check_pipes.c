@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 14:42:04 by cabouelw          #+#    #+#             */
-/*   Updated: 2021/04/17 13:59:22 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/27 12:16:35 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	close_pipes(t_mini *mini, int pipes)
 	mini->index = -1;
 	while (++mini->index <= pipes && pipes)
 	{
-		waitpid(mini->pidpipe[+mini->index], &mini->r, 0);
+		waitpid(mini->pidpipe[mini->index], &mini->r, 0);
 		mini->cmd_status = WEXITSTATUS(mini->r);
 	}
 	free(mini->pipefds);

@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/03 12:00:53 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/18 15:11:17 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/05/07 16:24:19 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,78 @@ void	fill_input(t_read *s_read, t_history **list, t_history **hist)
 	delete_node(hist);
 }
 
+void	char_node(t_history **list)
+{
+	(*list)->tmp = (t_char *)malloc(sizeof(t_char));
+	(*list)->tmp->c = 0;
+	(*list)->tmp->next = NULL;
+	(*list)->tmp->prev = NULL;
+}
+
+void	right(t_read *s_read, t_history **list)
+{
+	if ((*list)->cursor == ((*list)->len + s_read->pos.col))
+		return ;
+	(*list)->cursor++;
+	ft_putstr_fd("\033[1C", 1);
+}
+
+void	left(t_read *s_read, t_history **list)
+{
+	if ((*list)->cursor == s_read->pos.col)
+		return ;
+	(*list)->cursor--;
+	ft_putstr_fd("\033[1D", 1);
+}
+
+void	add_charsss(t_read *s_read, t_history **list)
+{
+	t_char	*node;
+	t_char	*last;
+	t_char	*prev;
+	int		i;
+	int		len;
+
+	node = NULL;
+	last = NULL;
+	prev = NULL;
+	node = (t_char *)malloc(sizeof(t_char));
+	node->c = s_read->key;
+	node->next = NULL;
+	node->prev = NULL;
+	i = s_read->pos.col;
+	if (!(*list)->tmp)
+		(*list)->tmp = node;
+	else
+	{
+		i = s_read->pos.col;
+		last = (*list)->tmp;
+		while (i < (*list)->cursor)
+		{
+			prev = last;
+			last = last->next;
+			i++;
+		}
+		node->next = last;
+		node->prev = prev;
+		if (prev)
+			prev->next = node;
+		if (!prev)
+			(*list)->tmp = node;
+	}
+	(*list)->cursor++;
+	(*list)->len++;
+	last = node;
+	while (last)
+	{
+		printing(s_read, list, last->c);
+		last = last->next;
+	}
+	len = (*list)->len + s_read->pos.col;
+	while (--len > i)
+		ft_putstr_fd("\033[1D", 1);
+}
+
 void	keys(t_mini *mini, t_read *s_read, t_history **list)
 {
 	get_cursor(s_read, list);
@@ -48,10 +120,16 @@ void	keys(t_mini *mini, t_read *s_read, t_history **list)
 			up(s_read, list);
 		else if (s_read->key == KDW)
 			down(s_read, list);
+		else if (s_read->key == KL)
+			left(s_read, list);
+		else if (s_read->key == KR)
+			right(s_read, list);
 		else if (s_read->key == K_HOME || s_read->key == K_END)
 			home_end(s_read, list);
 		else if (s_read->key > 31 && s_read->key < 127)
-			add_char(s_read, list, s_read->key);
+			add_charsss(s_read, list);
+		// else if (s_read->key > 31 && s_read->key < 127)
+		// 	add_char(s_read, list, s_read->key);
 		else if (s_read->key == 127)
 			delete_char(s_read, list);
 		else if (s_read->key == 3)

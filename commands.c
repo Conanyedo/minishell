@@ -6,7 +6,7 @@
 /*   By: ybouddou <ybouddou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:35:56 by ybouddou          #+#    #+#             */
-/*   Updated: 2021/04/17 17:08:47 by ybouddou         ###   ########.fr       */
+/*   Updated: 2021/04/27 13:43:20 by ybouddou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,10 @@ void	pipe_handler(t_mini *mini, t_pipe *pip, int pipes)
 		while (++i < (pipes * 2))
 			close(mini->pipefds[i]);
 		if (mini->tabu[0] && is_builtins(mini))
-		{
 			do_builtins(mini);
-			exit (mini->cmd_status);
-		}
 		else if (mini->tabu[0])
-		{
 			error_cmd(mini);
-			exit (mini->cmd_status);
-		}
+		exit (mini->cmd_status);
 	}
 }
 
