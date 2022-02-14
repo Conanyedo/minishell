@@ -32,6 +32,6 @@ Through the Minishell project, you will get to the core of the Unix system and e
 - `ctrl-C`, `ctrl-D` and `ctrl-\` should have the same result as in bash.
 - Use up and down arrows to navigate through the command history.
 
-## Example
+<!-- ## Example
 ![alt text](https://github.com/Conanyedo/Push_swap/blob/master/Screen1.png?raw=true)
-![alt text](https://github.com/Conanyedo/Push_swap/blob/master/Screen2.png?raw=true)
+![alt text](https://github.com/Conanyedo/Push_swap/blob/master/Screen2.png?raw=true) -->
